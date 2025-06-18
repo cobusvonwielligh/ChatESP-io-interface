@@ -6,7 +6,10 @@
 #define OLED_RESET false
 #define OLED_ADDR 0x3C
 
-// Helper API for drawing on the OLED display
+/* =========================================
+ *        SSD1306 OLED Display Driver
+ * ========================================= */
+
 
 extern Adafruit_SSD1306 display;
 

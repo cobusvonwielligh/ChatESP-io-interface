@@ -9,8 +9,7 @@
 #include "secrets.h"
 
 /* 
-Sketch Description
-Main sketch handling WiFi, Westher page and ChatGPT interaction 
+  Main Sketch
 */
 
 Page currentPage = PAGE_WEATHER;

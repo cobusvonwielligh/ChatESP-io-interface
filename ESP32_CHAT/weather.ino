@@ -6,7 +6,9 @@
 #include "display.h"
 #include "secrets.h"
 
-// Fetch weather data from Open-Meteo and display it on the OLED
+/* ============================================
+ *          Lightweight Weather Client
+ * ============================================ */
 
 #define WEATHER_PAGE_REFRESH_MS 30000UL
 

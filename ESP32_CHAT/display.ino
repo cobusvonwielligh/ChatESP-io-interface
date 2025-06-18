@@ -3,7 +3,12 @@
 #include "chatgpt.h"
 #include "secrets.h"
 
-// Display helper functions for weather and ChatGPT output
+/* ================================================================
+ *                  Display Utilities: SSD1306
+ * ---------------------------------------------------------------
+ * Provides helper functions to initialize the display and render
+ * different UI screens and graphics
+ * ================================================================ */
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 static Adafruit_SSD1306* displayRef = nullptr;
@@ -13,7 +18,6 @@ void initDisplay(Adafruit_SSD1306& d) {
 }
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
-  // Use a local reference for brevity
   Adafruit_SSD1306& disp = *displayRef;
   disp.clearDisplay();
 

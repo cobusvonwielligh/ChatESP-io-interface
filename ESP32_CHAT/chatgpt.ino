@@ -2,7 +2,9 @@
 #include "display.h"
 #include "secrets.h"
 
-// Minimal ChatGPT client for streaming responses over serial
+/* =========================================
+ *        Lightweight ChatGPT client
+ * ========================================= */
 
 static HTTPClient http;
 static const char* apiKey = OPENAI_API_KEY;
