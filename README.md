@@ -1,7 +1,7 @@
 # ChatESP
 
 <p align="center">
-  <img src="chatESP-github-logo.png" width="160" alt="ChatESP logo">
+  <img src="chatESP-github-logo.png" width="60%" alt="ChatESP logo">
 </p>
 
 ChatESP turns an ESP32 with a small OLED display into a portable weather station and ChatGPT client. It retrieves real-time weather data and prints ChatGPT replies directly on the screen.
