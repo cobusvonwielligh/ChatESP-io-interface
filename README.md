@@ -1,32 +1,33 @@
-# ChatESP
+# "ChatESP" with chroma rainbow effect on text flowing in a loop
+### Work in progress or some appropriate message here.
 
 <p align="center">
+   with chroma rainbow effect on border of image
   <img src="chatESP-github-logo.png" width="60%" alt="ChatESP logo">
 </p>
 
 ChatESP turns an ESP32 with a small OLED display into a portable weather station and ChatGPT client. 
 It retrieves real-time weather data and prints ChatGPT replies directly on the screen.
 
-
 ## Features
 
-- Current temperature and daily min/max from the Open‑Meteo API
-- Simple sun/rain icons with a progress bar for updates
+- Display current temperature and daily min/max from the Open‑Meteo API
+- Sun/Rain icons with a progress bar for updates
 - Typewriter effect for ChatGPT responses
-- `IMAGE:` prefix draws a 32×32 monochrome bitmap
+- `IMAGE:` prompts generates and draws a 32×32 monochrome bitmap
 - Works with built-in or external SSD1306 displays
 
 
 ### ❗ Future features planned
 
-- 🏠 Integration with [Home Assistant](https://www.home-assistant.io/) for IoT control
-- 🎤 Microphone input for voice prompts
-- 📷 Camera input for snapshot prompts (e.g. clothing suggestions)
-- 🖥️ Larger display support for calendar or full weather report
-- 🔊 Small speaker for alerts
-- 💡 Reactive and aesthetically pleasing LEDs for notifications and indications
+- 🎤 Microphone input and voice prompts support
+- 📷 Camera input and image prompts support: clothing suggestions, finding similar items online
+- 🏠 [Home Assistant](https://www.home-assistant.io/) integration: IoT devices control and monitor
+- 🖥️ Larger display support: display calendar or full weather report
+- 🔊 Small speaker: notifications, alerts
+- 💡 LED Reactive and aesthetically pleasing s: notifications and ambient light
 
-🪞** All Together: ** Smart Mirror powered by ChatESP
+🪞 **All Together:** Smart Mirror powered by ChatESP
 with two-way glass to display ChatGPT replies, weather, alerts, Home Assistant monitor and control
 
 
