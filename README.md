@@ -10,3 +10,8 @@ Here are the steps that we will need to do to get responses from ChatGPT in your
 3. Use the API key to authenticate requests to the OpenAI API.
 4. Send text input to the OpenAI API using HTTP requests and receive a response in JSON format.
 5. Parse the response and use it to control the ESP32 microcontroller.
+
+## Updates
+- Fixed degree symbol on weather screen.
+- Added IMAGE: prefix to request a small bitmap from ChatGPT.
+

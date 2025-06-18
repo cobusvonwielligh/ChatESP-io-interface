@@ -6,6 +6,8 @@
 #include "display.h"
 #include "secrets.h"
 
+// Fetch weather data from Open-Meteo and display it on the OLED
+
 #define WEATHER_PAGE_REFRESH_MS 30000UL
 
 const String WEATHER_URL = String("https://api.open-meteo.com/v1/forecast?latitude=") +

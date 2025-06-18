@@ -2,6 +2,8 @@
 #include "display.h"
 #include "secrets.h"
 
+// Minimal ChatGPT client for streaming responses over serial
+
 static HTTPClient http;
 static const char* apiKey = OPENAI_API_KEY;
 static String apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -72,4 +74,58 @@ void updateLastTypingTime() {
 
 int getTypingDelay() {
   return typingDelay;
+}
+
+bool callChatGptImage(String prompt, uint8_t* bitmap,
+                      size_t width, size_t height) {
+  HTTPClient imgClient;
+  imgClient.begin(apiUrl);
+  imgClient.addHeader("Content-Type", "application/json");
+  imgClient.addHeader("Authorization", "Bearer " + String(apiKey));
+
+  String artRequest =
+      String("Return a ") + width + "x" + height +
+      " monochrome image using '#' for filled pixels and '.' for empty. " +
+      prompt + " Provide only the lines.";
+  String payload =
+      String("{\"model\": \"gpt-3.5-turbo\",\"messages\": [{\"role\": \"user\",\"content\": \"") +
+      artRequest + "\"}]}";
+
+  int code = imgClient.POST(payload);
+  if (code != 200) {
+    imgClient.end();
+    return false;
+  }
+
+  String response = imgClient.getString();
+  imgClient.end();
+  DynamicJsonDocument doc(4096);
+  if (deserializeJson(doc, response)) return false;
+
+  String art = doc["choices"][0]["message"]["content"].as<String>();
+  art.replace("\r", "");
+
+  // Initialize bitmap
+  memset(bitmap, 0, width * height / 8);
+
+  int x = 0, y = 0;
+  for (size_t i = 0; i < art.length() && y < height; i++) {
+    char c = art[i];
+    if (c == '#') {
+      size_t idx = y * width + x;
+      bitmap[idx / 8] |= 0x80 >> (idx % 8);
+      x++;
+    } else if (c == '.') {
+      x++;
+    } else if (c == '\n') {
+      y++;
+      x = 0;
+    }
+    if (x >= (int)width) {
+      y++;
+      x = 0;
+    }
+  }
+
+  return true;
 }
