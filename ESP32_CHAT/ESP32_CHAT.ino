@@ -8,6 +8,8 @@
 #include "weather.h"
 #include "secrets.h"
 
+// Main sketch orchestrating WiFi, weather page and ChatGPT interaction
+
 Page currentPage = PAGE_WEATHER;
 
 void setup() {
@@ -70,6 +72,18 @@ void handleSerialInput() {
     currentPage = PAGE_CHATGPT;
     resetChatState();
     drawLoadingAnimation();
-    callChatGpt(prompt);
+    if (prompt.startsWith("IMAGE:")) {
+      String desc = prompt.substring(6);
+      desc.trim();
+      const int W = 32, H = 32;
+      static uint8_t imgBuf[W * H / 8];
+      if (callChatGptImage(desc, imgBuf, W, H)) {
+        drawBitmapImage(imgBuf, W, H);
+      } else {
+        displayMessage("Image error");
+      }
+    } else {
+      callChatGpt(prompt);
+    }
   }
 }
