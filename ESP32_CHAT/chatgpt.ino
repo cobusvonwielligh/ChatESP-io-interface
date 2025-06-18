@@ -8,9 +8,7 @@
 
 static HTTPClient http;
 static const char* apiKey = OPENAI_API_KEY;
-static String apiUrl = "https://api.openai.com/v1/chat/completions";
-static String finalPayload = "";
-static bool initialPrompt = true;
+static const char* apiUrl = "https://api.openai.com/v1/chat/completions";
 
 static String chatGptText = "";
 static bool showTyping = false;
@@ -18,9 +16,7 @@ static int typingIndex = 0;
 static unsigned long lastTypingTime = 0;
 static const int typingDelay = 50;
 
-void initChatGpt() {
-  http.begin(apiUrl);
-}
+void initChatGpt() {}
 
 void resetChatState() {
   chatGptText = "";
@@ -33,17 +29,15 @@ bool isTyping() {
 }
 
 void callChatGpt(String prompt) {
+  http.begin(apiUrl);
   http.addHeader("Content-Type", "application/json");
   http.addHeader("Authorization", "Bearer " + String(apiKey));
 
-  if (initialPrompt) {
-    finalPayload = "{\"model\": \"gpt-3.5-turbo\",\"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
-    initialPrompt = false;
-  } else {
-    finalPayload = finalPayload + ",{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
-  }
+  String payload =
+      String("{\"model\": \"gpt-3.5-turbo\",\"messages\": [{\"role\": \"user\",\"content\": \"") +
+      prompt + "\"}]}";
 
-  int code = http.POST(finalPayload);
+  int code = http.POST(payload);
   if (code == 200) {
     String response = http.getString();
     DynamicJsonDocument doc(4096);
@@ -57,6 +51,7 @@ void callChatGpt(String prompt) {
     showTyping = true;
     typingIndex = 0;
   }
+  http.end();
 }
 
 String getChatGptPartialResponse() {
