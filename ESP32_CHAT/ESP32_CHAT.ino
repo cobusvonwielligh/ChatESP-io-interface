@@ -8,7 +8,10 @@
 #include "weather.h"
 #include "secrets.h"
 
-// Main sketch orchestrating WiFi, weather page and ChatGPT interaction
+/* 
+Sketch Description
+Main sketch handling WiFi, Westher page and ChatGPT interaction 
+*/
 
 Page currentPage = PAGE_WEATHER;
 
