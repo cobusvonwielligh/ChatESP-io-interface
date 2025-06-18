@@ -8,7 +8,9 @@
 #include "weather.h"
 #include "secrets.h"
 
-/* Main program */
+/* 
+  Main Sketch
+*/
 
 Page currentPage = PAGE_WEATHER;
 

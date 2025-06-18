@@ -1,7 +1,9 @@
 #pragma once
 #include <Arduino.h>
 
-/* Weather update interface */
+/* ============================================
+ *           Weather API Interface
+ * ============================================ */
 
 /* Fetch weather from Open-Meteo API */
 bool fetchWeather(float &tempC, uint8_t &code, float &tempMin, float &tempMax);

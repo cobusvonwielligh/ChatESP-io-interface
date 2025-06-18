@@ -6,7 +6,9 @@
 #include "display.h"
 #include "secrets.h"
 
-/* Open-Meteo weather fetcher */
+/* ============================================
+ *          Lightweight Weather Client
+ * ============================================ */
 
 #define WEATHER_PAGE_REFRESH_MS 30000UL
 

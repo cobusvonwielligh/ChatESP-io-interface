@@ -3,7 +3,10 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-/* ChatGPT API interface */
+   
+/* =========================================
+ *         ChatGPT API Interface
+ * ========================================= */
 
 enum Page { PAGE_WEATHER, PAGE_CHATGPT };
 
@@ -19,5 +22,6 @@ int getTypingDelay();
 /* Request a small monochrome image.
  * Bitmap must hold width*height/8 bytes.
  * Returns true on success. */
+
 bool callChatGptImage(String prompt, uint8_t* bitmap,
                       size_t width, size_t height);

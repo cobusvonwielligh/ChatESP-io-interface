@@ -2,7 +2,9 @@
 #include "display.h"
 #include "secrets.h"
 
-/* Lightweight ChatGPT client */
+/* =========================================
+ *        Lightweight ChatGPT client
+ * ========================================= */
 
 static HTTPClient http;
 static const char* apiKey = OPENAI_API_KEY;
@@ -105,7 +107,7 @@ bool callChatGptImage(String prompt, uint8_t* bitmap,
   String art = doc["choices"][0]["message"]["content"].as<String>();
   art.replace("\r", "");
 
-  /* clear buffer */
+  // Initialize bitmap
   memset(bitmap, 0, width * height / 8);
 
   int x = 0, y = 0;
