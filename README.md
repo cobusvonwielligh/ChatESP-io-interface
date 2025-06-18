@@ -10,20 +10,33 @@ ChatESP turns an ESP32 with a small OLED display into a portable weather station
 
 - Current temperature and daily min/max from the Open‑Meteo API
 - Simple sun/rain icons with a progress bar for updates
-- Typing effect for ChatGPT responses
+- Typewriter effect for ChatGPT responses
 - `IMAGE:` prefix draws a 32×32 monochrome bitmap
 - Works with built-in or external SSD1306 displays
 
-## Hardware
+### (!) Future features planned (!):
 
-### Built-in OLED (e.g. Wemos Lolin32)
+ - adding support for ![Home Assistant](https://www.home-assistant.io/) => be able to prompt-control IoT devices
+ - integrating a mic as another input source => be able to prompt using voice
+ - integrating a camera as another input source => be able to prompt using image feed/snapshot => be able to ask for clothing suggestions etc
+ - adding support for a larger display => be able to see more information like calender or full weather report
+ - adding support for a small speaker => used to indicate and notify
+ - adding support for reactive LEDS => used to indicate and notify
+
+## Hardware Requirements
+
+- ESP32 development board. This project uses the Wemos Lolin32 board (comes with ESP-WROOM-32 Processor)
+- 0.96" SSD1306 OLED display
+- Micro-USB cable
+
+### Built-in OLED (e.g. Wemos Lolin32 board)
 
 ![Wemos Lolin32](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/07/Lolin32-OLED.jpg?w=750&quality=100&strip=all&ssl=1)
 
 - SDA on GPIO 5
 - SCL on GPIO 4
 
-### External OLED wiring
+### External OLED
 
 ![External display wiring](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/05/ESP8266_oled_display_wiring.png?quality=100&strip=all&ssl=1)
 
@@ -32,7 +45,8 @@ ChatESP turns an ESP32 with a small OLED display into a portable weather station
 - SDA → GPIO 21
 - SCL → GPIO 22
 
-If you use different pins, change the `Wire.begin()` call in `ESP32_CHAT.ino`.
+#### If your ESP32 development board has a different pin layout
+Change the `Wire.begin()` call in `ESP32_CHAT.ino` to match your pins.
 
 ## Arduino IDE 2
 
@@ -48,22 +62,20 @@ If you use different pins, change the `Wire.begin()` call in `ESP32_CHAT.ino`.
 1. Clone this repository and open `ESP32_CHAT/ESP32_CHAT.ino`.
 2. Copy `ESP32_CHAT/secrets.example.h` to `ESP32_CHAT/secrets.h`.
 3. Edit `secrets.h` and set your Wi‑Fi credentials, OpenAI API key and location:
-   ```c++
-   #define WIFI_SSID "YourWiFiSSID"
-   #define WIFI_PASS "YourWiFiPassword"
-   #define OPENAI_API_KEY "sk-..."
+   ```
    #define PLACE_NAME "City"
    #define PLACE_LAT  "12.34"
    #define PLACE_LNG  "56.78"
+   ...
    ```
 4. Select your board and COM port, then compile and upload.
 
 ## Usage
 
-- The device displays weather information and refreshes roughly every 30&nbsp;s.
-- Open the Serial Monitor at 115200&nbsp;baud to send prompts.
-- Start a prompt with `IMAGE:` to get a small bitmap.
+- On boot the device shows the weather and updates about every 30 seconds.
+- Open the serial monitor (115200 baud) to send ChatGPT prompts.
+- Prefix a prompt with `IMAGE:` to request a small bitmap.
 
 ## License
 
-MIT
+Released under the MIT License.
