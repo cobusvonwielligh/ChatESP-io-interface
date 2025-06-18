@@ -2,19 +2,29 @@
 
 ![ChatESP logo](chatESP-github-logo.png)
 
-ChatESP transforms an ESP32 equipped with a small OLED display into a compact weather station and ChatGPT client. The device presents the current forecast and allows you to exchange short messages with ChatGPT directly on the screen.
+ChatESP transforms an ESP32 equipped with a mini OLED display into a compact weather station and ChatGPT client. 
+The device presents the current forecast visually, allows you to exchange messages with ChatGPT and display generated bitmaps from ChatGPT on the mini display. 
+
+## Future features planned:
+ - adding support for ![Home Assistant](https://www.home-assistant.io/) => be able to prompt-control IoT devices
+ - integrating a mic as another input source => be able to prompt using voice
+ - integrating a camera as another input source => be able to prompt using image feed/snapshot => be able to ask for clothing suggestions etc
+ - adding support for a larger display => be able to see more information like calender or full weather report
+ - adding support for a small speaker => used to indicate and notify
+ - adding support for reactive LEDS => used to indicate and notify
+
 
 ## Features
 
 - Current temperature and daily min/max values pulled from the Open‑Meteo API
-- Simple weather icons
+- Weather icons
 - ChatGPT responses printed on the display with a typing effect
 - `IMAGE:` prompts return a 32×32 monochrome bitmap
-- Works with boards that have a built‑in OLED as well as external 128×64 I²C modules
+- Works with the boards that have a built‑in OLED as well as external 128×64 I²C modules
 
 ## Hardware requirements
 
-- ESP32 development board
+- ESP32 development board. This project uses the Wemos Lolin32 board (comes with ESP-WROOM-32 Processor)
 - 0.96" SSD1306 OLED display
   - **Built‑in displays** (for example Wemos Lolin32): SDA on GPIO&nbsp;5, SCL on GPIO&nbsp;4  
     ![Wemos Lolin32](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/07/Lolin32-OLED.jpg?w=750&quality=100&strip=all&ssl=1)
