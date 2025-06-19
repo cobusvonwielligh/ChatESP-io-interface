@@ -1,34 +1,13 @@
-# ChatESP
-<h5 align="left" class="rainbow">with SSD1306 OLED display support</h6> 
-
-<p align="center">
-  <img src="chatESP-github-logo.png" width="52%" alt="ChatESP logo" class="border-rainbow">
-</p>
-
-<style>
-@keyframes rainbow-text {
-  0% { background-position: 0% 50%; }
-  33% { background-position: 33% 75%; }
-  66% { background-position: 66% 75%; }
-  99% { background-position: 99% 50%; }
-}
-.rainbow {
-  font-weight: 760;
-  background: linear-gradient(90deg, violet, indigo, red, orange, red, indigo, violet);
-  background-size: 400% 100%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: rainbow-text 21s linear infinite;
-}
-.border-rainbow {
-  border: 4px solid;
-  border-image: linear-gradient(90deg, violet, indigo, red, orange, red, indigo, violet) 2;
-  border-radius: 8px;
-}
-</style>
+<h1 align="left" class="rainbow">ChatESP</h1>
+<h3 align="left">Smart I/O control with ChatGPT Assistant on ESP32</h3>
 
 ---
 
+<p align="center">
+  <img src="chatESP-banner.gif">
+</p>
+
+---
 
 <table>
   <tr>
@@ -109,10 +88,10 @@ ChatESP should eventually be able to support:
 
 ---
 
-### Built-in OLED (Wemos Lolin32)
+#### Built-in OLED (e.g. Wemos Lolin32)
 
 <p align="left">
-  <img src="https://cdn.xingosoftware.com/elektor/images/fetch/dpr_1,w_406,h_406,c_fit/https%3A%2F%2Fwww.elektormagazine.com%2Fassets%2Fupload%2Fimages%2F26%2F20190212142631_18575---top-view.jpg" width="22%">
+  <img src="https://cdn.xingosoftware.com/elektor/images/fetch/dpr_1,w_406,h_406,c_fit/https%3A%2F%2Fwww.elektormagazine.com%2Fassets%2Fupload%2Fimages%2F26%2F20190212142631_18575---top-view.jpg" width="30%" style="border: 5px solid black; border-radius: 5px;">
 </p>
 
 - SDA: GPIO 5  
@@ -120,10 +99,10 @@ ChatESP should eventually be able to support:
 
 ---
 
-### External OLED Wiring
+#### External OLED Wiring
 
 <p align="left">
-  <img src="https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/05/ESP8266_oled_display_wiring.png?quality=100&strip=all&ssl=1" width="22%">
+  <img src="https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/05/ESP8266_oled_display_wiring.png?quality=100&strip=all&ssl=1" width="40%" style="border: 5px solid black; border-radius: 5px;">
 </p>
 
 - Vin → 3.3 V  
@@ -133,12 +112,11 @@ ChatESP should eventually be able to support:
 
 _Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a different pin layout._
 
-
 ---
 
 ## Software Prerequisites
 
-### Arduino IDE 2 Setup 
+#### Arduino IDE 2 Setup 
 
 1. [Download Arduino IDE 2](https://www.arduino.cc/en/software)
 2. Open **File → Preferences** and add:  
@@ -152,7 +130,7 @@ _Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a differen
 
 
 
-### Project Setup
+#### Project Setup
 
 1. Clone this repository and open `ESP32_CHAT/ESP32_CHAT.ino`.
 2. Copy `ESP32_CHAT/secrets.example.h` → `ESP32_CHAT/secrets.h`
@@ -171,7 +149,7 @@ _Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a differen
 ---
 
 
-## Usage
+### Usage
 
 - On boot the device shows the weather and updates about every 30 seconds.
 - Open Serial Monitor at 115200 baud to send ChatGPT prompts.
