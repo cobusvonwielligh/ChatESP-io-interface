@@ -81,40 +81,34 @@ ChatESP should eventually be able to support:
 
 ## Hardware Requirements
 
-- ESP32 development board (tested on Wemos Lolin32 with ESP-WROOM-32)
-- 0.96" SSD1306 OLED display (I2C)
-- Micro-USB cable
+Chipset: ESP32-WROVER
+Display: 3.5inch 320x480 TFT LCD driver
+Display Driver: ILI9488, SPI communication
+Touch Chipset: Capacitive FT6236
+Camera: 2MP OV2640
+Storage: integrated Micro SD card slot
+Power: 5V, Type-C USB
 
-
+UPDATE THIS
 ---
 
-#### Built-in OLED (e.g. Wemos Lolin32)
+#### ESP32 TFT Touch with Camera v1.3
 
 <p align="left">
-  <img src="https://cdn.xingosoftware.com/elektor/images/fetch/dpr_1,w_406,h_406,c_fit/https%3A%2F%2Fwww.elektormagazine.com%2Fassets%2Fupload%2Fimages%2F26%2F20190212142631_18575---top-view.jpg" width="30%" style="border: 5px solid black; border-radius: 5px;">
+  <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="30%" style="border: 5px solid black; border-radius: 5px;">
 </p>
-
-- SDA: GPIO 5  
-- SCL: GPIO 4
-
----
-
-#### External OLED Wiring
 
 <p align="left">
-  <img src="https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2019/05/ESP8266_oled_display_wiring.png?quality=100&strip=all&ssl=1" width="40%" style="border: 5px solid black; border-radius: 5px;">
+  <img src="[https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg](https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg)" width="30%" style="border: 5px solid black; border-radius: 5px;">
 </p>
-
-- Vin → 3.3 V  
-- GND → GND  
-- SDA → GPIO 21  
-- SCL → GPIO 22
 
 _Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a different pin layout._
 
+UPDATE THIS
 ---
 
 ## Software Prerequisites
+UPDATE THIS
 
 #### Arduino IDE 2 Setup 
 
