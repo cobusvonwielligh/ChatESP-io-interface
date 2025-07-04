@@ -139,7 +139,9 @@ ChatESP should eventually be able to support:
 - Open Serial Monitor at 115200 baud to send ChatGPT prompts.
 - Prefix prompt with `IMAGE:` to request a bitmap response.
 
-UPDATE THIS
+The weather page now features animated color graphics using the ILI9488
+display. A smooth gradient background and moving icons reflect real
+time conditions, while ChatGPT responses appear with a typing effect.
 ---
 
 
