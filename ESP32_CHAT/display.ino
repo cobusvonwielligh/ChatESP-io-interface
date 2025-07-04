@@ -224,7 +224,6 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 void drawLoadingAnimation() {
   LGFX& disp = *displayRef;
   disp.startWrite();
-
   disp.fillScreen(TFT_BLACK);
   disp.setTextSize(1);
   disp.setCursor(10, 20);
@@ -240,7 +239,6 @@ void drawLoadingAnimation() {
 
 void displayMessage(String message) {
   LGFX& disp = *displayRef;
-
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
   disp.setCursor(0, 0);
@@ -268,7 +266,7 @@ void drawChatGptScreen() {
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
   LGFX& disp = *displayRef;
-  
+
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
