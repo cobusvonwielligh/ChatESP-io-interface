@@ -81,13 +81,13 @@ ChatESP should eventually be able to support:
 
 ## Hardware Requirements
 
-Chipset: ESP32-WROVER
-Display: 3.5inch 320x480 TFT LCD driver
-Display Driver: ILI9488, SPI communication
-Touch Chipset: Capacitive FT6236
-Camera: 2MP OV2640
-Storage: integrated Micro SD card slot
-Power: 5V, Type-C USB
+- Chipset: ESP32-WROVER
+- Display: 3.5inch 320x480 TFT LCD driver
+- Display Driver: ILI9488, SPI communication
+- Touch Chipset: Capacitive FT6236
+- Camera: 2MP OV2640
+- Storage: integrated Micro SD card slot
+- Power: 5V, Type-C USB
 
 UPDATE THIS
 ---
