@@ -4,31 +4,29 @@
 #include "secrets.h"
 
 /* ================================================================
- *                  Display Utilities: SSD1306
+ *                  Display Utilities: ILI9488
  * ---------------------------------------------------------------
  * Provides helper functions to initialize the display and render
  * different UI screens and graphics
  * ================================================================ */
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-static Adafruit_SSD1306* displayRef = nullptr;
+LGFX_ILI9488 display;
+static LGFX_ILI9488* displayRef = nullptr;
 
-void initDisplay(Adafruit_SSD1306& d) {
+void initDisplay(LGFX_ILI9488& d) {
   displayRef = &d;
 }
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
-  Adafruit_SSD1306& disp = *displayRef;
-  disp.clearDisplay();
+  LGFX_ILI9488& disp = *displayRef;
+  disp.fillScreen(TFT_BLACK);
 
   const int margin = 4;
   disp.setTextSize(1);
   disp.setCursor(margin, margin);
   disp.print("Weather");
 
-  int16_t x1, y1;
-  uint16_t w, h;
-  disp.getTextBounds(PLACE_NAME, 0, 0, &x1, &y1, &w, &h);
+  uint16_t w = disp.textWidth(PLACE_NAME);
   disp.setCursor(SCREEN_WIDTH - w - margin, margin);
   disp.print(PLACE_NAME);
 
@@ -47,61 +45,55 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   disp.setCursor(margin, margin + 50);
   disp.printf("Max: %.0f%cC", tempMax, (char)176);
 
-  disp.drawBitmap(SCREEN_WIDTH - 50 - margin, margin + 8,
+  disp.drawXBitmap(SCREEN_WIDTH - 50 - margin, margin + 8,
     isRain ? iconRainBitmap : iconSunBitmap,
-    50, 50, SSD1306_WHITE, SSD1306_BLACK);
+    50, 50, TFT_WHITE, TFT_BLACK);
 
   const int x0 = 0, hBar = 2;
-  disp.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, SSD1306_BLACK);
-  disp.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH * progress, hBar, SSD1306_WHITE);
-
-  disp.display();
+  disp.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, TFT_BLACK);
+  disp.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH * progress, hBar, TFT_WHITE);
 }
 
 void drawLoadingAnimation() {
-  Adafruit_SSD1306& display = *displayRef;
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setCursor(10, 20);
-  display.print("ChatGPT thinking");
+  LGFX_ILI9488& disp = *displayRef;
+  disp.fillScreen(TFT_BLACK);
+  disp.setTextSize(1);
+  disp.setCursor(10, 20);
+  disp.print("ChatGPT thinking");
   int x = 10;
   for (int i = 0; i < 3; i++) {
-    display.setCursor(x += 30, 20);
-    display.print(".");
-    display.display();
+    disp.setCursor(x += 30, 20);
+    disp.print(".");
     delay(500);
   }
 }
 
 void displayMessage(String message) {
-  Adafruit_SSD1306& display = *displayRef;
-  display.clearDisplay();
-  display.setCursor(0, 0);
-  display.setTextSize(1);
-  display.println(message);
-  display.display();
+  LGFX_ILI9488& disp = *displayRef;
+  disp.fillScreen(TFT_BLACK);
+  disp.setCursor(0, 0);
+  disp.setTextSize(1);
+  disp.println(message);
 }
 
 void drawChatGptScreen() {
-  Adafruit_SSD1306& display = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   if (millis() - getLastTypingTime() > getTypingDelay()) {
     updateLastTypingTime();
 
-    display.clearDisplay();
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println("ChatGPT:");
-    display.setCursor(0, 15);
-    display.println(getChatGptPartialResponse());
-    display.display();
+    disp.fillScreen(TFT_BLACK);
+    disp.setTextSize(1);
+    disp.setCursor(0, 0);
+    disp.println("ChatGPT:");
+    disp.setCursor(0, 15);
+    disp.println(getChatGptPartialResponse());
   }
 }
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
-  Adafruit_SSD1306& disp = *displayRef;
-  disp.clearDisplay();
+  LGFX_ILI9488& disp = *displayRef;
+  disp.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
   int y = (SCREEN_HEIGHT - height) / 2;
-  disp.drawBitmap(x, y, bitmap, width, height, SSD1306_WHITE, SSD1306_BLACK);
-  disp.display();
+  disp.drawXBitmap(x, y, bitmap, width, height, TFT_WHITE, TFT_BLACK);
 }
