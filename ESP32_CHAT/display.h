@@ -1,19 +1,19 @@
 #pragma once
-#include <Adafruit_SSD1306.h>
+#define LGFX_MAKERFABS_TOUCHCAMERA
+#include <LovyanGFX.hpp>
+#include "makerfabs_pin.h"
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET false
-#define OLED_ADDR 0x3C
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 480
 
 /* =========================================
- *        SSD1306 OLED Display Driver
+ *        ILI9488 TFT Display Driver
  * ========================================= */
 
 
-extern Adafruit_SSD1306 display;
+extern LGFX display;
 
-void initDisplay(Adafruit_SSD1306& d);
+void initDisplay(LGFX& d);
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress);
 void drawLoadingAnimation();
 void displayMessage(String message);
