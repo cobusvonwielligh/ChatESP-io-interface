@@ -13,6 +13,7 @@
 extern LGFX_ILI9488 display;
 
 void initDisplay(LGFX_ILI9488& d);
+
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress);
 void drawLoadingAnimation();
 void displayMessage(String message);
