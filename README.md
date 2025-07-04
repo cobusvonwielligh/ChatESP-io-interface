@@ -106,10 +106,8 @@ ChatESP should eventually be able to support:
 ---
 
 ## Software Prerequisites
-UPDATE THIS
-
 ### Arduino IDE V1.8.10
-[Software Setup](https://www.arduino.cc/en/software) 
+[IDE Setup & Config](https://www.arduino.cc/en/software) 
 
 #### Project Setup
 
