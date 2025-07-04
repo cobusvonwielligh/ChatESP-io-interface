@@ -66,7 +66,7 @@ ChatESP should eventually be able to support:
 
 #### Current Features
 
-- SSD1306 OLED display support  
+- ~~SSD1306 OLED display support~~ 
 - Display current temperature, min, and max on weather page using Open‑Meteo API  
 - Dynamic weather icon (sun/rain) with update progress bar  
 - ChatGPT API request and response handling  
@@ -80,6 +80,7 @@ ChatESP should eventually be able to support:
 ---
 
 ## Hardware Requirements
+#### ESP32 TFT Touch with Camera v1.3
 
 - Chipset: ESP32-WROVER
 - Display: 3.5inch 320x480 TFT LCD driver
@@ -89,10 +90,9 @@ ChatESP should eventually be able to support:
 - Storage: integrated Micro SD card slot
 - Power: 5V, Type-C USB
 
-UPDATE THIS
----
-
-#### ESP32 TFT Touch with Camera v1.3
+[Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
+[Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
+[Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
 
 <p align="left">
   <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="30%" style="border: 5px solid black; border-radius: 5px;">
@@ -139,7 +139,7 @@ UPDATE THIS
    ```
 4. Select your board and COM port in Arduino IDE, then compile and upload.
 
-
+UPDATE THIS
 ---
 
 
@@ -149,7 +149,7 @@ UPDATE THIS
 - Open Serial Monitor at 115200 baud to send ChatGPT prompts.
 - Prefix prompt with `IMAGE:` to request a 32×32 bitmap response.
 
-
+UPDATE THIS
 ---
 
 
