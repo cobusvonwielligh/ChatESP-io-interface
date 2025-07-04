@@ -95,11 +95,11 @@ ChatESP should eventually be able to support:
 [Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
 
 <p align="left">
-  <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="30%" style="border: 5px solid black; border-radius: 5px;">
+  <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
 </p>
 
 <p align="left">
-  <img src="[https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg](https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg)" width="30%" style="border: 5px solid black; border-radius: 5px;">
+  <img src="https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
 </p>
 
 _Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a different pin layout._
