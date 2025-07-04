@@ -8,7 +8,7 @@
 #include "weather.h"
 #include "secrets.h"
 
-/* 
+/*
   Main Sketch
 */
 
