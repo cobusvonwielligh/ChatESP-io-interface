@@ -90,13 +90,20 @@ ChatESP should eventually be able to support:
 - Storage: integrated Micro SD card slot
 - Power: 5V, Type-C USB
 
-<p align="left">
-  <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
-</p>
-
-<p align="left">
-  <img src="https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
-</p>
+<table>
+  <tr>
+    <td style="horizontal-align:middle; padding-left:1%; width:50%">
+      <p align="left">
+        <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="100%" style="border: 5px solid black; border-radius: 5px;">
+      </p>
+    </td>
+    <td style="horizontal-align:middle; padding-left:1%; width:50%">
+      <p align="left">
+        <img src="https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg" width="100%" style="border: 5px solid black; border-radius: 5px;">
+      </p>
+    </td>
+  </tr>
+</table>
 
 #### Additional Resources
 1. [Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
