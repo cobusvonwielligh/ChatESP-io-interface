@@ -80,7 +80,7 @@ ChatESP should eventually be able to support:
 ---
 
 ## Hardware Requirements
-### ESP32 TFT Touch with Camera v1.3
+### ESP32 TFT Touch with Camera v1.3 (ESPTFT35CA)
 
 - Chipset: ESP32-WROVER
 - Display: 3.5inch 320x480 TFT LCD driver
