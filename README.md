@@ -1,5 +1,5 @@
 <h1 align="left" class="rainbow">ChatESP</h1>
-<h3 align="left">Smart I/O control with ChatGPT Assistant on ESP32</h3>
+<h3 align="left">Smart I/O control with ChatGPT on ESP32</h3>
 
 ---
 
