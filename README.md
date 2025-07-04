@@ -80,7 +80,7 @@ ChatESP should eventually be able to support:
 ---
 
 ## Hardware Requirements
-#### ESP32 TFT Touch with Camera v1.3
+### ESP32 TFT Touch with Camera v1.3
 
 - Chipset: ESP32-WROVER
 - Display: 3.5inch 320x480 TFT LCD driver
@@ -90,10 +90,6 @@ ChatESP should eventually be able to support:
 - Storage: integrated Micro SD card slot
 - Power: 5V, Type-C USB
 
-[Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
-[Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
-[Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
-
 <p align="left">
   <img src="https://i.ibb.co/N2gCqTf/ESPTFT35-CA-008.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
 </p>
@@ -102,9 +98,11 @@ ChatESP should eventually be able to support:
   <img src="https://i.ibb.co/thgTHgH/ESPTFT35-CA-007.jpg" width="35%" style="border: 5px solid black; border-radius: 5px;">
 </p>
 
-_Update your `Wire.begin()` in `ESP32_CHAT.ino` if your dev board has a different pin layout._
+#### Additional Resources
+1. [Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
+2. [Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
+3. [Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
 
-UPDATE THIS
 ---
 
 ## Software Prerequisites
