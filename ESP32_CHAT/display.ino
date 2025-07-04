@@ -2,6 +2,7 @@
 #include "weather_icons.h"
 #include "chatgpt.h"
 #include "secrets.h"
+#include <math.h>
 
 /* ================================================================
  *                  Display Utilities: ILI9488
@@ -86,6 +87,92 @@ static void drawRainIcon(LGFX& d, int x, int y) {
   }
 }
 
+static uint16_t rgb565(uint8_t r, uint8_t g, uint8_t b) {
+  return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
+}
+
+static uint16_t bgColorForTemp(float t) {
+  if (t < 5)  return rgb565(0, 0, 80);
+  if (t < 15) return rgb565(0, 64, 160);
+  if (t < 25) return rgb565(0, 160, 80);
+  if (t < 35) return rgb565(255, 140, 0);
+  return rgb565(200, 0, 0);
+}
+
+static uint16_t lightenColor(uint16_t c, int amt) {
+  int r = ((c >> 11) & 0x1F) * 8 + amt;
+  int g = ((c >> 5) & 0x3F) * 4 + amt;
+  int b = (c & 0x1F) * 8 + amt;
+  if (r > 255) r = 255; if (r < 0) r = 0;
+  if (g > 255) g = 255; if (g < 0) g = 0;
+  if (b > 255) b = 255; if (b < 0) b = 0;
+  return rgb565(r, g, b);
+}
+
+static void drawGradientBackground(LGFX& d, uint16_t base, int offset) {
+  uint16_t c1 = lightenColor(base, 40);
+  uint16_t c2 = lightenColor(base, -20);
+  for (int y = 0; y < SCREEN_HEIGHT; ++y) {
+    float ratio = (float)((y + offset) % SCREEN_HEIGHT) / SCREEN_HEIGHT;
+    int r1 = ((c1 >> 11) & 0x1F) * 8;
+    int g1 = ((c1 >> 5) & 0x3F) * 4;
+    int b1 = (c1 & 0x1F) * 8;
+    int r2 = ((c2 >> 11) & 0x1F) * 8;
+    int g2 = ((c2 >> 5) & 0x3F) * 4;
+    int b2 = (c2 & 0x1F) * 8;
+    int r = r1 + (r2 - r1) * ratio;
+    int g = g1 + (g2 - g1) * ratio;
+    int b = b1 + (b2 - b1) * ratio;
+    d.drawFastHLine(0, y, SCREEN_WIDTH, rgb565(r, g, b));
+  }
+}
+
+static float cloudX = -60;
+
+static void drawAmbientClouds(LGFX& d) {
+  cloudX += 0.2f;
+  if (cloudX > SCREEN_WIDTH + 40) cloudX = -60;
+  uint16_t col = rgb565(220, 220, 220);
+  int y = 70 + sinf(cloudX * 0.02f) * 10;
+  d.fillCircle((int)cloudX, y, 30, col);
+  d.fillCircle((int)cloudX + 28, y + 8, 24, col);
+  d.fillCircle((int)cloudX - 28, y + 8, 24, col);
+}
+
+static void drawSunIcon(LGFX& d, int x, int y, int frame) {
+  uint16_t yellow = rgb565(255, 200, 0);
+  uint16_t orange = rgb565(255, 150, 0);
+  int cx = x + 25;
+  int cy = y + 25;
+  d.fillCircle(cx, cy, 18, yellow);
+  float off = frame * 0.05f;
+  for (int i = 0; i < 8; ++i) {
+    float a = i * 0.785398f + off;
+    int x1 = cx + cosf(a) * 22;
+    int y1 = cy + sinf(a) * 22;
+    int x2 = cx + cosf(a) * 32;
+    int y2 = cy + sinf(a) * 32;
+    d.drawLine(x1, y1, x2, y2, orange);
+  }
+}
+
+static void drawRainIcon(LGFX& d, int x, int y, int frame) {
+  uint16_t grey = rgb565(180, 180, 180);
+  int cx = x + 25;
+  int cy = y + 20;
+  d.fillCircle(cx - 10, cy, 15, grey);
+  d.fillCircle(cx + 10, cy, 15, grey);
+  d.fillCircle(cx, cy - 10, 15, grey);
+  d.fillRect(cx - 20, cy, 40, 15, grey);
+
+  uint16_t blue = rgb565(80, 150, 255);
+  int off = (frame / 2) % 8;
+  for (int i = 0; i < 3; ++i) {
+    int yy = y + 35 + ((off + i * 3) % 8);
+    d.drawFastVLine(x + 12 + i * 12, yy, 12, blue);
+  }
+}
+
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
   LGFX& disp = *displayRef;
 
@@ -137,6 +224,7 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 void drawLoadingAnimation() {
   LGFX& disp = *displayRef;
   disp.startWrite();
+
   disp.fillScreen(TFT_BLACK);
   disp.setTextSize(1);
   disp.setCursor(10, 20);
@@ -152,6 +240,7 @@ void drawLoadingAnimation() {
 
 void displayMessage(String message) {
   LGFX& disp = *displayRef;
+
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
   disp.setCursor(0, 0);
@@ -162,6 +251,7 @@ void displayMessage(String message) {
 
 void drawChatGptScreen() {
   LGFX& disp = *displayRef;
+
   if (millis() - getLastTypingTime() > getTypingDelay()) {
     updateLastTypingTime();
 
@@ -178,6 +268,7 @@ void drawChatGptScreen() {
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
   LGFX& disp = *displayRef;
+  
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
