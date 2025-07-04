@@ -108,19 +108,8 @@ ChatESP should eventually be able to support:
 ## Software Prerequisites
 UPDATE THIS
 
-#### Arduino IDE 2 Setup 
-
-1. [Download Arduino IDE 2](https://www.arduino.cc/en/software)
-2. Open **File → Preferences** and add:  
-   `https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json`  
-   to *Additional Board Manager URLs*.
-3. Go to **Tools → Board → Boards Manager**, search and install **ESP32 by Espressif Systems**.
-4. Install the following libraries:
-   - `Adafruit SSD1306`
-   - `Adafruit GFX`
-   - `ArduinoJson`
-
-
+### Arduino IDE V1.8.10
+[Software Setup](https://www.arduino.cc/en/software) 
 
 #### Project Setup
 
@@ -137,15 +126,13 @@ UPDATE THIS
    ```
 4. Select your board and COM port in Arduino IDE, then compile and upload.
 
-UPDATE THIS
 ---
-
 
 ### Usage
 
 - On boot the device shows the weather and updates about every 30 seconds.
 - Open Serial Monitor at 115200 baud to send ChatGPT prompts.
-- Prefix prompt with `IMAGE:` to request a 32×32 bitmap response.
+- Prefix prompt with `IMAGE:` to request a bitmap response.
 
 UPDATE THIS
 ---
