@@ -2,11 +2,11 @@
 #include <LovyanGFX.hpp>
 #include "makerfabs_pin.h"
 
-class LGFX : public lgfx::LGFX_Device {
+class LGFX_ILI9488 : public lgfx::LGFX_Device {
     lgfx::Panel_ILI9488 _panel;
     lgfx::Bus_SPI _bus;
 public:
-    LGFX() {
+    LGFX_ILI9488() {
         {
             auto cfg = _bus.config();
             cfg.spi_host = LCD_SPI_HOST;

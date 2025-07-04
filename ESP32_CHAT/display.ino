@@ -10,15 +10,15 @@
  * different UI screens and graphics
  * ================================================================ */
 
-LGFX display;
-static LGFX* displayRef = nullptr;
+LGFX_ILI9488 display;
+static LGFX_ILI9488* displayRef = nullptr;
 
-void initDisplay(LGFX& d) {
+void initDisplay(LGFX_ILI9488& d) {
   displayRef = &d;
 }
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
-  LGFX& disp = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   disp.fillScreen(TFT_BLACK);
 
   const int margin = 4;
@@ -26,9 +26,7 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   disp.setCursor(margin, margin);
   disp.print("Weather");
 
-  int16_t x1, y1;
-  uint16_t w, h;
-  disp.getTextBounds(PLACE_NAME, 0, 0, &x1, &y1, &w, &h);
+  uint16_t w = disp.textWidth(PLACE_NAME);
   disp.setCursor(SCREEN_WIDTH - w - margin, margin);
   disp.print(PLACE_NAME);
 
@@ -57,7 +55,7 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 }
 
 void drawLoadingAnimation() {
-  LGFX& disp = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   disp.fillScreen(TFT_BLACK);
   disp.setTextSize(1);
   disp.setCursor(10, 20);
@@ -71,7 +69,7 @@ void drawLoadingAnimation() {
 }
 
 void displayMessage(String message) {
-  LGFX& disp = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   disp.fillScreen(TFT_BLACK);
   disp.setCursor(0, 0);
   disp.setTextSize(1);
@@ -79,7 +77,7 @@ void displayMessage(String message) {
 }
 
 void drawChatGptScreen() {
-  LGFX& disp = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   if (millis() - getLastTypingTime() > getTypingDelay()) {
     updateLastTypingTime();
 
@@ -93,7 +91,7 @@ void drawChatGptScreen() {
 }
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
-  LGFX& disp = *displayRef;
+  LGFX_ILI9488& disp = *displayRef;
   disp.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
   int y = (SCREEN_HEIGHT - height) / 2;
