@@ -15,6 +15,7 @@
 extern LGFX display;
 
 void initDisplay(LGFX& d);
+
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress);
 void drawLoadingAnimation();
 void displayMessage(String message);
