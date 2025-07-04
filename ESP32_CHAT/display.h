@@ -1,6 +1,7 @@
 #pragma once
 #define LGFX_MAKERFABS_TOUCHCAMERA
 #include <LovyanGFX.hpp>
+#include <lgfx/v1/fonts/FreeSansBold12pt7b.h>
 #include "makerfabs_pin.h"
 
 #define SCREEN_WIDTH 320
