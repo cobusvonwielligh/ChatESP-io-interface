@@ -166,6 +166,9 @@ provided under `ESP32_CHAT/` so LVGL builds out of the box.  When the
 optional [lvglCpp](https://github.com/dev-board-tech/lvglCpp) wrapper
 library is installed, the UI module uses its C++ style widgets for
 cleaner, modular code.
+The project defines `LV_CONF_INCLUDE_SIMPLE` so the local `lv_conf.h`
+is automatically included when compiling.
+
 ---
 
 

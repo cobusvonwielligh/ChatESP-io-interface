@@ -1,5 +1,8 @@
 #pragma once
 #include <Arduino.h>
+/* Ensure our local configuration is picked up by lvgl */
+#define LV_CONF_INCLUDE_SIMPLE
+#include "lv_conf.h"
 #include <lvglCpp.h>
 #include "display.h"
 #include "touch.h"
