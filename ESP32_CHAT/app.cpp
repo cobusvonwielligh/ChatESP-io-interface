@@ -110,8 +110,10 @@ static void processTouch() {
   } else if (state.page == Page::ChatGpt) {
     if (pos[0] < btnSize + 8 && pos[1] > y) {
       state.page = Page::Weather;
+      float prog = float(millis() - state.lastWeather) / WEATHER_PAGE_REFRESH_MS;
+      if (prog > 1.0f) prog = 1.0f;
       lvgl_ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
-                            state.raining);
+                            state.raining, prog);
     }
   }
 }
