@@ -4,6 +4,7 @@
 #include "weather.h"
 #include "touch.h"
 #include "audio.h"
+#include "lvgl_ui.h"
 #include <WiFi.h>
 #include <Wire.h>
 

@@ -15,6 +15,7 @@ void begin() {
 
   display.init();
   initDisplay(display);
+  lvgl_ui::begin();
   initAudio();
 
   connectWiFi();
@@ -31,9 +32,13 @@ void begin() {
 void loop() {
   processTouch();
   processSerial();
+  lvgl_ui::loop();
 
   if (state.page == Page::ChatGpt) {
-    if (isTyping()) drawChatGptScreen();
+    if (isTyping()) {
+      drawChatGptScreen();
+      lvgl_ui::showChat(getChatGptPartialResponse());
+    }
   } else {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
                         state.weatherCode, state.raining,
@@ -68,6 +73,7 @@ static void processSerial() {
   state.page = Page::ChatGpt;
   resetChatState();
   drawLoadingAnimation();
+  lvgl_ui::showChat("...");
   if (prompt.startsWith("IMAGE:")) {
     String desc = prompt.substring(6);
     desc.trim();
@@ -80,6 +86,7 @@ static void processSerial() {
     }
   } else {
     callChatGpt(prompt);
+    lvgl_ui::showChat("");
   }
 }
 
@@ -96,10 +103,15 @@ static void processTouch() {
       state.page = Page::ChatGpt;
       resetChatState();
       drawLoadingAnimation();
+      lvgl_ui::showChat("...");
     }
   } else if (state.page == Page::ChatGpt) {
     if (pos[0] < btnSize + 8 && pos[1] > y) {
       state.page = Page::Weather;
+      float prog = float(millis() - state.lastWeather) / WEATHER_PAGE_REFRESH_MS;
+      if (prog > 1.0f) prog = 1.0f;
+      lvgl_ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
+                            state.raining, prog);
     }
   }
 }

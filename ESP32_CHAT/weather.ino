@@ -4,13 +4,13 @@
 
 #include "weather.h"
 #include "display.h"
+#include "lvgl_ui.h"
 #include "secrets.h"
 
 /* ============================================
  *          Lightweight Weather Client
  * ============================================ */
 
-#define WEATHER_PAGE_REFRESH_MS 60000UL
 
 String LOCATION_NAME = DEFAULT_PLACE_NAME;
 String LOCATION_LAT  = DEFAULT_PLACE_LAT;
@@ -91,4 +91,5 @@ void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &
   }
 
   drawWeatherScreen(tempC, tempMin, tempMax, isRain, progress);
+  lvgl_ui::updateWeather(tempC, tempMin, tempMax, isRain, progress);
 }
