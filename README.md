@@ -110,6 +110,8 @@ ChatESP should eventually be able to support:
 1. [Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
 2. [Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
 3. [Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
+   - This repo provides the custom `LGFX_ILI9488` configuration now used by
+     `display.h` via a simple `using` alias.
 
 ---
 

@@ -5,6 +5,10 @@
 #endif
 #include <LovyanGFX.hpp>
 #include "makerfabs_pin.h"
+#include "LGFX_ILI9488.h"
+
+// Use the custom ILI9488 configuration from LGFX
+using LGFX = LGFX_ILI9488;
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 480
