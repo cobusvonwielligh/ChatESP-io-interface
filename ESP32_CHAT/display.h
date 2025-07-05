@@ -5,10 +5,10 @@
 #endif
 #include <LovyanGFX.hpp>
 #include "makerfabs_pin.h"
-#include "LGFX_ILI9488.h"
+#include "DisplayGFX.h"
 
-// Use the custom ILI9488 configuration from LGFX
-using LGFX = LGFX_ILI9488;
+// Display driver configured for the Makerfabs 3.5" ILI9488 touch screen.
+// The concrete class is named `DisplayGFX` and exposed project‑wide.
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 480
@@ -18,9 +18,9 @@ using LGFX = LGFX_ILI9488;
  * ========================================= */
 
 
-extern LGFX display;
+extern DisplayGFX display;
 
-void initDisplay(LGFX& d);
+void initDisplay(DisplayGFX& d);
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress);
 void drawLoadingAnimation();
 void displayMessage(String message);
