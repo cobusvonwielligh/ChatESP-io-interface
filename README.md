@@ -135,6 +135,7 @@ ChatESP should eventually be able to support:
    #define DEFAULT_PLACE_LNG  "18.4"
    ```
 4. Select your board and COM port in Arduino IDE, then compile and upload.
+5. Ensure `DEBUG_MODE` in `ESP32_CHAT/app.h` is set to `0` to enable all features. Set it to `1` for a minimal display-only build used for debugging.
 
 ---
 

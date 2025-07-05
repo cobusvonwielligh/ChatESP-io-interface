@@ -1,8 +1,10 @@
 #pragma once
 
-// Define DEBUG_MODE to disable most features and only
-// initialize the display for debugging.
-#define DEBUG_MODE 1
+// Set DEBUG_MODE to 1 for a minimal build that only
+// initializes the display for debugging.  Set to 0 to
+// enable WiFi, weather updates, the ChatGPT client and
+// the LVGL UI.
+#define DEBUG_MODE 0
 
 #include "display.h"
 #include "chatgpt.h"
