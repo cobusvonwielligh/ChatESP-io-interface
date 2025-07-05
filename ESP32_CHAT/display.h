@@ -1,22 +1,20 @@
 #pragma once
+
 #define LGFX_MAKERFABS_TOUCHCAMERA
 #ifndef LGFX_USE_V1
 #define LGFX_USE_V1
 #endif
-#include <LovyanGFX.hpp>
+
 #include "makerfabs_pin.h"
 #include "LGFX_ILI9488.h"
 
-// Use the custom ILI9488 configuration from LGFX
-using LGFX = LGFX_ILI9488;
+// Only define LGFX alias if not already defined by LovyanGFX
+#if !defined(__LGFX_DEF) && !defined(LovyanGFX_DEFINED_LGFX)
+  using LGFX = LGFX_ILI9488;
+#endif
 
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 480
-
-/* =========================================
- *        ILI9488 TFT Display Driver
- * ========================================= */
-
 
 extern LGFX display;
 
