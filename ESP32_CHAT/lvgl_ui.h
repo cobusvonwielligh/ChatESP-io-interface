@@ -8,6 +8,7 @@
 #ifndef LV_CONF_PATH
 #define LV_CONF_PATH "../../../libraries/lv_conf.h"
 #endif
+
 #include <lvglCpp.h>
 #include "display.h"
 #include "touch.h"
