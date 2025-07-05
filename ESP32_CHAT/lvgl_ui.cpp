@@ -1,5 +1,6 @@
 #include "lvgl_ui.h"
 #include "LGFX_ILI9488.h"
+
 using namespace lvgl::widget;
 
 namespace lvgl_ui {
@@ -12,6 +13,7 @@ static lv_indev_drv_t indev_drv;
 static Label *label_temp;
 static Label *label_chat;
 static Bar *progress_bar;
+
 static lv_obj_t *scr_weather;
 static lv_obj_t *scr_chat;
 
@@ -89,6 +91,7 @@ void updateWeather(float tempC, float tempMin, float tempMax, bool isRain,
                    float progress) {
   label_temp->SetText("%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
   progress_bar->SetValue((int)(progress * 100), LV_ANIM_OFF);
+
   lv_scr_load(scr_weather);
 }
 
