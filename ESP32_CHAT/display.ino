@@ -24,7 +24,9 @@ void initDisplay(DisplayGFX& d) {
   canvas.setColorDepth(16);
   canvas.setPsram(true);
   canvas.setFont(&FreeSansBold);
-  canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT);
+  if (!canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT)) {
+    Serial.println("Sprite allocation failed - reduce resolution or enable PSRAM");
+  }
 #endif
 }
 

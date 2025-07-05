@@ -16,7 +16,9 @@ void begin() {
   display.init();
   initDisplay(display);
 #if !DEBUG_MODE
-  lvgl_ui::begin();
+  if (!lvgl_ui::begin()) {
+    Serial.println("LVGL UI disabled due to init failure");
+  }
   initAudio();
 
   connectWiFi();

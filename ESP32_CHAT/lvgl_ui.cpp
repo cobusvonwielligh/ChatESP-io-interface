@@ -4,6 +4,7 @@
 using namespace lvgl::widget;
 
 namespace lvgl_ui {
+static bool ready = false;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t *buf1 = nullptr;
 static lv_color_t *buf2 = nullptr;
@@ -57,12 +58,16 @@ static void createChatScreen() {
   label_chat->SetAlign(LV_ALIGN_TOP_LEFT, 10, 10);
 }
 
-void begin() {
+bool begin() {
   lv_init();
 
   uint32_t buf_size = SCREEN_WIDTH * 40;
   buf1 = (lv_color_t*)heap_caps_malloc(buf_size * sizeof(lv_color_t), MALLOC_CAP_DMA);
   buf2 = (lv_color_t*)heap_caps_malloc(buf_size * sizeof(lv_color_t), MALLOC_CAP_DMA);
+  if (!buf1 || !buf2) {
+    Serial.println("LVGL buffer allocation failed");
+    return false;
+  }
   lv_disp_draw_buf_init(&draw_buf, buf1, buf2, buf_size);
 
   lv_disp_drv_init(&disp_drv);
@@ -81,9 +86,12 @@ void begin() {
   createChatScreen();
 
   lv_scr_load(scr_weather);
+  ready = true;
+  return true;
 }
 
 void loop() {
+  if (!ready) return;
   lv_timer_handler();
 }
 
@@ -92,10 +100,11 @@ void updateWeather(float tempC, float tempMin, float tempMax, bool isRain,
   label_temp->SetText("%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
   progress_bar->SetValue((int)(progress * 100), LV_ANIM_OFF);
 
-  lv_scr_load(scr_weather);
+  if (ready) lv_scr_load(scr_weather);
 }
 
 void showChat(const String &text) {
+  if (!ready) return;
   label_chat->SetText("%s", text.c_str());
   lv_scr_load(scr_chat);
 }

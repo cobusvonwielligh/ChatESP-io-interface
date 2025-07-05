@@ -11,7 +11,9 @@
 #include "touch.h"
 
 namespace lvgl_ui {
-  void begin();
+  // Initialize LVGL. Returns false if required buffers could not
+  // be allocated (e.g. PSRAM disabled or not enough heap).
+  bool begin();
   void loop();
   void updateWeather(float tempC, float tempMin, float tempMax, bool isRain,
                      float progress);
