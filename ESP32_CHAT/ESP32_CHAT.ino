@@ -5,6 +5,8 @@
 #include "display.h"
 #include "chatgpt.h"
 #include "weather.h"
+#include "touch.h"
+#include "audio.h"
 #include "secrets.h"
 
 /*
@@ -20,6 +22,7 @@ void setup() {
   display.init();
 
   initDisplay(display);
+  initAudio();
   connectToWiFi();
   initChatGpt();
 }
@@ -30,6 +33,8 @@ void loop() {
   static uint8_t code = 0;
   static bool isRain = false;
   static int failCount = 0;
+
+  handleTouchInput();
 
   handleSerialInput();
 
@@ -82,6 +87,27 @@ void handleSerialInput() {
       }
     } else {
       callChatGpt(prompt);
+    }
+  }
+}
+
+void handleTouchInput() {
+  int pos[2] = { -1, -1 };
+  readTouch(pos);
+  if (pos[0] < 0 || pos[1] < 0) return;
+
+  const int btnSize = 50;
+  int y = SCREEN_HEIGHT - btnSize - 8;
+
+  if (currentPage == PAGE_WEATHER) {
+    if (pos[0] > SCREEN_WIDTH - btnSize - 8 && pos[1] > y) {
+      currentPage = PAGE_CHATGPT;
+      resetChatState();
+      drawLoadingAnimation();
+    }
+  } else if (currentPage == PAGE_CHATGPT) {
+    if (pos[0] < btnSize + 8 && pos[1] > y) {
+      currentPage = PAGE_WEATHER;
     }
   }
 }

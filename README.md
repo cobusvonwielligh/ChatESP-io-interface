@@ -141,7 +141,9 @@ ChatESP should eventually be able to support:
 
 The weather page now features animated color graphics using the ILI9488
 display. A smooth gradient background and moving icons reflect real
-time conditions, while ChatGPT responses appear with a typing effect.
+time conditions. Touch buttons at the bottom switch between the
+dashboard and ChatGPT assistant page. ChatGPT responses render with a
+typing effect.
 ---
 
 
