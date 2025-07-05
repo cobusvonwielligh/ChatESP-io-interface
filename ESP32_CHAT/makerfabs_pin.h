@@ -53,7 +53,7 @@
 
 #define LCD_WIDTH   320
 #define LCD_HEIGHT  480
-#define LCD_SPI_HOST HSPI_HOST
+#define LCD_SPI_HOST VSPI_HOST
 
 #endif
 
