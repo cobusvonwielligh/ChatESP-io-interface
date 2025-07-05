@@ -1,4 +1,9 @@
 #pragma once
+
+// Define BASIC_TEST to disable most features and only
+// initialize the display for debugging.
+#define BASIC_TEST 1
+
 #include "display.h"
 #include "chatgpt.h"
 #include "weather.h"
