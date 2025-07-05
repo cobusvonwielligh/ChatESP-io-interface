@@ -15,7 +15,7 @@ void begin() {
 
   display.init();
   initDisplay(display);
-#if !BASIC_TEST
+#if !DEBUG_MODE
   lvgl_ui::begin();
   initAudio();
 
@@ -34,7 +34,7 @@ void begin() {
 }
 
 void loop() {
-#if !BASIC_TEST
+#if !DEBUG_MODE
   processTouch();
   processSerial();
   lvgl_ui::loop();
@@ -56,9 +56,9 @@ void loop() {
 }
 
 static void connectWiFi() {
-#if BASIC_TEST
+#if DEBUG_MODE
   // Skip WiFi in basic test
-  displayMessage("WiFi disabled (BASIC_TEST)");
+  displayMessage("WiFi disabled (DEBUG_MODE)");
 #else
   displayMessage("Connecting to WiFi...");
   WiFi.setSleep(false);
@@ -78,7 +78,7 @@ static void connectWiFi() {
 }
 
 static void processSerial() {
-#if BASIC_TEST
+#if DEBUG_MODE
   // Serial commands disabled in basic mode
   return;
 #else
@@ -110,7 +110,7 @@ static void processSerial() {
 }
 
 static void processTouch() {
-#if BASIC_TEST
+#if DEBUG_MODE
   // Skip touch handling in basic test
   return;
 #else
