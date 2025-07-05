@@ -43,8 +43,6 @@ void loop() {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
                         state.weatherCode, state.raining,
                         state.lastWeather, state.weatherFail);
-    lvgl_ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
-                          state.raining);
   }
 }
 

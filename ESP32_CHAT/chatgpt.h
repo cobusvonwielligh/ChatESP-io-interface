@@ -8,7 +8,6 @@
  *         ChatGPT API Interface
  * ========================================= */
 
-enum Page { PAGE_WEATHER, PAGE_CHATGPT };
 
 void initChatGpt();
 void callChatGpt(String prompt);
