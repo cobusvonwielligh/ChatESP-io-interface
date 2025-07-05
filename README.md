@@ -162,7 +162,11 @@ speaker.
 This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
 setup (`lvgl_ui.*`) wired to the existing LovyanGFX display and touch
 drivers. **LovyanGFX v1** is required and the code defines
-`LGFX_USE_V1` automatically. LVGL allows creation of modern widgets such
+`LGFX_USE_V1` automatically. Make sure the
+[LovyanGFX](https://github.com/lovyan03/LovyanGFX) library version 1.2 or
+newer is installed in the Arduino IDE. Older releases lack the
+`Bus_SPI` and `Panel_ILI9488` APIs used by the custom display driver.
+LVGL allows creation of modern widgets such
 as labels and buttons and greatly simplifies building polished user
 interfaces. The
 default firmware still renders using the lightweight canvas routines,

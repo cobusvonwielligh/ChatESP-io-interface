@@ -12,11 +12,11 @@
  * different UI screens and graphics
  * ================================================================ */
 
-LGFX display;
-static LGFX* displayRef = nullptr;
+DisplayGFX display;
+static DisplayGFX* displayRef = nullptr;
 static lgfx::LGFX_Sprite canvas;
 
-void initDisplay(LGFX& d) {
+void initDisplay(DisplayGFX& d) {
   displayRef = &d;
   d.setFont(&FreeSansBold);
   canvas.setColorDepth(16);
@@ -112,7 +112,7 @@ static void drawHomeButton(lgfx::LGFXBase& d) {
 }
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
-  LGFX& disp = *displayRef;
+  DisplayGFX& disp = *displayRef;
   canvas.fillScreen(TFT_BLACK);
 
   uint16_t bg1 = bgColorForTemp(tempC);
@@ -163,7 +163,7 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 }
 
 void drawLoadingAnimation() {
-  LGFX& disp = *displayRef;
+  DisplayGFX& disp = *displayRef;
   canvas.fillScreen(TFT_BLACK);
   canvas.setTextSize(1);
   canvas.setCursor(10, 20);
@@ -180,7 +180,7 @@ void drawLoadingAnimation() {
 }
 
 void displayMessage(String message) {
-  LGFX& disp = *displayRef;
+  DisplayGFX& disp = *displayRef;
   canvas.fillScreen(TFT_BLACK);
   canvas.setCursor(0, 0);
   canvas.setTextSize(1);
@@ -191,7 +191,7 @@ void displayMessage(String message) {
 }
 
 void drawChatGptScreen() {
-  LGFX& disp = *displayRef;
+  DisplayGFX& disp = *displayRef;
   if (millis() - getLastTypingTime() > getTypingDelay()) {
     updateLastTypingTime();
 
@@ -209,7 +209,7 @@ void drawChatGptScreen() {
 }
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
-  LGFX& disp = *displayRef;
+  DisplayGFX& disp = *displayRef;
   canvas.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
   int y = (SCREEN_HEIGHT - height) / 2;
