@@ -3,7 +3,7 @@
 #include "chatgpt.h"
 #include "secrets.h"
 #include "weather.h"
-#include "app.h" // for BASIC_TEST flag
+#include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
 
 /* ================================================================
@@ -20,7 +20,7 @@ static lgfx::LGFX_Sprite canvas;
 void initDisplay(DisplayGFX& d) {
   displayRef = &d;
   d.setFont(&FreeSansBold);
-#if !BASIC_TEST
+#if !DEBUG_MODE
   canvas.setColorDepth(16);
   canvas.setPsram(true);
   canvas.setFont(&FreeSansBold);
@@ -184,7 +184,7 @@ void drawLoadingAnimation() {
 
 void displayMessage(String message) {
   DisplayGFX& disp = *displayRef;
-#if BASIC_TEST
+#if DEBUG_MODE
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
   disp.setCursor(0, 0);

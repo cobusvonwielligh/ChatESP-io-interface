@@ -1,8 +1,8 @@
 #pragma once
 
-// Define BASIC_TEST to disable most features and only
+// Define DEBUG_MODE to disable most features and only
 // initialize the display for debugging.
-#define BASIC_TEST 1
+#define DEBUG_MODE 1
 
 #include "display.h"
 #include "chatgpt.h"
@@ -32,4 +32,3 @@ void begin();
 void loop();
 
 } // namespace app
-
