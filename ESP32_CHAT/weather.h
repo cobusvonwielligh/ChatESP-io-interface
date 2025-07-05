@@ -15,6 +15,8 @@ extern String LOCATION_NAME;
 extern String LOCATION_LAT;
 extern String LOCATION_LNG;
 
+#define WEATHER_PAGE_REFRESH_MS 60000UL
+
 /* Handle update cycle and screen refresh */
 void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &code, bool &isRain,
                          unsigned long &lastUpdate, int &failCount);

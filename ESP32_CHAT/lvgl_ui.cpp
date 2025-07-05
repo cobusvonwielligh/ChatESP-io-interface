@@ -1,5 +1,5 @@
 #include "lvgl_ui.h"
-#include "LGFX_ILI9488.h"
+#include "display.h"
 
 using namespace lvgl::widget;
 

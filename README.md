@@ -19,28 +19,27 @@ This project aims to evolve into a modular, AI-driven platform with support for 
 
 ChatESP should eventually be able to support:
 
-- Audio and video input for prompt generation  
-- IoT control via Home Assistant integration  
-- Voice or text-based interaction  
-- Smart lighting responses based on ambient brightness  
-- Weather and alert monitoring  
-- Spoken responses from ChatGPT  
+- Audio and video input for prompt generation
+- IoT control via Home Assistant integration
+- Voice or text-based interaction
+- Smart lighting responses based on ambient brightness
+- Weather and alert monitoring
+- Spoken responses from ChatGPT
 
 </td>
     <td style="vertical-align:top; padding-left:1%; width:40%">
 
 <h4>Use cases include:</h4>
 
-- Smart mirror interface  
-- Voice-controlled home dashboard  
-- Desktop assistant for weather, alerts, and ChatGPT interaction  
-- Wall-mounted information panel in a hallway or entrance  
-- Embedded assistant in smart appliances  
+- Smart mirror interface
+- Voice-controlled home dashboard
+- Desktop assistant for weather, alerts, and ChatGPT interaction
+- Wall-mounted information panel in a hallway or entrance
+- Embedded assistant in smart appliances
 
 </td>
   </tr>
 </table>
-
 
 ---
 
@@ -50,28 +49,28 @@ ChatESP should eventually be able to support:
 
 #### Development Roadmap
 
-1. ~~SSD1306 OLED display driver, drawing and support~~ ✅  
-2. ~~Display real-time weather info including weather icon~~ ✅  
-3. ~~ChatGPT text prompt and response handeling~~ ✅  
-4. Home Assistant integration for IoT device control and monitoring  
-5. Microphone support for voice-driven prompts  
-6. Camera integration to support image & video prompts (e.g., fashion suggestions)  
-7. Larger display support for extended text, weather maps, or dashboards  
-8. Small speaker for reply/notification playback  
-9. Ambient reactive LED lighting for system status  
-10. Smart 2-way mirror integration with ChatESP including UI  
+1. ~~SSD1306 OLED display driver, drawing and support~~ ✅
+2. ~~Display real-time weather info including weather icon~~ ✅
+3. ~~ChatGPT text prompt and response handeling~~ ✅
+4. Home Assistant integration for IoT device control and monitoring
+5. Microphone support for voice-driven prompts
+6. Camera integration to support image & video prompts (e.g., fashion suggestions)
+7. Larger display support for extended text, weather maps, or dashboards
+8. Small speaker for reply/notification playback
+9. Ambient reactive LED lighting for system status
+10. Smart 2-way mirror integration with ChatESP including UI
 
 </td>
     <td style="vertical-align:top; padding-left:1%; width:60%">
 
 #### Current Features
 
-- ~~SSD1306 OLED display support~~ 
-- Display current temperature, min, and max on weather page using Open‑Meteo API  
-- Dynamic weather icon (sun/rain) with update progress bar  
-- ChatGPT API request and response handling  
-- ChatGPT response text rendering with animated typing effect  
-- `IMAGE:` prompt support draws 32×32 pixel monochrome bitmap  
+- ~~SSD1306 OLED display support~~
+- Display current temperature, min, and max on weather page using Open‑Meteo API
+- Dynamic weather icon (sun/rain) with update progress bar
+- ChatGPT API request and response handling
+- ChatGPT response text rendering with animated typing effect
+- `IMAGE:` prompt support draws 32×32 pixel monochrome bitmap
 
 </td>
   </tr>
@@ -80,6 +79,7 @@ ChatESP should eventually be able to support:
 ---
 
 ## Hardware Requirements
+
 ### ESP32 TFT Touch with Camera v1.3 (ESPTFT35CA)
 
 - Chipset: ESP32-WROVER
@@ -106,6 +106,7 @@ ChatESP should eventually be able to support:
 </table>
 
 #### Additional Resources
+
 1. [Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
 2. [Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
 3. [Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
@@ -113,8 +114,10 @@ ChatESP should eventually be able to support:
 ---
 
 ## Software Prerequisites
+
 ### Arduino IDE V1.8.10
-[IDE Setup & Config](https://www.arduino.cc/en/software) 
+
+[IDE Setup & Config](https://www.arduino.cc/en/software)
 
 #### Project Setup
 
@@ -156,13 +159,15 @@ speaker.
 
 This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
 setup (`lvgl_ui.*`) wired to the existing LovyanGFX display and touch
-drivers.  LVGL allows creation of modern widgets such as labels and
-buttons and greatly simplifies building polished user interfaces.  The
+drivers. **LovyanGFX v1** is required and the code defines
+`LGFX_USE_V1` automatically. LVGL allows creation of modern widgets such
+as labels and buttons and greatly simplifies building polished user
+interfaces. The
 default firmware still renders using the lightweight canvas routines,
 but if the LVGL library is installed in Arduino IDE the `lvgl_ui`
 module will automatically create matching screens for the weather and
-ChatGPT pages.  A default `lv_conf.h` based on the official template is
-provided under `libraries/` so LVGL builds out of the box.  When the
+ChatGPT pages. A default `lv_conf.h` based on the official template is
+provided under `libraries/` so LVGL builds out of the box. When the
 optional [lvglCpp](https://github.com/dev-board-tech/lvglCpp) wrapper
 library is installed, the UI module uses its C++ style widgets for
 cleaner, modular code.
@@ -173,10 +178,8 @@ with `lv_conf.h` not found, adjust this path in `lvgl_ui.h` or copy
 
 ---
 
-
 ## License
 
 Released under the MIT License.
-
 
 ---
