@@ -1,6 +1,8 @@
 #include "lvgl_ui.h"
 #include "LGFX_ILI9488.h"
 
+using namespace lvgl::widget;
+
 namespace lvgl_ui {
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t *buf1 = nullptr;
@@ -8,8 +10,10 @@ static lv_color_t *buf2 = nullptr;
 static lv_disp_drv_t disp_drv;
 static lv_indev_drv_t indev_drv;
 
-static lv_obj_t *label_temp;
-static lv_obj_t *label_chat;
+static Label *label_temp;
+static Label *label_chat;
+static Bar *progress_bar;
+
 static lv_obj_t *scr_weather;
 static lv_obj_t *scr_chat;
 
@@ -35,6 +39,24 @@ static void touch_cb(lv_indev_drv_t *drv, lv_indev_data_t *data) {
   }
 }
 
+static void createWeatherScreen() {
+  scr_weather = lv_obj_create(NULL);
+  label_temp = new Label(scr_weather);
+  label_temp->SetAlign(LV_ALIGN_TOP_MID, 0, 20);
+  progress_bar = new Bar(scr_weather);
+  progress_bar->SetRange(0, 100);
+  progress_bar->SetSize(SCREEN_WIDTH - 20, 8);
+  progress_bar->SetAlign(LV_ALIGN_BOTTOM_MID, 0, -10);
+}
+
+static void createChatScreen() {
+  scr_chat = lv_obj_create(NULL);
+  label_chat = new Label(scr_chat);
+  label_chat->SetLongMode(LV_LABEL_LONG_WRAP);
+  label_chat->SetWidth(SCREEN_WIDTH - 20);
+  label_chat->SetAlign(LV_ALIGN_TOP_LEFT, 10, 10);
+}
+
 void begin() {
   lv_init();
 
@@ -55,15 +77,8 @@ void begin() {
   indev_drv.read_cb = touch_cb;
   lv_indev_drv_register(&indev_drv);
 
-  scr_weather = lv_obj_create(NULL);
-  label_temp = lv_label_create(scr_weather);
-  lv_obj_align(label_temp, LV_ALIGN_TOP_MID, 0, 20);
-
-  scr_chat = lv_obj_create(NULL);
-  label_chat = lv_label_create(scr_chat);
-  lv_label_set_long_mode(label_chat, LV_LABEL_LONG_WRAP);
-  lv_obj_set_width(label_chat, SCREEN_WIDTH - 20);
-  lv_obj_align(label_chat, LV_ALIGN_TOP_LEFT, 10, 10);
+  createWeatherScreen();
+  createChatScreen();
 
   lv_scr_load(scr_weather);
 }
@@ -72,15 +87,16 @@ void loop() {
   lv_timer_handler();
 }
 
-void updateWeather(float tempC, float tempMin, float tempMax, bool isRain) {
-  char buf[64];
-  snprintf(buf, sizeof(buf), "%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
-  lv_label_set_text(label_temp, buf);
+void updateWeather(float tempC, float tempMin, float tempMax, bool isRain,
+                   float progress) {
+  label_temp->SetText("%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
+  progress_bar->SetValue((int)(progress * 100), LV_ANIM_OFF);
+
   lv_scr_load(scr_weather);
 }
 
 void showChat(const String &text) {
-  lv_label_set_text(label_chat, text.c_str());
+  label_chat->SetText("%s", text.c_str());
   lv_scr_load(scr_chat);
 }
 
