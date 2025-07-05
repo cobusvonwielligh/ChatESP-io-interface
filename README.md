@@ -120,14 +120,14 @@ ChatESP should eventually be able to support:
 
 1. Clone this repository and open `ESP32_CHAT/ESP32_CHAT.ino`.
 2. Copy `ESP32_CHAT/secrets.example.h` → `ESP32_CHAT/secrets.h`
-3. Edit `secrets.h` with your Wi‑Fi, API key, and coordinates:
+3. Edit `secrets.h` with your Wi‑Fi and API key. Optional default location values are used if IP lookup fails:
    ```cpp
    #define WIFI_SSID "YourWiFiSSID"
    #define WIFI_PASS "YourWiFiPassword"
    #define OPENAI_API_KEY "sk-..."
-   #define PLACE_NAME "Your City"
-   #define PLACE_LAT  "-33.9"
-   #define PLACE_LNG  "18.4"
+   #define DEFAULT_PLACE_NAME "Your City"
+   #define DEFAULT_PLACE_LAT  "-33.9"
+   #define DEFAULT_PLACE_LNG  "18.4"
    ```
 4. Select your board and COM port in Arduino IDE, then compile and upload.
 
@@ -136,10 +136,27 @@ ChatESP should eventually be able to support:
 ### Usage
 
 - On boot the device shows the weather and updates about every 30 seconds.
+- The location is automatically detected via IP geolocation to fetch local weather.
 - Open Serial Monitor at 115200 baud to send ChatGPT prompts.
 - Prefix prompt with `IMAGE:` to request a bitmap response.
 
-UPDATE THIS
+The weather page now features animated color graphics using the ILI9488
+display. A smooth gradient background and moving icons reflect real
+time conditions. Touch buttons at the bottom switch between the
+dashboard and ChatGPT assistant page. ChatGPT responses render with a
+typing effect.
+
+### Micro-framework
+
+The project now exposes a small framework (see `app.*`) that maintains a
+simple state machine and delegates to device modules such as display,
+touch, audio and external services. This structure makes it easier to
+extend the codebase with additional hardware like a microphone or
+speaker.
+
+For more advanced UI needs consider integrating the [LVGL
+library](https://github.com/lvgl/lvgl) which provides a full featured
+GUI toolkit compatible with ESP32 and LovyanGFX.
 ---
 
 

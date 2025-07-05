@@ -12,15 +12,41 @@
 
 #define WEATHER_PAGE_REFRESH_MS 30000UL
 
-const String WEATHER_URL = String("https://api.open-meteo.com/v1/forecast?latitude=") +
-                           PLACE_LAT + "&longitude=" + PLACE_LNG +
-                           "&current_weather=true&daily=temperature_2m_min,temperature_2m_max&timezone=auto";
+String LOCATION_NAME = DEFAULT_PLACE_NAME;
+String LOCATION_LAT  = DEFAULT_PLACE_LAT;
+String LOCATION_LNG  = DEFAULT_PLACE_LNG;
+
+bool fetchLocation() {
+  if (WiFi.status() != WL_CONNECTED) return false;
+
+  HTTPClient http;
+  http.begin("http://ip-api.com/json/");
+  int status = http.GET();
+  if (status != 200) {
+    http.end();
+    return false;
+  }
+  DynamicJsonDocument doc(1024);
+  if (deserializeJson(doc, http.getStream())) {
+    http.end();
+    return false;
+  }
+  LOCATION_NAME = doc["city"].as<String>();
+  LOCATION_LAT = String(doc["lat"].as<float>(), 6);
+  LOCATION_LNG = String(doc["lon"].as<float>(), 6);
+  http.end();
+  return true;
+}
 
 bool fetchWeather(float &tempC, uint8_t &code, float &tempMin, float &tempMax) {
   if (WiFi.status() != WL_CONNECTED) return false;
 
+  String url = String("https://api.open-meteo.com/v1/forecast?latitude=") +
+               LOCATION_LAT + "&longitude=" + LOCATION_LNG +
+               "&current_weather=true&daily=temperature_2m_min,temperature_2m_max&timezone=auto";
+
   HTTPClient http;
-  http.begin(WEATHER_URL);
+  http.begin(url);
   http.useHTTP10();
 
   int status = http.GET();
