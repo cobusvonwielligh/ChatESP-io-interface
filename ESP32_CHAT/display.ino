@@ -2,6 +2,9 @@
 #include "weather_icons.h"
 #include "chatgpt.h"
 #include "secrets.h"
+#include "FreeSansBold12pt7b.h"
+#include "FreeMono12pt7b.h"
+#include <math.h>
 
 /* ================================================================
  *                  Display Utilities: ILI9488
@@ -108,6 +111,75 @@ static void drawHomeButton(LGFX& d) {
   d.fillTriangle(cx, y + 12, x + 12, y + 30, x + s - 12, y + 30, COLOR_ACCENT);
   d.fillRect(x + 16, y + 30, s - 32, 14, COLOR_ACCENT);
 }
+
+static uint16_t rgb565(uint8_t r, uint8_t g, uint8_t b) {
+  return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
+}
+
+static uint16_t bgColorForTemp(float t) {
+  if (t < 5)  return rgb565(0, 0, 80);
+  if (t < 15) return rgb565(0, 64, 160);
+  if (t < 25) return rgb565(0, 160, 80);
+  if (t < 35) return rgb565(255, 140, 0);
+  return rgb565(200, 0, 0);
+}
+
+static void fillGradient(LGFX& d, uint16_t c1, uint16_t c2) {
+  uint8_t sr = ((c1 >> 11) & 0x1F) << 3;
+  uint8_t sg = ((c1 >> 5) & 0x3F) << 2;
+  uint8_t sb = (c1 & 0x1F) << 3;
+  uint8_t er = ((c2 >> 11) & 0x1F) << 3;
+  uint8_t eg = ((c2 >> 5) & 0x3F) << 2;
+  uint8_t eb = (c2 & 0x1F) << 3;
+
+  for (int y = 0; y < SCREEN_HEIGHT; ++y) {
+    float t = (float)y / SCREEN_HEIGHT;
+    float wave = 0.1f * sinf((millis() / 3000.0f) + t * 6.283f);
+    t += wave;
+    if (t < 0) t = 0; if (t > 1) t = 1;
+    uint8_t r = sr + (er - sr) * t;
+    uint8_t g = sg + (eg - sg) * t;
+    uint8_t b = sb + (eb - sb) * t;
+    uint16_t col = rgb565(r, g, b);
+    d.drawFastHLine(0, y, SCREEN_WIDTH, col);
+  }
+}
+
+static float sunAngle = 0.0f;
+static void drawSunIcon(LGFX& d, int x, int y) {
+  uint16_t yellow = rgb565(255, 200, 0);
+  uint16_t orange = rgb565(255, 150, 0);
+  int cx = x + 25;
+  int cy = y + 25;
+  d.fillCircle(cx, cy, 18, yellow);
+  for (int i = 0; i < 8; ++i) {
+    float a = sunAngle + i * 0.785398f; // PI/4
+    int x1 = cx + cosf(a) * 22;
+    int y1 = cy + sinf(a) * 22;
+    int x2 = cx + cosf(a) * 32;
+    int y2 = cy + sinf(a) * 32;
+    d.drawLine(x1, y1, x2, y2, orange);
+  }
+  sunAngle += 0.02f;
+}
+
+static void drawRainIcon(LGFX& d, int x, int y) {
+  uint16_t grey = rgb565(180, 180, 180);
+  int cx = x + 25;
+  int cy = y + 20;
+  d.fillCircle(cx - 10, cy, 15, grey);
+  d.fillCircle(cx + 10, cy, 15, grey);
+  d.fillCircle(cx, cy - 10, 15, grey);
+  d.fillRect(cx - 20, cy, 40, 15, grey);
+
+  uint16_t blue = rgb565(80, 150, 255);
+  int off = (millis() / 200) % 8;
+  for (int i = 0; i < 3; ++i) {
+    int yy = y + 35 + ((off + i * 3) % 8);
+    d.drawFastVLine(x + 12 + i * 12, yy, 12, blue);
+  }
+}
+
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
   LGFX& disp = *displayRef;
