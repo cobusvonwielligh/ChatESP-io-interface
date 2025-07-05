@@ -1,11 +1,12 @@
 #include <WiFi.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+
 
 #include "display.h"
 #include "chatgpt.h"
 #include "weather.h"
+#include "touch.h"
+#include "audio.h"
 #include "secrets.h"
 
 /*
@@ -16,14 +17,12 @@ Page currentPage = PAGE_WEATHER;
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin(5, 4);
+  Wire.begin(I2C_SDA, I2C_SCL);
 
-  if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR, OLED_RESET, false)) {
-    Serial.println("SSD1306 init failed");
-    delay(5000);
-  }
+  display.init();
 
   initDisplay(display);
+  initAudio();
   connectToWiFi();
   initChatGpt();
 }
@@ -34,6 +33,8 @@ void loop() {
   static uint8_t code = 0;
   static bool isRain = false;
   static int failCount = 0;
+
+  handleTouchInput();
 
   handleSerialInput();
 
@@ -86,6 +87,27 @@ void handleSerialInput() {
       }
     } else {
       callChatGpt(prompt);
+    }
+  }
+}
+
+void handleTouchInput() {
+  int pos[2] = { -1, -1 };
+  readTouch(pos);
+  if (pos[0] < 0 || pos[1] < 0) return;
+
+  const int btnSize = 50;
+  int y = SCREEN_HEIGHT - btnSize - 8;
+
+  if (currentPage == PAGE_WEATHER) {
+    if (pos[0] > SCREEN_WIDTH - btnSize - 8 && pos[1] > y) {
+      currentPage = PAGE_CHATGPT;
+      resetChatState();
+      drawLoadingAnimation();
+    }
+  } else if (currentPage == PAGE_CHATGPT) {
+    if (pos[0] < btnSize + 8 && pos[1] > y) {
+      currentPage = PAGE_WEATHER;
     }
   }
 }
