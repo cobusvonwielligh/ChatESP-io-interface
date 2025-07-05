@@ -154,9 +154,14 @@ touch, audio and external services. This structure makes it easier to
 extend the codebase with additional hardware like a microphone or
 speaker.
 
-For more advanced UI needs consider integrating the [LVGL
-library](https://github.com/lvgl/lvgl) which provides a full featured
-GUI toolkit compatible with ESP32 and LovyanGFX.
+This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
+setup (`lvgl_ui.*`) wired to the existing LovyanGFX display and touch
+drivers.  LVGL allows creation of modern widgets such as labels and
+buttons and greatly simplifies building polished user interfaces.  The
+default firmware still renders using the lightweight canvas routines,
+but if the LVGL library is installed in Arduino IDE the `lvgl_ui`
+module will automatically create matching screens for the weather and
+ChatGPT pages.
 ---
 
 
