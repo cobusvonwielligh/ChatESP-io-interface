@@ -1,7 +1,10 @@
 #pragma once
 #include <Arduino.h>
 /* Ensure our local configuration is picked up by lvgl */
+#ifndef LV_CONF_INCLUDE_SIMPLE
 #define LV_CONF_INCLUDE_SIMPLE
+#endif
+
 #include "lv_conf.h"
 #include <lvglCpp.h>
 #include "display.h"

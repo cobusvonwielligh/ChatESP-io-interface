@@ -17,6 +17,15 @@
 #ifndef LV_CONF_H
 #define LV_CONF_H
 
+/* Allow library sources to include this file directly */
+#ifndef LV_CONF_INCLUDE_SIMPLE
+#define LV_CONF_INCLUDE_SIMPLE
+#endif
+
+#ifndef LV_CONF_PATH
+#define LV_CONF_PATH "lv_conf.h"
+#endif
+
 #include <stdint.h>
 
 /*====================
