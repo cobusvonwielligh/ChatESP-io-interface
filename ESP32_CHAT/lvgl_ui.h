@@ -4,6 +4,7 @@
 #ifndef LV_CONF_INCLUDE_SIMPLE
 #define LV_CONF_INCLUDE_SIMPLE
 #endif
+
 #include "lv_conf.h"
 #include <lvglCpp.h>
 #include "display.h"
