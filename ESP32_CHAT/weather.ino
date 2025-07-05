@@ -4,6 +4,7 @@
 
 #include "weather.h"
 #include "display.h"
+#include "lvgl_ui.h"
 #include "secrets.h"
 
 /* ============================================
@@ -91,4 +92,5 @@ void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &
   }
 
   drawWeatherScreen(tempC, tempMin, tempMax, isRain, progress);
+  lvgl_ui::updateWeather(tempC, tempMin, tempMax, isRain, progress);
 }
