@@ -34,7 +34,6 @@
 
 #endif
 
-
 #ifdef ESP32_ILI9488
 
 #define I2C_SDA 26
