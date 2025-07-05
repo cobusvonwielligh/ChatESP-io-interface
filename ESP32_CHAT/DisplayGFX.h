@@ -2,6 +2,9 @@
 #ifndef LGFX_USE_V1
 #define LGFX_USE_V1
 #endif
+#ifndef SPI_DMA_CH_AUTO
+#define SPI_DMA_CH_AUTO 1
+#endif
 #include <LovyanGFX.hpp>
 #include "makerfabs_pin.h"
 
