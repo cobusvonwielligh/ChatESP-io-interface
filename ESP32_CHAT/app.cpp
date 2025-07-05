@@ -43,6 +43,8 @@ void loop() {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
                         state.weatherCode, state.raining,
                         state.lastWeather, state.weatherFail);
+    lvgl_ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
+                          state.raining);
   }
 }
 
@@ -108,6 +110,8 @@ static void processTouch() {
   } else if (state.page == Page::ChatGpt) {
     if (pos[0] < btnSize + 8 && pos[1] > y) {
       state.page = Page::Weather;
+      lvgl_ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
+                            state.raining);
     }
   }
 }
