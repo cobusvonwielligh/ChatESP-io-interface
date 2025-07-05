@@ -1,4 +1,9 @@
 #pragma once
+
+// Define DEBUG_MODE to disable most features and only
+// initialize the display for debugging.
+#define DEBUG_MODE 1
+
 #include "display.h"
 #include "chatgpt.h"
 #include "weather.h"
@@ -27,4 +32,3 @@ void begin();
 void loop();
 
 } // namespace app
-

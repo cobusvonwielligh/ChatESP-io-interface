@@ -15,6 +15,7 @@ void begin() {
 
   display.init();
   initDisplay(display);
+#if !DEBUG_MODE
   lvgl_ui::begin();
   initAudio();
 
@@ -23,6 +24,9 @@ void begin() {
     Serial.println("Location lookup failed. Using defaults.");
   }
   initChatGpt();
+#else
+  displayMessage("Basic display test");
+#endif
 
   state.page = Page::Weather;
   state.lastWeather = 0;
@@ -30,6 +34,7 @@ void begin() {
 }
 
 void loop() {
+#if !DEBUG_MODE
   processTouch();
   processSerial();
   lvgl_ui::loop();
@@ -44,9 +49,17 @@ void loop() {
                         state.weatherCode, state.raining,
                         state.lastWeather, state.weatherFail);
   }
+#else
+  // Basic test simply keeps the message on screen
+  delay(1000);
+#endif
 }
 
 static void connectWiFi() {
+#if DEBUG_MODE
+  // Skip WiFi in basic test
+  displayMessage("WiFi disabled (DEBUG_MODE)");
+#else
   displayMessage("Connecting to WiFi...");
   WiFi.setSleep(false);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
@@ -61,9 +74,14 @@ static void connectWiFi() {
     while (true) delay(1000);
   }
   displayMessage("WiFi connected.\nGetting weather...");
+#endif
 }
 
 static void processSerial() {
+#if DEBUG_MODE
+  // Serial commands disabled in basic mode
+  return;
+#else
   if (Serial.available() == 0) return;
   String prompt = Serial.readStringUntil('\n');
   prompt.trim();
@@ -88,9 +106,14 @@ static void processSerial() {
     callChatGpt(prompt);
     lvgl_ui::showChat("");
   }
+#endif
 }
 
 static void processTouch() {
+#if DEBUG_MODE
+  // Skip touch handling in basic test
+  return;
+#else
   int pos[2] = { -1, -1 };
   readTouch(pos);
   if (pos[0] < 0 || pos[1] < 0) return;
@@ -114,6 +137,7 @@ static void processTouch() {
                             state.raining, prog);
     }
   }
+#endif
 }
 
 } // namespace app
