@@ -10,7 +10,7 @@
  *          Lightweight Weather Client
  * ============================================ */
 
-#define WEATHER_PAGE_REFRESH_MS 30000UL
+#define WEATHER_PAGE_REFRESH_MS 60000UL
 
 String LOCATION_NAME = DEFAULT_PLACE_NAME;
 String LOCATION_LAT  = DEFAULT_PLACE_LAT;
