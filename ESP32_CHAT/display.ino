@@ -2,6 +2,7 @@
 #include "chatgpt.h"
 #include "secrets.h"
 #include "weather.h"
+#include "weather_new_icons.h"
 #include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
 
@@ -128,9 +129,8 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   }
   canvas.fillScreen(TFT_BLACK);
 
-  uint16_t bg1 = rgb565(50, 50, 90);
-  uint16_t bg2 = rgb565(5, 5, 60);
-  fillGradient(canvas, bg1, bg2);
+  uint16_t bgColor = rgb565(30, 30, 60);
+  canvas.fillScreen(bgColor);
   canvas.setTextColor(TFT_WHITE);
 
   const int margin = 18;
@@ -150,16 +150,22 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   int y = 115;
   canvas.setTextSize(1);
   canvas.setCursor(margin, y);
-  canvas.printf("Min %.0fC", tempMin);
-  canvas.setCursor(margin, y + 25);
-  canvas.printf("Max %.0fC", tempMax);
+  uint16_t colMin = rgb565(100, 150, 255);
+  uint16_t colMax = rgb565(255, 110, 80);
+  canvas.setTextColor(colMin);
+  canvas.printf("%.0f", tempMin);
+  canvas.setTextColor(TFT_WHITE);
+  canvas.print(" | ");
+  canvas.setTextColor(colMax);
+  canvas.printf("%.0f", tempMax);
+  canvas.setTextColor(TFT_WHITE);
 
-  int iconX = SCREEN_WIDTH - 120 - margin;
-  int iconY = top + 40;
+  int iconX = SCREEN_WIDTH - iconWidth - margin;
+  int iconY = top + 20;
   if (isRain) {
-    drawRainIcon(canvas, iconX, iconY);
+    drawRGB565Image(canvas, iconX, iconY, iconRainRGB565, iconWidth, iconHeight);
   } else {
-    drawSunIcon(canvas, iconX, iconY);
+    drawRGB565Image(canvas, iconX, iconY, iconSunRGB565, iconWidth, iconHeight);
   }
 
   const int x0 = 0, hBar = 5;
@@ -251,4 +257,8 @@ void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
   display.startWrite();
   canvas.pushSprite(0, 0);
   display.endWrite();
+}
+
+static void drawRGB565Image(TFT_eSPI& d, int x, int y, const uint16_t* img, int w, int h) {
+  d.pushImage(x, y, w, h, const_cast<uint16_t*>(img));
 }
