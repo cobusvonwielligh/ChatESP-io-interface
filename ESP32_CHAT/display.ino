@@ -4,6 +4,7 @@
 #include "weather.h"
 #include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
+#include "Fonts/ChatESPFont.h"
 
 #define SCALE(f) ((int)((f) * 1.65f))
 
@@ -21,10 +22,10 @@ static bool spriteReady = false;
 void initDisplay() {
   display.begin();
   display.setRotation(3);
-  display.setFreeFont(&FreeSansBold);
+  display.setFreeFont(&ChatESPFont);
 #if !DEBUG_MODE
   Serial.println("initDisplay: creating sprite");
-  canvas.setColorDepth(32);
+  canvas.setColorDepth(64);
   canvas.setFreeFont(&FreeSansBold);
   if (!canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT)) {
     Serial.println("Sprite allocation failed - reduce resolution or enable PSRAM");
@@ -150,9 +151,9 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   int y = 115;
   canvas.setTextSize(1);
   canvas.setCursor(margin, y);
-  canvas.printf("Min %.0fC", tempMin);
+  canvas.printf("Min %.0f", tempMin);
   canvas.setCursor(margin, y + 25);
-  canvas.printf("Max %.0fC", tempMax);
+  canvas.printf("Max %.0f", tempMax);
 
   int iconX = SCREEN_WIDTH - 120 - margin;
   int iconY = top + 40;
