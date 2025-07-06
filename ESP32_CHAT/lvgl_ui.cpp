@@ -2,8 +2,11 @@
 #include "display.h"
 #include "weather.h"
 #include "weather_icons.h"
-#include "icon_sun.c"
-#include "icon_rain.c"
+
+extern "C" {
+extern const lv_img_dsc_t icon_sun;
+extern const lv_img_dsc_t icon_rain;
+}
 
 namespace lvgl_ui {
 static bool ready = false;
@@ -29,9 +32,6 @@ static void create_header(lv_obj_t *parent);
 static void create_temperature_section(lv_obj_t *parent);
 static void create_minmax_section(lv_obj_t *parent);
 static void create_footer(lv_obj_t *parent);
-
-extern const lv_img_dsc_t icon_sun;
-extern const lv_img_dsc_t icon_rain;
 
 static void flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
   uint32_t w = area->x2 - area->x1 + 1;
