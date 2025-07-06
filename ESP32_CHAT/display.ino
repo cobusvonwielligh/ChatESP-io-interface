@@ -16,15 +16,22 @@
 DisplayGFX display;
 static DisplayGFX* displayRef = nullptr;
 static lgfx::LGFX_Sprite canvas;
+static bool spriteReady = false;
 
 void initDisplay(DisplayGFX& d) {
   displayRef = &d;
   d.setFont(&FreeSansBold);
 #if !DEBUG_MODE
+  Serial.println("initDisplay: creating sprite");
   canvas.setColorDepth(16);
   canvas.setPsram(true);
   canvas.setFont(&FreeSansBold);
-  canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT);
+  if (!canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT)) {
+    Serial.println("Sprite allocation failed - reduce resolution or enable PSRAM");
+    spriteReady = false;
+  } else {
+    spriteReady = true;
+  }
 #endif
 }
 
@@ -116,6 +123,10 @@ static void drawHomeButton(lgfx::LGFXBase& d) {
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
   DisplayGFX& disp = *displayRef;
+  if (!spriteReady) {
+    Serial.println("drawWeatherScreen skipped - sprite not ready");
+    return;
+  }
   canvas.fillScreen(TFT_BLACK);
 
   uint16_t bg1 = bgColorForTemp(tempC);
@@ -167,6 +178,10 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 
 void drawLoadingAnimation() {
   DisplayGFX& disp = *displayRef;
+  if (!spriteReady) {
+    Serial.println("drawLoadingAnimation skipped - sprite not ready");
+    return;
+  }
   canvas.fillScreen(TFT_BLACK);
   canvas.setTextSize(1);
   canvas.setCursor(10, 20);
@@ -193,6 +208,10 @@ void displayMessage(String message) {
   disp.println(message);
   disp.endWrite();
 #else
+  if (!spriteReady) {
+    Serial.println("displayMessage skipped - sprite not ready");
+    return;
+  }
   canvas.fillScreen(TFT_BLACK);
   canvas.setCursor(0, 0);
   canvas.setTextSize(1);
@@ -205,6 +224,10 @@ void displayMessage(String message) {
 
 void drawChatGptScreen() {
   DisplayGFX& disp = *displayRef;
+  if (!spriteReady) {
+    Serial.println("drawChatGptScreen skipped - sprite not ready");
+    return;
+  }
   if (millis() - getLastTypingTime() > getTypingDelay()) {
     updateLastTypingTime();
 
@@ -223,6 +246,10 @@ void drawChatGptScreen() {
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
   DisplayGFX& disp = *displayRef;
+  if (!spriteReady) {
+    Serial.println("drawBitmapImage skipped - sprite not ready");
+    return;
+  }
   canvas.fillScreen(TFT_BLACK);
   int x = (SCREEN_WIDTH - width) / 2;
   int y = (SCREEN_HEIGHT - height) / 2;
