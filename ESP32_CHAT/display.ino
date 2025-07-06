@@ -5,6 +5,8 @@
 #include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
 
+#define SCALE(f) ((int)((f) * 1.8f))
+
 /* ================================================================
  *                  Display Utilities: ILI9488
  * ---------------------------------------------------------------
@@ -22,7 +24,7 @@ void initDisplay() {
   display.setFreeFont(&FreeSansBold);
 #if !DEBUG_MODE
   Serial.println("initDisplay: creating sprite");
-  canvas.setColorDepth(16);
+  canvas.setColorDepth(32);
   canvas.setFreeFont(&FreeSansBold);
   if (!canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT)) {
     Serial.println("Sprite allocation failed - reduce resolution or enable PSRAM");
@@ -70,15 +72,15 @@ static float sunAngle = 0.0f;
 static void drawSunIcon(TFT_eSPI& d, int x, int y) {
   uint16_t yellow = rgb565(255, 210, 0);
   uint16_t orange = rgb565(255, 170, 0);
-  int cx = x + 30;
-  int cy = y + 30;
-  d.fillCircle(cx, cy, 20, yellow);
+  int cx = x + SCALE(30);
+  int cy = y + SCALE(30);
+  d.fillCircle(cx, cy, SCALE(20), yellow);
   for (int i = 0; i < 12; ++i) {
     float a = sunAngle + i * (6.283185f / 12.0f);
-    int x1 = cx + cosf(a) * 24;
-    int y1 = cy + sinf(a) * 24;
-    int x2 = cx + cosf(a) * 34;
-    int y2 = cy + sinf(a) * 34;
+    int x1 = cx + cosf(a) * SCALE(24);
+    int y1 = cy + sinf(a) * SCALE(24);
+    int x2 = cx + cosf(a) * SCALE(34);
+    int y2 = cy + sinf(a) * SCALE(34);
     d.drawLine(x1, y1, x2, y2, orange);
   }
   sunAngle += 0.01f;
@@ -86,18 +88,18 @@ static void drawSunIcon(TFT_eSPI& d, int x, int y) {
 
 static void drawRainIcon(TFT_eSPI& d, int x, int y) {
   uint16_t grey = rgb565(200, 200, 200);
-  int cx = x + 30;
-  int cy = y + 25;
-  d.fillCircle(cx - 12, cy, 18, grey);
-  d.fillCircle(cx + 12, cy, 18, grey);
-  d.fillCircle(cx, cy - 12, 18, grey);
-  d.fillRect(cx - 24, cy, 48, 20, grey);
+  int cx = x + SCALE(30);
+  int cy = y + SCALE(25);
+  d.fillCircle(cx - SCALE(12), cy, SCALE(18), grey);
+  d.fillCircle(cx + SCALE(12), cy, SCALE(18), grey);
+  d.fillCircle(cx, cy - SCALE(12), SCALE(18), grey);
+  d.fillRect(cx - SCALE(24), cy, SCALE(48), SCALE(20), grey);
 
   uint16_t blue = rgb565(80, 150, 255);
   int off = (millis() / 250) % 10;
   for (int i = 0; i < 4; ++i) {
-    int yy = y + 45 + ((off + i * 3) % 10);
-    d.drawFastVLine(x + 14 + i * 12, yy, 14, blue);
+    int yy = y + SCALE(45) + ((off + i * 3) % 10);
+    d.drawFastVLine(x + SCALE(14) + i * SCALE(12), yy, SCALE(14), blue);
   }
 }
 
@@ -126,45 +128,44 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   }
   canvas.fillScreen(TFT_BLACK);
 
-  uint16_t bg1 = rgb565(50, 50, 60);
-  uint16_t bg2 = rgb565(0, 0, 0);
+  uint16_t bg1 = rgb565(50, 50, 90);
+  uint16_t bg2 = rgb565(5, 5, 60);
   fillGradient(canvas, bg1, bg2);
   canvas.setTextColor(TFT_WHITE);
 
-  const int margin = 8;
-  int top = margin + 8;
+  const int margin = 18;
+  int top = margin + 18;
+  
   canvas.setTextSize(1);
-  canvas.setCursor(margin, top);
-  canvas.println("Weather");
-
   uint16_t w = canvas.textWidth(LOCATION_NAME.c_str());
   canvas.setCursor(SCREEN_WIDTH - w - margin, top);
   canvas.println(LOCATION_NAME);
 
   canvas.setTextSize(3);
-  canvas.setCursor(margin, 60);
+  canvas.setCursor(margin - 10, top + 40);
   canvas.printf("%.1f", tempC);
   canvas.setTextSize(2);
-  canvas.print((char)176);
+  canvas.print((char)0xB0);
+  canvas.print("°");
   canvas.print("C");
 
-  int y = 140;
+  int y = 115;
   canvas.setTextSize(1);
   canvas.setCursor(margin, y);
-  canvas.printf("Min: %.0f%cC", tempMin, (char)176);
-  canvas.setCursor(margin, y + 20);
-  canvas.printf("Max: %.0f%cC", tempMax, (char)176);
+  canvas.printf("Min %.0f°C", tempMin);
+  canvas.setCursor(margin, y + 25);
+  canvas.printf("Max %.0f°C", tempMax);
 
-  int iconX = SCREEN_WIDTH - 70 - margin;
-  int iconY = top + 30;
+  int iconX = SCREEN_WIDTH - 95 - margin;
+  int iconY = top + 40;
   if (isRain) {
     drawRainIcon(canvas, iconX, iconY);
   } else {
     drawSunIcon(canvas, iconX, iconY);
   }
 
-  const int x0 = 0, hBar = 3;
-  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, rgb565(40, 40, 40));
+  const int x0 = 0, hBar = 5;
+  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, rgb565(10, 10, 90));
   canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH * progress, hBar, COLOR_ACCENT);
 
   drawAssistantButton(canvas);
