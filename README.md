@@ -161,19 +161,17 @@ extend the codebase with additional hardware like a microphone or
 speaker.
 
 This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
-setup (`lvgl_ui.*`) using the [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
-display library. Configure the `User_Setup.h` file with the Makerfabs
-ILI9488 pinout before compiling. LVGL allows creation of modern widgets
-and greatly simplifies building polished user interfaces. The default
-firmware still renders using the lightweight canvas routines, but when the
-LVGL library is installed the `lvgl_ui` module automatically creates
-matching screens for the weather and ChatGPT pages. A default
-`lv_conf.h` based on the official template is provided under `libraries/`
-so LVGL builds out of the box.
-The project sets `LV_CONF_PATH` to `../../../libraries/lv_conf.h` so the
-configuration is found automatically. If the Arduino build still fails
-with `lv_conf.h` not found, adjust this path in `lvgl_ui.h` or copy
-`libraries/lv_conf.h` next to your `lvgl` library folder.
+setup using a modular widget system found in `ui/GuiService.*`. The
+[TFT_eSPI](https://github.com/Bodmer/TFT_eSPI) driver is still used as the
+render backend. Configure the `User_Setup.h` file with the Makerfabs
+ILI9488 pinout before compiling. LVGL provides ready-made widgets and
+themes which greatly simplify building polished interfaces. When the
+LVGL library is installed the GUI service automatically constructs the
+weather and ChatGPT pages out of reusable widgets. A default
+`lv_conf.h` based on the official template is provided under
+`libraries/` so LVGL builds out of the box. The project sets
+`LV_CONF_PATH` to `../../../libraries/lv_conf.h` so the configuration is
+found automatically.
 
 ---
 

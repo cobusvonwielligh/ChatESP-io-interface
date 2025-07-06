@@ -1,0 +1,23 @@
+#pragma once
+#include <lvgl.h>
+#include <Arduino.h>
+
+namespace ui {
+
+class WeatherWidget {
+public:
+    WeatherWidget();
+    lv_obj_t* create(lv_obj_t* parent);
+    void update(float tempC, float tempMin, float tempMax, bool isRain, float progress, const String &location);
+    lv_obj_t* root() const { return container; }
+private:
+    lv_obj_t* container = nullptr;
+    lv_obj_t* labelTemp = nullptr;
+    lv_obj_t* labelLocation = nullptr;
+    lv_obj_t* labelMin = nullptr;
+    lv_obj_t* labelMax = nullptr;
+    lv_obj_t* imgIcon = nullptr;
+    lv_obj_t* progressBar = nullptr;
+};
+
+} // namespace ui
