@@ -91,5 +91,5 @@ void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &
   }
 
   drawWeatherScreen(tempC, tempMin, tempMax, isRain, progress);
-  UI::updateWeather(tempC, tempMin, tempMax, isRain, progress, LOCATION_NAME);
+  ui::updateWeather(tempC, tempMin, tempMax, isRain, progress, LOCATION_NAME);
 }

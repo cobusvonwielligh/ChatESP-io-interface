@@ -18,8 +18,8 @@ void begin() {
   Serial.println("app: initDisplay");
   initDisplay();
 #if !DEBUG_MODE
-  Serial.println("app: UI::begin");
-  if (!UI::begin()) {
+  Serial.println("app: ui::begin");
+  if (!ui::begin()) {
     Serial.println("LVGL UI disabled due to init failure");
   }
   Serial.println("app: initAudio");
@@ -47,12 +47,12 @@ void loop() {
 #if !DEBUG_MODE
   processTouch();
   processSerial();
-  UI::loop();
+  ui::loop();
 
   if (state.page == Page::ChatGpt) {
     if (isTyping()) {
       drawChatGptScreen();
-      UI::showChat(getChatGptPartialResponse());
+  ui::showChat(getChatGptPartialResponse());
     }
   } else {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
