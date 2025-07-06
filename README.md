@@ -163,12 +163,10 @@ extend the codebase with additional hardware like a microphone or
 speaker.
 
 This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
-setup (`lvgl_ui.*`) wired to the existing LovyanGFX display and touch
-drivers. **LovyanGFX v1** is required and the code defines
-`LGFX_USE_V1` automatically. Make sure the
-[LovyanGFX](https://github.com/lovyan03/LovyanGFX) library version 1.2 or
-newer is installed in the Arduino IDE. Older releases lack the
-`Bus_SPI` and `Panel_ILI9488` APIs used by the custom display driver.
+setup (`lvgl_ui.*`) wired to the TFT_eSPI display library by default.
+If desired the previous LovyanGFX based driver can still be enabled by
+undefining `USE_TFT_ESPI` in `display.h`. When using TFT_eSPI be sure to
+configure the `User_Setup.h` file with the Makerfabs ILI9488 pinout.
 LVGL allows creation of modern widgets such
 as labels and buttons and greatly simplifies building polished user
 interfaces. The

@@ -19,12 +19,21 @@ static lv_obj_t *scr_weather;
 static lv_obj_t *scr_chat;
 
 static void flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_p) {
+#ifdef USE_TFT_ESPI
+  display.startWrite();
+  display.pushImage(area->x1, area->y1,
+                    area->x2 - area->x1 + 1,
+                    area->y2 - area->y1 + 1,
+                    (uint16_t *)color_p);
+  display.endWrite();
+#else
   display.startWrite();
   display.pushImage(area->x1, area->y1,
                     area->x2 - area->x1 + 1,
                     area->y2 - area->y1 + 1,
                     (lgfx::rgb565_t *)color_p);
   display.endWrite();
+#endif
   lv_disp_flush_ready(drv);
 }
 

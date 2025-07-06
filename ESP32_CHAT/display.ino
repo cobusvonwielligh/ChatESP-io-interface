@@ -13,14 +13,27 @@
  * different UI screens and graphics
  * ================================================================ */
 
+#ifdef USE_TFT_ESPI
+TFT_eSPI display = TFT_eSPI();
+static TFT_eSprite canvas = TFT_eSprite(&display);
+using gfx_base = TFT_eSPI;
+#else
 DisplayGFX display;
 static DisplayGFX* displayRef = nullptr;
 static lgfx::LGFX_Sprite canvas;
+using gfx_base = lgfx::LGFXBase;
+#endif
 static bool spriteReady = false;
-
-void initDisplay(DisplayGFX& d) {
-  displayRef = &d;
-  d.setFont(&FreeSansBold);
+#ifdef USE_TFT_ESPI
+void initDisplay() {
+  display.begin();
+  display.setRotation(3);
+  display.setFont(&FreeSansBold);
+#else
+void initDisplay() {
+  displayRef = &display;
+  display.setFont(&FreeSansBold);
+#endif
 #if !DEBUG_MODE
   Serial.println("initDisplay: creating sprite");
   canvas.setColorDepth(16);
@@ -34,6 +47,7 @@ void initDisplay(DisplayGFX& d) {
   }
 #endif
 }
+#endif // USE_TFT_ESPI
 
 static uint16_t rgb565(uint8_t r, uint8_t g, uint8_t b) {
   return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
@@ -47,7 +61,7 @@ static uint16_t bgColorForTemp(float t) {
   return rgb565(200, 0, 0);
 }
 
-static void fillGradient(lgfx::LGFXBase& d, uint16_t c1, uint16_t c2) {
+static void fillGradient(gfx_base& d, uint16_t c1, uint16_t c2) {
   uint8_t sr = ((c1 >> 11) & 0x1F) << 3;
   uint8_t sg = ((c1 >> 5) & 0x3F) << 2;
   uint8_t sb = (c1 & 0x1F) << 3;
@@ -69,7 +83,7 @@ static void fillGradient(lgfx::LGFXBase& d, uint16_t c1, uint16_t c2) {
 }
 
 static float sunAngle = 0.0f;
-static void drawSunIcon(lgfx::LGFXBase& d, int x, int y) {
+static void drawSunIcon(gfx_base& d, int x, int y) {
   uint16_t yellow = rgb565(255, 200, 0);
   uint16_t orange = rgb565(255, 150, 0);
   int cx = x + 25;
@@ -86,7 +100,7 @@ static void drawSunIcon(lgfx::LGFXBase& d, int x, int y) {
   sunAngle += 0.02f;
 }
 
-static void drawRainIcon(lgfx::LGFXBase& d, int x, int y) {
+static void drawRainIcon(gfx_base& d, int x, int y) {
   uint16_t grey = rgb565(180, 180, 180);
   int cx = x + 25;
   int cy = y + 20;
@@ -106,14 +120,14 @@ static void drawRainIcon(lgfx::LGFXBase& d, int x, int y) {
 static const uint16_t COLOR_BG = rgb565(52, 53, 65);
 static const uint16_t COLOR_ACCENT = rgb565(16, 163, 127);
 
-static void drawAssistantButton(lgfx::LGFXBase& d) {
+static void drawAssistantButton(gfx_base& d) {
   int s = 50; int y = SCREEN_HEIGHT - s - 8; int x = SCREEN_WIDTH - s - 8;
   d.fillRoundRect(x, y, s, s, 8, COLOR_BG);
   d.drawCircle(x + s / 2, y + s / 2 - 4, 12, COLOR_ACCENT);
   d.fillRect(x + s / 2 - 8, y + s / 2 + 8, 16, 4, COLOR_ACCENT);
 }
 
-static void drawHomeButton(lgfx::LGFXBase& d) {
+static void drawHomeButton(gfx_base& d) {
   int s = 50; int y = SCREEN_HEIGHT - s - 8; int x = 8;
   d.fillRoundRect(x, y, s, s, 8, COLOR_BG);
   int cx = x + s / 2;
@@ -122,7 +136,11 @@ static void drawHomeButton(lgfx::LGFXBase& d) {
 }
 
 void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
-  DisplayGFX& disp = *displayRef;
+#ifdef USE_TFT_ESPI
+  gfx_base& disp = display;
+#else
+  gfx_base& disp = *displayRef;
+#endif
   if (!spriteReady) {
     Serial.println("drawWeatherScreen skipped - sprite not ready");
     return;
@@ -177,7 +195,11 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
 }
 
 void drawLoadingAnimation() {
-  DisplayGFX& disp = *displayRef;
+#ifdef USE_TFT_ESPI
+  gfx_base& disp = display;
+#else
+  gfx_base& disp = *displayRef;
+#endif
   if (!spriteReady) {
     Serial.println("drawLoadingAnimation skipped - sprite not ready");
     return;
@@ -198,7 +220,11 @@ void drawLoadingAnimation() {
 }
 
 void displayMessage(String message) {
-  DisplayGFX& disp = *displayRef;
+#ifdef USE_TFT_ESPI
+  gfx_base& disp = display;
+#else
+  gfx_base& disp = *displayRef;
+#endif
 #if DEBUG_MODE
   disp.startWrite();
   disp.fillScreen(TFT_BLACK);
@@ -223,7 +249,11 @@ void displayMessage(String message) {
 }
 
 void drawChatGptScreen() {
-  DisplayGFX& disp = *displayRef;
+#ifdef USE_TFT_ESPI
+  gfx_base& disp = display;
+#else
+  gfx_base& disp = *displayRef;
+#endif
   if (!spriteReady) {
     Serial.println("drawChatGptScreen skipped - sprite not ready");
     return;
@@ -245,7 +275,11 @@ void drawChatGptScreen() {
 }
 
 void drawBitmapImage(const uint8_t* bitmap, int width, int height) {
-  DisplayGFX& disp = *displayRef;
+#ifdef USE_TFT_ESPI
+  gfx_base& disp = display;
+#else
+  gfx_base& disp = *displayRef;
+#endif
   if (!spriteReady) {
     Serial.println("drawBitmapImage skipped - sprite not ready");
     return;
