@@ -2,7 +2,7 @@
 #include "chatgpt.h"
 #include "secrets.h"
 #include "weather.h"
-#include "weather_new_icons.h"
+#include "Icons/weather_new_icons.h"
 #include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
 #include "Fonts/ChatESPFont.h"
