@@ -66,7 +66,7 @@ static void create_header(lv_obj_t *parent) {
   lv_obj_set_style_pad_column(cont, 8, 0);
 
   label_location = lv_label_create(cont);
-  lv_obj_set_style_text_font(label_location, &lv_font_montserrat_16, 0);
+  lv_obj_set_style_text_font(label_location, &lv_font_montserrat_14, 0);
   lv_obj_set_flex_grow(label_location, 1);
 
   img_icon = lv_img_create(cont);
@@ -80,7 +80,7 @@ static void create_temperature_section(lv_obj_t *parent) {
   lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
 
   label_temp = lv_label_create(cont);
-  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_48, 0);
+  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_36, 0);
   lv_obj_center(label_temp);
 }
 
@@ -94,10 +94,10 @@ static void create_minmax_section(lv_obj_t *parent) {
   lv_obj_set_style_pad_column(cont, 4, 0);
 
   label_min = lv_label_create(cont);
-  lv_obj_set_style_text_font(label_min, &lv_font_montserrat_24, 0);
+  lv_obj_set_style_text_font(label_min, &lv_font_montserrat_18, 0);
 
   label_max = lv_label_create(cont);
-  lv_obj_set_style_text_font(label_max, &lv_font_montserrat_24, 0);
+  lv_obj_set_style_text_font(label_max, &lv_font_montserrat_18, 0);
 }
 
 static void create_footer(lv_obj_t *parent) {
@@ -112,7 +112,9 @@ static void create_footer(lv_obj_t *parent) {
 
   progress_bar = lv_bar_create(cont);
   lv_obj_set_flex_grow(progress_bar, 1);
-  lv_obj_set_height(progress_bar, 8);
+  lv_obj_set_height(progress_bar, 6);
+  lv_obj_set_style_bg_color(progress_bar, lv_palette_darken(LV_PALETTE_GREY, 3), LV_PART_MAIN);
+  lv_obj_set_style_bg_color(progress_bar, lv_palette_main(LV_PALETTE_BLUE), LV_PART_INDICATOR);
 
   btn_mic = lv_btn_create(cont);
   lv_obj_t *lbl = lv_label_create(btn_mic);
@@ -143,6 +145,13 @@ bool begin() {
   lv_disp_drv_register(&disp_drv);
   Serial.println("lvgl_ui: display driver registered");
 
+  lv_theme_t *theme = lv_theme_default_init(lv_disp_get_default(),
+                                            lv_palette_main(LV_PALETTE_BLUE),
+                                            lv_palette_main(LV_PALETTE_RED),
+                                            LV_THEME_DEFAULT_DARK,
+                                            LV_FONT_DEFAULT);
+  lv_disp_set_theme(lv_disp_get_default(), theme);
+
   lv_indev_drv_init(&indev_drv);
   indev_drv.type = LV_INDEV_TYPE_POINTER;
   indev_drv.read_cb = touch_cb;
@@ -150,7 +159,7 @@ bool begin() {
   Serial.println("lvgl_ui: input driver registered");
 
   lv_style_init(&style_bg);
-  lv_style_set_bg_color(&style_bg, lv_color_hex(0x316bb6));
+  lv_style_set_bg_color(&style_bg, lv_color_hex(0x333333));
   lv_style_set_bg_grad_color(&style_bg, lv_color_hex(0x000000));
   lv_style_set_bg_grad_dir(&style_bg, LV_GRAD_DIR_VER);
 
@@ -163,8 +172,8 @@ bool begin() {
   lv_obj_remove_style_all(container_main);
   lv_obj_set_size(container_main, LV_PCT(100), LV_PCT(100));
   lv_obj_set_flex_flow(container_main, LV_FLEX_FLOW_COLUMN);
-  lv_obj_set_style_pad_all(container_main, 8, 0);
-  lv_obj_set_style_pad_row(container_main, 12, 0);
+  lv_obj_set_style_pad_all(container_main, 6, 0);
+  lv_obj_set_style_pad_row(container_main, 10, 0);
   lv_obj_set_style_bg_opa(container_main, LV_OPA_TRANSP, 0);
 
   create_header(container_main);

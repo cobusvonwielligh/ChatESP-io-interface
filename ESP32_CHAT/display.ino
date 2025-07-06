@@ -126,7 +126,7 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   }
   canvas.fillScreen(TFT_BLACK);
 
-  uint16_t bg1 = bgColorForTemp(tempC);
+  uint16_t bg1 = rgb565(50, 50, 60);
   uint16_t bg2 = rgb565(0, 0, 0);
   fillGradient(canvas, bg1, bg2);
   canvas.setTextColor(TFT_WHITE);
@@ -140,18 +140,18 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   canvas.setCursor(SCREEN_WIDTH - w - margin, margin);
   canvas.println(LOCATION_NAME);
 
-  canvas.setTextSize(4);
+  canvas.setTextSize(3);
   canvas.setCursor(margin, 40);
   canvas.printf("%.1f", tempC);
-  canvas.setTextSize(3);
+  canvas.setTextSize(2);
   canvas.print((char)176);
   canvas.print("C");
 
   int y = 120;
-  canvas.setTextSize(2);
+  canvas.setTextSize(1);
   canvas.setCursor(margin, y);
   canvas.printf("Min: %.0f%cC", tempMin, (char)176);
-  canvas.setCursor(margin, y + 30);
+  canvas.setCursor(margin, y + 20);
   canvas.printf("Max: %.0f%cC", tempMax, (char)176);
 
   int iconX = SCREEN_WIDTH - 60 - margin;
@@ -162,9 +162,9 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
     drawSunIcon(canvas, iconX, iconY);
   }
 
-  const int x0 = 0, hBar = 4;
-  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, rgb565(50, 50, 50));
-  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH * progress, hBar, rgb565(255, 255, 255));
+  const int x0 = 0, hBar = 3;
+  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH, hBar, rgb565(40, 40, 40));
+  canvas.fillRect(x0, SCREEN_HEIGHT - hBar, SCREEN_WIDTH * progress, hBar, COLOR_ACCENT);
 
   drawAssistantButton(canvas);
 
