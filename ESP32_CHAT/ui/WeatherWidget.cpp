@@ -1,74 +1,65 @@
 #include "WeatherWidget.h"
 #include "../weather_icons.h"
-
-extern "C" {
-extern const lv_img_dsc_t icon_sun;
-extern const lv_img_dsc_t icon_rain;
-}
+#include "GuiTheme.h"
 
 namespace UI {
+
+static void anim_x_cb(void * var, int32_t v)
+{
+    lv_obj_set_x((lv_obj_t *) var, v);
+}
 
 WeatherWidget::WeatherWidget() {}
 
 lv_obj_t* WeatherWidget::create(lv_obj_t* parent) {
+    static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+    static int32_t row_dsc[] = {LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_TEMPLATE_LAST};
+
     container = lv_obj_create(parent);
     lv_obj_remove_style_all(container);
     lv_obj_set_size(container, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_flex_flow(container, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_all(container, 6, 0);
-    lv_obj_set_style_pad_row(container, 14, 0);
-    lv_obj_set_style_bg_opa(container, LV_OPA_TRANSP, 0);
+    lv_obj_set_layout(container, LV_LAYOUT_GRID);
+    lv_obj_set_style_grid_column_dsc_array(container, col_dsc, 0);
+    lv_obj_set_style_grid_row_dsc_array(container, row_dsc, 0);
+    lv_obj_add_style(container, &widgetStyle, 0);
 
-    // header with location and icon
-    lv_obj_t* header = lv_obj_create(container);
-    lv_obj_remove_style_all(header);
-    lv_obj_set_width(header, LV_PCT(100));
-    lv_obj_set_style_pad_all(header, 4, 0);
-    lv_obj_set_style_bg_opa(header, LV_OPA_TRANSP, 0);
-    lv_obj_set_flex_flow(header, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_column(header, 8, 0);
-
-    labelLocation = lv_label_create(header);
+    /* header */
+    labelLocation = lv_label_create(container);
     lv_obj_set_style_text_font(labelLocation, &lv_font_montserrat_14, 0);
-    lv_obj_set_flex_grow(labelLocation, 1);
+    lv_obj_set_grid_cell(labelLocation, LV_GRID_ALIGN_START, 0, 2,
+                         LV_GRID_ALIGN_CENTER, 0, 1);
+    lv_obj_add_style(labelLocation, &widgetStyle, 0);
 
-    imgIcon = lv_img_create(header);
+    iconLabel = lv_label_create(container);
+    lv_obj_set_style_text_font(iconLabel, emojiFont, 0);
+    lv_obj_set_grid_cell(iconLabel, LV_GRID_ALIGN_CENTER, 2, 1,
+                         LV_GRID_ALIGN_CENTER, 0, 1);
+    lv_obj_add_style(iconLabel, &widgetStyle, 0);
 
-    // temperature section
-    lv_obj_t* tempCont = lv_obj_create(container);
-    lv_obj_remove_style_all(tempCont);
-    lv_obj_set_width(tempCont, LV_PCT(100));
-    lv_obj_set_style_bg_opa(tempCont, LV_OPA_TRANSP, 0);
-
-    labelTemp = lv_label_create(tempCont);
+    /* temperature */
+    labelTemp = lv_label_create(container);
     lv_obj_set_style_text_font(labelTemp, &lv_font_montserrat_48, 0);
-    lv_obj_center(labelTemp);
+    lv_obj_set_grid_cell(labelTemp, LV_GRID_ALIGN_CENTER, 0, 3,
+                         LV_GRID_ALIGN_CENTER, 1, 1);
+    lv_obj_add_style(labelTemp, &widgetStyle, 0);
 
-    // min/max section
-    lv_obj_t* minmaxCont = lv_obj_create(container);
-    lv_obj_remove_style_all(minmaxCont);
-    lv_obj_set_width(minmaxCont, LV_PCT(100));
-    lv_obj_set_style_bg_opa(minmaxCont, LV_OPA_TRANSP, 0);
-    lv_obj_set_flex_flow(minmaxCont, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_style_pad_column(minmaxCont, 4, 0);
-
-    labelMin = lv_label_create(minmaxCont);
+    /* min/max */
+    labelMin = lv_label_create(container);
     lv_obj_set_style_text_font(labelMin, &lv_font_montserrat_18, 0);
+    lv_obj_set_grid_cell(labelMin, LV_GRID_ALIGN_START, 0, 1,
+                         LV_GRID_ALIGN_CENTER, 2, 1);
+    lv_obj_add_style(labelMin, &widgetStyle, 0);
 
-    labelMax = lv_label_create(minmaxCont);
+    labelMax = lv_label_create(container);
     lv_obj_set_style_text_font(labelMax, &lv_font_montserrat_18, 0);
+    lv_obj_set_grid_cell(labelMax, LV_GRID_ALIGN_END, 2, 1,
+                         LV_GRID_ALIGN_CENTER, 2, 1);
+    lv_obj_add_style(labelMax, &widgetStyle, 0);
 
-    // footer with progress bar
-    lv_obj_t* footer = lv_obj_create(container);
-    lv_obj_remove_style_all(footer);
-    lv_obj_set_width(footer, LV_PCT(100));
-    lv_obj_set_style_bg_opa(footer, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_pad_all(footer, 4, 0);
-    lv_obj_set_flex_flow(footer, LV_FLEX_FLOW_ROW);
-    lv_obj_set_style_pad_column(footer, 8, 0);
-
-    progressBar = lv_bar_create(footer);
-    lv_obj_set_flex_grow(progressBar, 1);
+    /* progress */
+    progressBar = lv_bar_create(container);
+    lv_obj_set_grid_cell(progressBar, LV_GRID_ALIGN_STRETCH, 0, 3,
+                         LV_GRID_ALIGN_CENTER, 3, 1);
     lv_obj_set_height(progressBar, 6);
     lv_obj_set_style_bg_color(progressBar, lv_palette_darken(LV_PALETTE_GREY, 3), LV_PART_MAIN);
     lv_obj_set_style_bg_color(progressBar, lv_palette_main(LV_PALETTE_BLUE), LV_PART_INDICATOR);
@@ -86,8 +77,17 @@ void WeatherWidget::update(float tempC, float tempMin, float tempMax, bool isRai
     lv_label_set_text(labelMin, buf);
     snprintf(buf, sizeof(buf), "Max: %.0f%cC", tempMax, 0xB0);
     lv_label_set_text(labelMax, buf);
-    lv_img_set_src(imgIcon, isRain ? &icon_rain : &icon_sun);
+    lv_label_set_text(iconLabel, isRain ? "\uF600" : "\uF617");
     lv_bar_set_value(progressBar, (int)(progress * 100), LV_ANIM_OFF);
+
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, labelTemp);
+    lv_anim_set_values(&a, -lv_obj_get_width(labelTemp), 0);
+    lv_anim_set_duration(&a, 500);
+    lv_anim_set_exec_cb(&a, anim_x_cb);
+    lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
+    lv_anim_start(&a);
 }
 
 } // namespace UI
