@@ -9,6 +9,7 @@ public:
     ChatWidget();
     lv_obj_t* create(lv_obj_t* parent);
     void setText(const String &text);
+    void setTextTypewriter(const String &text);
     lv_obj_t* root() const { return container; }
 private:
     lv_obj_t* container = nullptr;

@@ -21,7 +21,7 @@ lv_obj_t* WeatherWidget::create(lv_obj_t* parent) {
     lv_obj_set_layout(container, LV_LAYOUT_GRID);
     lv_obj_set_style_grid_column_dsc_array(container, col_dsc, 0);
     lv_obj_set_style_grid_row_dsc_array(container, row_dsc, 0);
-    lv_obj_add_style(container, &widgetStyle, 0);
+    lv_obj_add_style(container, &stylePanelVista, 0); // Updated: Use Vista panel style
 
     /* header */
     labelLocation = lv_label_create(container);

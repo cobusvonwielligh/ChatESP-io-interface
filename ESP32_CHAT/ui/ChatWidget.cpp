@@ -3,9 +3,20 @@
 
 namespace UI {
 
-static void anim_x_chat_cb(void * var, int32_t v)
-{
-    lv_obj_set_x((lv_obj_t *) var, v);
+static lv_timer_t* typewriterTimer = nullptr;
+static String typewriterText;
+static size_t typewriterPos = 0;
+static ChatWidget* activeWidget = nullptr;
+
+static void typewriter_cb(lv_timer_t* timer) {
+    if (!activeWidget) return;
+    if (typewriterPos < typewriterText.length()) {
+        lv_label_set_text(activeWidget->label, typewriterText.substring(0, typewriterPos + 1).c_str());
+        typewriterPos++;
+    } else {
+        lv_timer_del(typewriterTimer);
+        typewriterTimer = nullptr;
+    }
 }
 
 ChatWidget::ChatWidget() {}
@@ -20,7 +31,7 @@ lv_obj_t* ChatWidget::create(lv_obj_t* parent) {
     lv_obj_set_layout(container, LV_LAYOUT_GRID);
     lv_obj_set_style_grid_column_dsc_array(container, col_dsc, 0);
     lv_obj_set_style_grid_row_dsc_array(container, row_dsc, 0);
-    lv_obj_add_style(container, &widgetStyle, 0);
+    lv_obj_add_style(container, &stylePanelVista, 0);
 
     label = lv_label_create(container);
     lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
@@ -31,18 +42,20 @@ lv_obj_t* ChatWidget::create(lv_obj_t* parent) {
     return container;
 }
 
+void ChatWidget::setTextTypewriter(const String &text) {
+    if (!label) return;
+    typewriterText = text;
+    typewriterPos = 0;
+    activeWidget = this;
+    lv_label_set_text(label, "");
+    if (typewriterTimer) lv_timer_del(typewriterTimer);
+    typewriterTimer = lv_timer_create(typewriter_cb, 15, nullptr);
+}
+
 void ChatWidget::setText(const String &text) {
+    // Fallback: instant set
     if (!label) return;
     lv_label_set_text(label, text.c_str());
-
-    lv_anim_t a;
-    lv_anim_init(&a);
-    lv_anim_set_var(&a, label);
-    lv_anim_set_values(&a, -lv_obj_get_width(label), 0);
-    lv_anim_set_time(&a, 500);
-    lv_anim_set_exec_cb(&a, anim_x_chat_cb);
-    lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
-    lv_anim_start(&a);
 }
 
 } // namespace UI

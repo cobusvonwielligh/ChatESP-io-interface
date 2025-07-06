@@ -3,8 +3,13 @@
 
 namespace UI {
 
-extern lv_style_t widgetStyle;
+extern lv_style_t stylePanelVista;
+extern lv_style_t styleMenuBar;
+extern lv_style_t styleBtnVista;
+extern lv_style_t styleBtnVistaPressed;
+extern lv_style_t widgetStyle;    // Legacy, keep for widget usage
 extern lv_font_t *emojiFont;
+
 void initTheme();
 
 }

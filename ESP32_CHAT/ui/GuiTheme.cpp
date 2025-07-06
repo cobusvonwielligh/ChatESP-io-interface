@@ -1,30 +1,52 @@
 #include "GuiTheme.h"
-#include "../weather_icons.h"
 #include <string.h>
 
 namespace UI {
 
+lv_style_t stylePanelVista;
+lv_style_t styleMenuBar;
+lv_style_t styleBtnVista;
+lv_style_t styleBtnVistaPressed;
 lv_style_t widgetStyle;
 lv_font_t *emojiFont = nullptr;
 
-static bool emoji_path_cb(const lv_font_t * font, void * img_src, uint16_t len,
-                          uint32_t unicode, uint32_t unicode_next)
-{
-    LV_UNUSED(font);
-    LV_UNUSED(unicode_next);
-
-    if(len < sizeof(lv_img_dsc_t *)) return false;
-    const lv_img_dsc_t *img = NULL;
-    if(unicode == 0xF617) img = &icon_sun;
-    else if(unicode == 0xF600) img = &icon_rain;
-    else return false;
-
-    memcpy(img_src, &img, sizeof(img));
-    return true;
-}
-
 void initTheme()
 {
+    // Vista glassy main panel style
+    lv_style_init(&stylePanelVista);
+    lv_style_set_radius(&stylePanelVista, 12);
+    lv_style_set_bg_color(&stylePanelVista, lv_color_hex(0xD6E8FA));
+    lv_style_set_bg_opa(&stylePanelVista, LV_OPA_60);
+    lv_style_set_border_width(&stylePanelVista, 2);
+    lv_style_set_border_color(&stylePanelVista, lv_color_hex(0x4A90E2));
+    lv_style_set_shadow_width(&stylePanelVista, 8);
+
+    // Menu bar style (semi-transparent, subtle top border)
+    lv_style_init(&styleMenuBar);
+    lv_style_set_radius(&styleMenuBar, 8);
+    lv_style_set_bg_color(&styleMenuBar, lv_color_hex(0xC3D0E2));
+    lv_style_set_bg_opa(&styleMenuBar, LV_OPA_70);
+    lv_style_set_border_color(&styleMenuBar, lv_color_hex(0x7BAAF7));
+    lv_style_set_border_width(&styleMenuBar, 2);
+    lv_style_set_border_side(&styleMenuBar, LV_BORDER_TOP);
+
+    // Button style
+    lv_style_init(&styleBtnVista);
+    lv_style_set_radius(&styleBtnVista, 8);
+    lv_style_set_bg_color(&styleBtnVista, lv_color_hex(0xF0F6FF));
+    lv_style_set_bg_opa(&styleBtnVista, LV_OPA_80);
+    lv_style_set_border_color(&styleBtnVista, lv_color_hex(0x4A90E2));
+    lv_style_set_border_width(&styleBtnVista, 2);
+
+    // Button pressed style
+    lv_style_init(&styleBtnVistaPressed);
+    lv_style_set_radius(&styleBtnVistaPressed, 8);
+    lv_style_set_bg_color(&styleBtnVistaPressed, lv_color_hex(0xB0C4DE));
+    lv_style_set_bg_opa(&styleBtnVistaPressed, LV_OPA_80);
+    lv_style_set_border_color(&styleBtnVistaPressed, lv_color_hex(0x4A90E2));
+    lv_style_set_border_width(&styleBtnVistaPressed, 2);
+
+    // Fallback widget style (legacy)
     lv_style_init(&widgetStyle);
     lv_style_set_radius(&widgetStyle, 5);
     lv_style_set_bg_opa(&widgetStyle, LV_OPA_COVER);
