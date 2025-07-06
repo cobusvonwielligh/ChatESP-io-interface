@@ -26,7 +26,7 @@ void initDisplay() {
   display.setFreeFont(&ChatESPFont);
 #if !DEBUG_MODE
   Serial.println("initDisplay: creating sprite");
-  canvas.setColorDepth(64);
+  canvas.setColorDepth(16);
   canvas.setFreeFont(&FreeSansBold);
   if (!canvas.createSprite(SCREEN_WIDTH, SCREEN_HEIGHT)) {
     Serial.println("Sprite allocation failed - reduce resolution or enable PSRAM");

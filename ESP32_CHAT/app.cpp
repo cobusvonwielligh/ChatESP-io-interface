@@ -1,5 +1,6 @@
 #include "app.h"
 #include "secrets.h"
+#include "UI/GuiService.h"
 
 namespace app {
 
