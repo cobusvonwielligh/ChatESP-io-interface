@@ -1,6 +1,9 @@
 #include "lvgl_ui.h"
 #include "display.h"
 #include "weather.h"
+#include "weather_icons.h"
+#include "icon_sun.c"
+#include "icon_rain.c"
 
 namespace lvgl_ui {
 static bool ready = false;
@@ -27,33 +30,8 @@ static void create_temperature_section(lv_obj_t *parent);
 static void create_minmax_section(lv_obj_t *parent);
 static void create_footer(lv_obj_t *parent);
 
-static const lv_img_dsc_t img_sun = {
-    .header = {
-        .magic = LV_IMAGE_HEADER_MAGIC,
-        .cf = LV_COLOR_FORMAT_A1,
-        .flags = 0,
-        .w = 32,
-        .h = 32,
-        .stride = 4,
-        .reserved_2 = 0
-    },
-    .data_size = sizeof(iconSunBitmap),
-    .data = iconSunBitmap,
-};
-
-static const lv_img_dsc_t img_rain = {
-    .header = {
-        .magic = LV_IMAGE_HEADER_MAGIC,
-        .cf = LV_COLOR_FORMAT_A1,
-        .flags = 0,
-        .w = 32,
-        .h = 32,
-        .stride = 4,
-        .reserved_2 = 0
-    },
-    .data_size = sizeof(iconRainBitmap),
-    .data = iconRainBitmap,
-};
+extern const lv_img_dsc_t icon_sun;
+extern const lv_img_dsc_t icon_rain;
 
 static void flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
   uint32_t w = area->x2 - area->x1 + 1;
@@ -221,7 +199,7 @@ void updateWeather(float tempC, float tempMin, float tempMax, bool isRain, float
   lv_label_set_text(label_min, buf);
   snprintf(buf, sizeof(buf), "Max: %.0f%cC", tempMax, 0xB0);
   lv_label_set_text(label_max, buf);
-  lv_img_set_src(img_icon, isRain ? &img_rain : &img_sun);
+  lv_img_set_src(img_icon, isRain ? &icon_rain : &icon_sun);
   lv_bar_set_value(progress_bar, (int)(progress * 100), LV_ANIM_OFF);
   lv_scr_load(scr_weather);
 }
