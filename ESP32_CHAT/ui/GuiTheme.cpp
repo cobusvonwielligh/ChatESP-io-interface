@@ -8,7 +8,7 @@ lv_style_t styleMenuBar;
 lv_style_t styleBtnVista;
 lv_style_t styleBtnVistaPressed;
 lv_style_t widgetStyle;
-lv_font_t *emojiFont = nullptr;
+const lv_font_t *emojiFont = nullptr;
 
 void initTheme()
 {
