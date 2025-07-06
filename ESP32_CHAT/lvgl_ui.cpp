@@ -61,6 +61,7 @@ static void create_header(lv_obj_t *parent) {
   lv_obj_remove_style_all(cont);
   lv_obj_set_width(cont, LV_PCT(100));
   lv_obj_set_style_pad_all(cont, 4, 0);
+  lv_obj_set_style_pad_top(cont, 10, 0);
   lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
   lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
   lv_obj_set_style_pad_column(cont, 8, 0);
@@ -80,7 +81,7 @@ static void create_temperature_section(lv_obj_t *parent) {
   lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
 
   label_temp = lv_label_create(cont);
-  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_36, 0);
+  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_48, 0);
   lv_obj_center(label_temp);
 }
 
@@ -173,7 +174,7 @@ bool begin() {
   lv_obj_set_size(container_main, LV_PCT(100), LV_PCT(100));
   lv_obj_set_flex_flow(container_main, LV_FLEX_FLOW_COLUMN);
   lv_obj_set_style_pad_all(container_main, 6, 0);
-  lv_obj_set_style_pad_row(container_main, 10, 0);
+  lv_obj_set_style_pad_row(container_main, 14, 0);
   lv_obj_set_style_bg_opa(container_main, LV_OPA_TRANSP, 0);
 
   create_header(container_main);

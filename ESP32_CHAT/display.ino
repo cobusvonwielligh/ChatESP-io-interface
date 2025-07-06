@@ -55,7 +55,7 @@ static void fillGradient(TFT_eSPI& d, uint16_t c1, uint16_t c2) {
 
   for (int y = 0; y < SCREEN_HEIGHT; ++y) {
     float t = (float)y / SCREEN_HEIGHT;
-    float wave = 0.1f * sinf((millis() / 3000.0f) + t * 6.283f);
+    float wave = 0.05f * sinf((millis() / 8000.0f) + t * 6.283f);
     t += wave;
     if (t < 0) t = 0; if (t > 1) t = 1;
     uint8_t r = sr + (er - sr) * t;
@@ -68,36 +68,36 @@ static void fillGradient(TFT_eSPI& d, uint16_t c1, uint16_t c2) {
 
 static float sunAngle = 0.0f;
 static void drawSunIcon(TFT_eSPI& d, int x, int y) {
-  uint16_t yellow = rgb565(255, 200, 0);
-  uint16_t orange = rgb565(255, 150, 0);
-  int cx = x + 25;
-  int cy = y + 25;
-  d.fillCircle(cx, cy, 18, yellow);
-  for (int i = 0; i < 8; ++i) {
-    float a = sunAngle + i * 0.785398f; // PI/4
-    int x1 = cx + cosf(a) * 22;
-    int y1 = cy + sinf(a) * 22;
-    int x2 = cx + cosf(a) * 32;
-    int y2 = cy + sinf(a) * 32;
+  uint16_t yellow = rgb565(255, 210, 0);
+  uint16_t orange = rgb565(255, 170, 0);
+  int cx = x + 30;
+  int cy = y + 30;
+  d.fillCircle(cx, cy, 20, yellow);
+  for (int i = 0; i < 12; ++i) {
+    float a = sunAngle + i * (6.283185f / 12.0f);
+    int x1 = cx + cosf(a) * 24;
+    int y1 = cy + sinf(a) * 24;
+    int x2 = cx + cosf(a) * 34;
+    int y2 = cy + sinf(a) * 34;
     d.drawLine(x1, y1, x2, y2, orange);
   }
-  sunAngle += 0.02f;
+  sunAngle += 0.01f;
 }
 
 static void drawRainIcon(TFT_eSPI& d, int x, int y) {
-  uint16_t grey = rgb565(180, 180, 180);
-  int cx = x + 25;
-  int cy = y + 20;
-  d.fillCircle(cx - 10, cy, 15, grey);
-  d.fillCircle(cx + 10, cy, 15, grey);
-  d.fillCircle(cx, cy - 10, 15, grey);
-  d.fillRect(cx - 20, cy, 40, 15, grey);
+  uint16_t grey = rgb565(200, 200, 200);
+  int cx = x + 30;
+  int cy = y + 25;
+  d.fillCircle(cx - 12, cy, 18, grey);
+  d.fillCircle(cx + 12, cy, 18, grey);
+  d.fillCircle(cx, cy - 12, 18, grey);
+  d.fillRect(cx - 24, cy, 48, 20, grey);
 
   uint16_t blue = rgb565(80, 150, 255);
-  int off = (millis() / 200) % 8;
-  for (int i = 0; i < 3; ++i) {
-    int yy = y + 35 + ((off + i * 3) % 8);
-    d.drawFastVLine(x + 12 + i * 12, yy, 12, blue);
+  int off = (millis() / 250) % 10;
+  for (int i = 0; i < 4; ++i) {
+    int yy = y + 45 + ((off + i * 3) % 10);
+    d.drawFastVLine(x + 14 + i * 12, yy, 14, blue);
   }
 }
 
@@ -132,30 +132,31 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   canvas.setTextColor(TFT_WHITE);
 
   const int margin = 8;
+  int top = margin + 8;
   canvas.setTextSize(1);
-  canvas.setCursor(margin, margin);
+  canvas.setCursor(margin, top);
   canvas.println("Weather");
 
   uint16_t w = canvas.textWidth(LOCATION_NAME.c_str());
-  canvas.setCursor(SCREEN_WIDTH - w - margin, margin);
+  canvas.setCursor(SCREEN_WIDTH - w - margin, top);
   canvas.println(LOCATION_NAME);
 
   canvas.setTextSize(3);
-  canvas.setCursor(margin, 40);
+  canvas.setCursor(margin, 60);
   canvas.printf("%.1f", tempC);
   canvas.setTextSize(2);
   canvas.print((char)176);
   canvas.print("C");
 
-  int y = 120;
+  int y = 140;
   canvas.setTextSize(1);
   canvas.setCursor(margin, y);
   canvas.printf("Min: %.0f%cC", tempMin, (char)176);
   canvas.setCursor(margin, y + 20);
   canvas.printf("Max: %.0f%cC", tempMax, (char)176);
 
-  int iconX = SCREEN_WIDTH - 60 - margin;
-  int iconY = margin + 20;
+  int iconX = SCREEN_WIDTH - 70 - margin;
+  int iconY = top + 30;
   if (isRain) {
     drawRainIcon(canvas, iconX, iconY);
   } else {
