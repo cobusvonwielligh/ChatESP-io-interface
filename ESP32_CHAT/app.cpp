@@ -11,26 +11,37 @@ static void processTouch();
 
 void begin() {
   Serial.begin(115200);
+  Serial.println("app: begin");
   Wire.begin(I2C_SDA, I2C_SCL);
 
+  Serial.println("app: display.init");
   display.init();
+  Serial.println("app: initDisplay");
   initDisplay(display);
 #if !DEBUG_MODE
-  lvgl_ui::begin();
+  Serial.println("app: lvgl_ui.begin");
+  if (!lvgl_ui::begin()) {
+    Serial.println("LVGL UI disabled due to init failure");
+  }
+  Serial.println("app: initAudio");
   initAudio();
 
+  Serial.println("app: connectWiFi");
   connectWiFi();
   if (!fetchLocation()) {
     Serial.println("Location lookup failed. Using defaults.");
   }
+  Serial.println("app: initChatGpt");
   initChatGpt();
 #else
+  Serial.println("app: DEBUG_MODE display test");
   displayMessage("Basic display test");
 #endif
 
   state.page = Page::Weather;
   state.lastWeather = 0;
   state.weatherFail = 0;
+  Serial.println("app: ready");
 }
 
 void loop() {
