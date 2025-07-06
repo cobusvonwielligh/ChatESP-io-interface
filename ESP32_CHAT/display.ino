@@ -1,5 +1,4 @@
 #include "display.h"
-#include "weather_icons.h"
 #include "chatgpt.h"
 #include "secrets.h"
 #include "weather.h"
