@@ -1,8 +1,8 @@
 #pragma once
 #include <lvgl.h>
 #include <Arduino.h>
-#include "UI/WeatherWidget.h"
-#include "UI/ChatWidget.h"
+#include "ui/WeatherWidget.h"
+#include "ui/ChatWidget.h"
 
 namespace UI {
 
@@ -11,7 +11,7 @@ void loop();
 void updateWeather(float t, float tMin, float tMax, bool isRain, float progress, const String &location);
 void showChat(const String &text);
 
-WeatherWidget& weather();
-ChatWidget& chat();
+ui::WeatherWidget& weather();
+ui::ChatWidget& chat();
 
 } // namespace UI
