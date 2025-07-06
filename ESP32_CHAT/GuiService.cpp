@@ -1,6 +1,6 @@
-#include "GuiService.h"
-#include "../display.h"
-#include "../touch.h"
+#include "ui/GuiService.h"
+#include "display.h"
+#include "touch.h"
 
 namespace ui {
 
