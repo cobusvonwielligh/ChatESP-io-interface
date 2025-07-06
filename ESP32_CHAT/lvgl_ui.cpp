@@ -1,31 +1,27 @@
 #include "lvgl_ui.h"
 #include "display.h"
 
-using namespace lvgl::widget;
-
 namespace lvgl_ui {
 static bool ready = false;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t *buf1 = nullptr;
-static lv_color_t *buf2 = nullptr;
 static lv_disp_drv_t disp_drv;
 static lv_indev_drv_t indev_drv;
 
-static Label *label_temp;
-static Label *label_chat;
-static Bar *progress_bar;
-
 static lv_obj_t *scr_weather;
 static lv_obj_t *scr_chat;
+static lv_obj_t *label_temp;
+static lv_obj_t *label_chat;
+static lv_obj_t *progress_bar;
 
-static void flush_cb(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t *color_p) {
+static void flush_cb(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
+  uint32_t w = area->x2 - area->x1 + 1;
+  uint32_t h = area->y2 - area->y1 + 1;
   display.startWrite();
-  display.pushImage(area->x1, area->y1,
-                    area->x2 - area->x1 + 1,
-                    area->y2 - area->y1 + 1,
-                    (lgfx::rgb565_t *)color_p);
+  display.setAddrWindow(area->x1, area->y1, w, h);
+  display.pushColors((uint16_t *)&color_p->full, w * h, true);
   display.endWrite();
-  lv_disp_flush_ready(drv);
+  lv_disp_flush_ready(disp);
 }
 
 static void touch_cb(lv_indev_drv_t *drv, lv_indev_data_t *data) {
@@ -40,36 +36,17 @@ static void touch_cb(lv_indev_drv_t *drv, lv_indev_data_t *data) {
   }
 }
 
-static void createWeatherScreen() {
-  scr_weather = lv_obj_create(NULL);
-  label_temp = new Label(scr_weather);
-  label_temp->SetAlign(LV_ALIGN_TOP_MID, 0, 20);
-  progress_bar = new Bar(scr_weather);
-  progress_bar->SetRange(0, 100);
-  progress_bar->SetSize(SCREEN_WIDTH - 20, 8);
-  progress_bar->SetAlign(LV_ALIGN_BOTTOM_MID, 0, -10);
-}
-
-static void createChatScreen() {
-  scr_chat = lv_obj_create(NULL);
-  label_chat = new Label(scr_chat);
-  label_chat->SetLongMode(LV_LABEL_LONG_WRAP);
-  label_chat->SetWidth(SCREEN_WIDTH - 20);
-  label_chat->SetAlign(LV_ALIGN_TOP_LEFT, 10, 10);
-}
-
 bool begin() {
   Serial.println("lvgl_ui: begin");
   lv_init();
 
   uint32_t buf_size = SCREEN_WIDTH * 40;
   buf1 = (lv_color_t*)heap_caps_malloc(buf_size * sizeof(lv_color_t), MALLOC_CAP_DMA);
-  buf2 = (lv_color_t*)heap_caps_malloc(buf_size * sizeof(lv_color_t), MALLOC_CAP_DMA);
-  if (!buf1 || !buf2) {
+  if (!buf1) {
     Serial.println("LVGL buffer allocation failed");
     return false;
   }
-  lv_disp_draw_buf_init(&draw_buf, buf1, buf2, buf_size);
+  lv_disp_draw_buf_init(&draw_buf, buf1, NULL, buf_size);
 
   lv_disp_drv_init(&disp_drv);
   disp_drv.hor_res = SCREEN_WIDTH;
@@ -85,8 +62,18 @@ bool begin() {
   lv_indev_drv_register(&indev_drv);
   Serial.println("lvgl_ui: input driver registered");
 
-  createWeatherScreen();
-  createChatScreen();
+  scr_weather = lv_obj_create(NULL);
+  label_temp = lv_label_create(scr_weather);
+  lv_obj_align(label_temp, LV_ALIGN_TOP_MID, 0, 20);
+  progress_bar = lv_bar_create(scr_weather);
+  lv_obj_set_size(progress_bar, SCREEN_WIDTH - 20, 8);
+  lv_obj_align(progress_bar, LV_ALIGN_BOTTOM_MID, 0, -10);
+
+  scr_chat = lv_obj_create(NULL);
+  label_chat = lv_label_create(scr_chat);
+  lv_label_set_long_mode(label_chat, LV_LABEL_LONG_WRAP);
+  lv_obj_set_width(label_chat, SCREEN_WIDTH - 20);
+  lv_obj_align(label_chat, LV_ALIGN_TOP_LEFT, 10, 10);
 
   lv_scr_load(scr_weather);
   ready = true;
@@ -99,17 +86,18 @@ void loop() {
   lv_timer_handler();
 }
 
-void updateWeather(float tempC, float tempMin, float tempMax, bool isRain,
-                   float progress) {
-  label_temp->SetText("%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
-  progress_bar->SetValue((int)(progress * 100), LV_ANIM_OFF);
-
-  if (ready) lv_scr_load(scr_weather);
+void updateWeather(float tempC, float tempMin, float tempMax, bool isRain, float progress) {
+  if (!ready) return;
+  char buf[64];
+  snprintf(buf, sizeof(buf), "%.1f C (%.0f/%.0f)", tempC, tempMin, tempMax);
+  lv_label_set_text(label_temp, buf);
+  lv_bar_set_value(progress_bar, (int)(progress * 100), LV_ANIM_OFF);
+  lv_scr_load(scr_weather);
 }
 
 void showChat(const String &text) {
   if (!ready) return;
-  label_chat->SetText("%s", text.c_str());
+  lv_label_set_text(label_chat, text.c_str());
   lv_scr_load(scr_chat);
 }
 
