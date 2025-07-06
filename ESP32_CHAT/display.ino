@@ -5,7 +5,7 @@
 #include "app.h" // for DEBUG_MODE flag
 #include "Fonts/FreeSansBold.h"
 
-#define SCALE(f) ((int)((f) * 1.8f))
+#define SCALE(f) ((int)((f) * 1.65f))
 
 /* ================================================================
  *                  Display Utilities: ILI9488
@@ -145,18 +145,16 @@ void drawWeatherScreen(float tempC, float tempMin, float tempMax, bool isRain, f
   canvas.setCursor(margin - 10, top + 40);
   canvas.printf("%.1f", tempC);
   canvas.setTextSize(2);
-  canvas.print((char)0xB0);
-  canvas.print("°");
   canvas.print("C");
 
   int y = 115;
   canvas.setTextSize(1);
   canvas.setCursor(margin, y);
-  canvas.printf("Min %.0f°C", tempMin);
+  canvas.printf("Min %.0fC", tempMin);
   canvas.setCursor(margin, y + 25);
-  canvas.printf("Max %.0f°C", tempMax);
+  canvas.printf("Max %.0fC", tempMax);
 
-  int iconX = SCREEN_WIDTH - 95 - margin;
+  int iconX = SCREEN_WIDTH - 120 - margin;
   int iconY = top + 40;
   if (isRain) {
     drawRainIcon(canvas, iconX, iconY);
