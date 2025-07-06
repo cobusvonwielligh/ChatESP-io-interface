@@ -6,7 +6,7 @@
  * automatically.  Adjust the relative path if your setup differs.
  */
 
-#include <lvglCpp.h>
+#include <lvgl.h>
 #include "display.h"
 #include "touch.h"
 

@@ -14,10 +14,8 @@ void begin() {
   Serial.println("app: begin");
   Wire.begin(I2C_SDA, I2C_SCL);
 
-  Serial.println("app: display.init");
-  display.init();
   Serial.println("app: initDisplay");
-  initDisplay(display);
+  initDisplay();
 #if !DEBUG_MODE
   Serial.println("app: lvgl_ui.begin");
   if (!lvgl_ui::begin()) {
