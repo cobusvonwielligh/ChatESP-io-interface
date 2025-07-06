@@ -1,8 +1,8 @@
 #pragma once
 #include <lvgl.h>
 #include <Arduino.h>
-#include "ui/WeatherWidget.h"
-#include "ui/ChatWidget.h"
+#include "UI/WeatherWidget.h"
+#include "UI/ChatWidget.h"
 
 namespace UI {
 
