@@ -4,8 +4,8 @@
 
 namespace UI {
 
-static WeatherWidget weatherWidget;
-static ChatWidget chatWidget;
+static ui::WeatherWidget weatherWidget;
+static ui::ChatWidget chatWidget;
 static bool ready = false;
 static lv_disp_draw_buf_t draw_buf;
 static lv_color_t *buf1 = nullptr;
@@ -94,7 +94,7 @@ void showChat(const String &text) {
     lv_scr_load(scr_chat);
 }
 
-WeatherWidget& weather() { return weatherWidget; }
-ChatWidget& chat() { return chatWidget; }
+ui::WeatherWidget& weather() { return weatherWidget; }
+ui::ChatWidget& chat() { return chatWidget; }
 
 } // namespace UI

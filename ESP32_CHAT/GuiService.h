@@ -11,7 +11,7 @@ void loop();
 void updateWeather(float t, float tMin, float tMax, bool isRain, float progress, const String &location);
 void showChat(const String &text);
 
-WeatherWidget& weather();
-ChatWidget& chat();
+ui::WeatherWidget& weather();
+ui::ChatWidget& chat();
 
 } // namespace UI
