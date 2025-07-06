@@ -2,7 +2,7 @@
 #include <lvgl.h>
 #include <Arduino.h>
 
-namespace ui {
+namespace UI {
 
 class WeatherWidget {
 public:
@@ -20,4 +20,4 @@ private:
     lv_obj_t* progressBar = nullptr;
 };
 
-} // namespace ui
+} // namespace UI

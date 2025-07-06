@@ -2,7 +2,7 @@
 #include <lvgl.h>
 #include <Arduino.h>
 
-namespace ui {
+namespace UI {
 
 class ChatWidget {
 public:
@@ -15,4 +15,4 @@ private:
     lv_obj_t* label = nullptr;
 };
 
-} // namespace ui
+} // namespace UI

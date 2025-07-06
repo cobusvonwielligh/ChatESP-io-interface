@@ -6,7 +6,7 @@ extern const lv_img_dsc_t icon_sun;
 extern const lv_img_dsc_t icon_rain;
 }
 
-namespace ui {
+namespace UI {
 
 WeatherWidget::WeatherWidget() {}
 
@@ -90,4 +90,4 @@ void WeatherWidget::update(float tempC, float tempMin, float tempMax, bool isRai
     lv_bar_set_value(progressBar, (int)(progress * 100), LV_ANIM_OFF);
 }
 
-} // namespace ui
+} // namespace UI
