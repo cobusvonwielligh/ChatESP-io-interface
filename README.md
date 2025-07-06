@@ -109,15 +109,13 @@ ChatESP should eventually be able to support:
 
 1. [Product Wiki](https://wiki.makerfabs.com/MaTouch_3.5_TFT_Touch_with_Camera.html)
 2. [Example Code](https://github.com/Makerfabs/Project_Touch-Screen-Camera)
-3. [Display Driver Code](https://github.com/microrobotics/ESPTFT35CA)
-   - Earlier versions relied on a separate `LGFX_ILI9488` driver.  The project
-     now ships a self contained `DisplayGFX` class under `ESP32_CHAT/DisplayGFX.h`.
+3. [LVGL Demo Source](https://github.com/Makerfabs/Project-ESP32-LVGL)
 
 ---
 
 ## Software Prerequisites
 
-### Arduino IDE V1.8.10
+### Arduino IDE 2.x
 
 [IDE Setup & Config](https://www.arduino.cc/en/software)
 
@@ -163,23 +161,15 @@ extend the codebase with additional hardware like a microphone or
 speaker.
 
 This release now includes a minimal [LVGL](https://github.com/lvgl/lvgl)
-setup (`lvgl_ui.*`) wired to the existing LovyanGFX display and touch
-drivers. **LovyanGFX v1** is required and the code defines
-`LGFX_USE_V1` automatically. Make sure the
-[LovyanGFX](https://github.com/lovyan03/LovyanGFX) library version 1.2 or
-newer is installed in the Arduino IDE. Older releases lack the
-`Bus_SPI` and `Panel_ILI9488` APIs used by the custom display driver.
-LVGL allows creation of modern widgets such
-as labels and buttons and greatly simplifies building polished user
-interfaces. The
-default firmware still renders using the lightweight canvas routines,
-but if the LVGL library is installed in Arduino IDE the `lvgl_ui`
-module will automatically create matching screens for the weather and
-ChatGPT pages. A default `lv_conf.h` based on the official template is
-provided under `libraries/` so LVGL builds out of the box. When the
-optional [lvglCpp](https://github.com/dev-board-tech/lvglCpp) wrapper
-library is installed, the UI module uses its C++ style widgets for
-cleaner, modular code.
+setup (`lvgl_ui.*`) using the [TFT_eSPI](https://github.com/Bodmer/TFT_eSPI)
+display library. Configure the `User_Setup.h` file with the Makerfabs
+ILI9488 pinout before compiling. LVGL allows creation of modern widgets
+and greatly simplifies building polished user interfaces. The default
+firmware still renders using the lightweight canvas routines, but when the
+LVGL library is installed the `lvgl_ui` module automatically creates
+matching screens for the weather and ChatGPT pages. A default
+`lv_conf.h` based on the official template is provided under `libraries/`
+so LVGL builds out of the box.
 The project sets `LV_CONF_PATH` to `../../../libraries/lv_conf.h` so the
 configuration is found automatically. If the Arduino build still fails
 with `lv_conf.h` not found, adjust this path in `lvgl_ui.h` or copy
