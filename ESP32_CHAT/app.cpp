@@ -1,6 +1,6 @@
 #include "app.h"
 #include "secrets.h"
-#include "UI/GuiService.h"
+#include "GuiService.h"
 
 namespace app {
 
@@ -18,8 +18,8 @@ void begin() {
   Serial.println("app: initDisplay");
   initDisplay();
 #if !DEBUG_MODE
-  Serial.println("app: ui::begin");
-  if (!ui::begin()) {
+  Serial.println("app: UI::begin");
+  if (!UI::begin()) {
     Serial.println("LVGL UI disabled due to init failure");
   }
   Serial.println("app: initAudio");
@@ -47,12 +47,12 @@ void loop() {
 #if !DEBUG_MODE
   processTouch();
   processSerial();
-  ui::loop();
+  UI::loop();
 
   if (state.page == Page::ChatGpt) {
     if (isTyping()) {
       drawChatGptScreen();
-      ui::showChat(getChatGptPartialResponse());
+      UI::showChat(getChatGptPartialResponse());
     }
   } else {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
@@ -101,7 +101,7 @@ static void processSerial() {
   state.page = Page::ChatGpt;
   resetChatState();
   drawLoadingAnimation();
-  ui::showChat("...");
+  UI::showChat("...");
   if (prompt.startsWith("IMAGE:")) {
     String desc = prompt.substring(6);
     desc.trim();
@@ -114,7 +114,7 @@ static void processSerial() {
     }
   } else {
     callChatGpt(prompt);
-    ui::showChat("");
+    UI::showChat("");
   }
 #endif
 }
@@ -136,14 +136,14 @@ static void processTouch() {
       state.page = Page::ChatGpt;
       resetChatState();
       drawLoadingAnimation();
-      ui::showChat("...");
+      UI::showChat("...");
     }
   } else if (state.page == Page::ChatGpt) {
     if (pos[0] < btnSize + 8 && pos[1] > y) {
       state.page = Page::Weather;
       float prog = float(millis() - state.lastWeather) / WEATHER_PAGE_REFRESH_MS;
       if (prog > 1.0f) prog = 1.0f;
-      ui::updateWeather(state.tempC, state.tempMin, state.tempMax,
+      UI::updateWeather(state.tempC, state.tempMin, state.tempMax,
                         state.raining, prog, LOCATION_NAME);
     }
   }

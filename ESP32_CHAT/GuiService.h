@@ -1,10 +1,10 @@
 #pragma once
 #include <lvgl.h>
 #include <Arduino.h>
-#include "WeatherWidget.h"
-#include "ChatWidget.h"
+#include "UI/WeatherWidget.h"
+#include "UI/ChatWidget.h"
 
-namespace ui {
+namespace UI {
 
 bool begin();
 void loop();
@@ -14,4 +14,4 @@ void showChat(const String &text);
 WeatherWidget& weather();
 ChatWidget& chat();
 
-} // namespace ui
+} // namespace UI

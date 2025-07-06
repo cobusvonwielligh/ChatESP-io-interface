@@ -1,8 +1,8 @@
-#include "ui/GuiService.h"
+#include "GuiService.h"
 #include "display.h"
 #include "touch.h"
 
-namespace ui {
+namespace UI {
 
 static WeatherWidget weatherWidget;
 static ChatWidget chatWidget;
@@ -97,4 +97,4 @@ void showChat(const String &text) {
 WeatherWidget& weather() { return weatherWidget; }
 ChatWidget& chat() { return chatWidget; }
 
-} // namespace ui
+} // namespace UI

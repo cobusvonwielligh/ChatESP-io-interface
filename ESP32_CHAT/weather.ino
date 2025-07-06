@@ -4,7 +4,7 @@
 
 #include "weather.h"
 #include "display.h"
-#include "ui/GuiService.h"
+#include "GuiService.h"
 #include "secrets.h"
 
 /* ============================================
@@ -91,5 +91,5 @@ void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &
   }
 
   drawWeatherScreen(tempC, tempMin, tempMax, isRain, progress);
-  ui::updateWeather(tempC, tempMin, tempMax, isRain, progress, LOCATION_NAME);
+  UI::updateWeather(tempC, tempMin, tempMax, isRain, progress, LOCATION_NAME);
 }

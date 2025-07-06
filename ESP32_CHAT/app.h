@@ -11,7 +11,7 @@
 #include "weather.h"
 #include "touch.h"
 #include "audio.h"
-#include "ui/GuiService.h"
+#include "GuiService.h"
 #include <WiFi.h>
 #include <Wire.h>
 
