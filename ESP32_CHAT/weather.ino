@@ -41,7 +41,7 @@ bool fetchLocation() {
 bool fetchWeather(float &tempC, uint8_t &code, float &tempMin, float &tempMax) {
   if (WiFi.status() != WL_CONNECTED) return false;
 
-  String url = String("https://api.open-meteo.com/v1/forecast?latitude=") +
+  String url = String("http://api.open-meteo.com/v1/forecast?latitude=") +
                LOCATION_LAT + "&longitude=" + LOCATION_LNG +
                "&current_weather=true&daily=temperature_2m_min,temperature_2m_max&timezone=auto";
 
