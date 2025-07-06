@@ -14,11 +14,19 @@ static lv_obj_t *scr_weather;
 static lv_obj_t *scr_chat;
 static lv_obj_t *label_temp;
 static lv_obj_t *label_location;
-static lv_obj_t *label_minmax;
+static lv_obj_t *label_min;
+static lv_obj_t *label_max;
+static lv_obj_t *btn_mic;
 static lv_obj_t *img_icon;
 static lv_obj_t *label_chat;
 static lv_obj_t *progress_bar;
 static lv_style_t style_bg;
+static lv_obj_t *container_main;
+
+static void create_header(lv_obj_t *parent);
+static void create_temperature_section(lv_obj_t *parent);
+static void create_minmax_section(lv_obj_t *parent);
+static void create_footer(lv_obj_t *parent);
 
 static const lv_image_dsc_t img_sun = {
     .header = {
@@ -70,6 +78,74 @@ static void touch_cb(lv_indev_drv_t *drv, lv_indev_data_t *data) {
   }
 }
 
+static void create_header(lv_obj_t *parent) {
+  Serial.println("lvgl_ui: create_header");
+  lv_obj_t *cont = lv_obj_create(parent);
+  lv_obj_remove_style_all(cont);
+  lv_obj_set_width(cont, LV_PCT(100));
+  lv_obj_set_style_pad_all(cont, 4, 0);
+  lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
+  lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
+  lv_obj_set_style_pad_column(cont, 8, 0);
+
+  label_location = lv_label_create(cont);
+  lv_obj_set_style_text_font(label_location, &lv_font_montserrat_16, 0);
+  lv_obj_set_flex_grow(label_location, 1);
+
+  img_icon = lv_image_create(cont);
+}
+
+static void create_temperature_section(lv_obj_t *parent) {
+  Serial.println("lvgl_ui: create_temperature_section");
+  lv_obj_t *cont = lv_obj_create(parent);
+  lv_obj_remove_style_all(cont);
+  lv_obj_set_width(cont, LV_PCT(100));
+  lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
+
+  label_temp = lv_label_create(cont);
+  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_48, 0);
+  lv_obj_center(label_temp);
+}
+
+static void create_minmax_section(lv_obj_t *parent) {
+  Serial.println("lvgl_ui: create_minmax_section");
+  lv_obj_t *cont = lv_obj_create(parent);
+  lv_obj_remove_style_all(cont);
+  lv_obj_set_width(cont, LV_PCT(100));
+  lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
+  lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_style_pad_column(cont, 4, 0);
+
+  label_min = lv_label_create(cont);
+  lv_obj_set_style_text_font(label_min, &lv_font_montserrat_24, 0);
+
+  label_max = lv_label_create(cont);
+  lv_obj_set_style_text_font(label_max, &lv_font_montserrat_24, 0);
+}
+
+static void create_footer(lv_obj_t *parent) {
+  Serial.println("lvgl_ui: create_footer");
+  lv_obj_t *cont = lv_obj_create(parent);
+  lv_obj_remove_style_all(cont);
+  lv_obj_set_width(cont, LV_PCT(100));
+  lv_obj_set_style_bg_opa(cont, LV_OPA_TRANSP, 0);
+  lv_obj_set_style_pad_all(cont, 4, 0);
+  lv_obj_set_flex_flow(cont, LV_FLEX_FLOW_ROW);
+  lv_obj_set_style_pad_column(cont, 8, 0);
+
+  progress_bar = lv_bar_create(cont);
+  lv_obj_set_flex_grow(progress_bar, 1);
+  lv_obj_set_height(progress_bar, 8);
+
+  btn_mic = lv_btn_create(cont);
+  lv_obj_t *lbl = lv_label_create(btn_mic);
+#ifdef LV_SYMBOL_MICROPHONE
+  lv_label_set_text(lbl, LV_SYMBOL_MICROPHONE);
+#else
+  lv_label_set_text(lbl, "Mic");
+#endif
+}
+
 bool begin() {
   Serial.println("lvgl_ui: begin");
   lv_init();
@@ -106,23 +182,18 @@ bool begin() {
   lv_obj_add_style(scr_weather, &style_bg, 0);
   lv_obj_set_size(scr_weather, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  label_location = lv_label_create(scr_weather);
-  lv_obj_align(label_location, LV_ALIGN_TOP_MID, 0, 5);
+  container_main = lv_obj_create(scr_weather);
+  lv_obj_remove_style_all(container_main);
+  lv_obj_set_size(container_main, LV_PCT(100), LV_PCT(100));
+  lv_obj_set_flex_flow(container_main, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_style_pad_all(container_main, 8, 0);
+  lv_obj_set_style_pad_row(container_main, 12, 0);
+  lv_obj_set_style_bg_opa(container_main, LV_OPA_TRANSP, 0);
 
-  img_icon = lv_image_create(scr_weather);
-  lv_obj_align(img_icon, LV_ALIGN_TOP_MID, 0, 30);
-
-  label_temp = lv_label_create(scr_weather);
-  lv_obj_set_style_text_font(label_temp, &lv_font_montserrat_48, 0);
-  lv_obj_align(label_temp, LV_ALIGN_CENTER, 0, 20);
-
-  label_minmax = lv_label_create(scr_weather);
-  lv_obj_set_style_text_font(label_minmax, &lv_font_montserrat_24, 0);
-  lv_obj_align(label_minmax, LV_ALIGN_CENTER, 0, 70);
-
-  progress_bar = lv_bar_create(scr_weather);
-  lv_obj_set_size(progress_bar, SCREEN_WIDTH - 40, 8);
-  lv_obj_align(progress_bar, LV_ALIGN_BOTTOM_MID, 0, -10);
+  create_header(container_main);
+  create_temperature_section(container_main);
+  create_minmax_section(container_main);
+  create_footer(container_main);
 
   scr_chat = lv_obj_create(NULL);
   label_chat = lv_label_create(scr_chat);
@@ -147,8 +218,10 @@ void updateWeather(float tempC, float tempMin, float tempMax, bool isRain, float
   lv_label_set_text(label_location, LOCATION_NAME.c_str());
   snprintf(buf, sizeof(buf), "%.1f%cC", tempC, 0xB0);
   lv_label_set_text(label_temp, buf);
-  snprintf(buf, sizeof(buf), "Min %.0f%cC  Max %.0f%cC", tempMin, 0xB0, tempMax, 0xB0);
-  lv_label_set_text(label_minmax, buf);
+  snprintf(buf, sizeof(buf), "Min: %.0f%cC", tempMin, 0xB0);
+  lv_label_set_text(label_min, buf);
+  snprintf(buf, sizeof(buf), "Max: %.0f%cC", tempMax, 0xB0);
+  lv_label_set_text(label_max, buf);
   lv_image_set_src(img_icon, isRain ? &img_rain : &img_sun);
   lv_bar_set_value(progress_bar, (int)(progress * 100), LV_ANIM_OFF);
   lv_scr_load(scr_weather);
