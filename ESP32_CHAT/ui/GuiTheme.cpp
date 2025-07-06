@@ -28,7 +28,7 @@ void initTheme()
     lv_style_set_bg_opa(&styleMenuBar, LV_OPA_70);
     lv_style_set_border_color(&styleMenuBar, lv_color_hex(0x7BAAF7));
     lv_style_set_border_width(&styleMenuBar, 2);
-    lv_style_set_border_side(&styleMenuBar, LV_BORDER_TOP);
+    lv_style_set_border_side(&styleMenuBar, LV_BORDER_SIDE_TOP);
 
     // Button style
     lv_style_init(&styleBtnVista);
@@ -59,8 +59,7 @@ void initTheme()
     lv_style_set_text_line_space(&widgetStyle, 20);
     lv_style_set_text_decor(&widgetStyle, LV_TEXT_DECOR_UNDERLINE);
 
-    emojiFont = lv_imgfont_create(32, emoji_path_cb);
-    if(emojiFont) emojiFont->fallback = LV_FONT_DEFAULT;
+    emojiFont = LV_FONT_DEFAULT;
 }
 
 } // namespace UI

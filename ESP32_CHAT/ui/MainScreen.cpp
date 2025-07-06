@@ -10,7 +10,7 @@ namespace UI {
 static lv_obj_t* menuBar = nullptr;
 static lv_obj_t* contentPanel = nullptr;
 
-void updateMenuBarIcons(lv_img_dsc_t* left, lv_img_dsc_t* right) {
+void updateMenuBarIcons(const lv_img_dsc_t* left, const lv_img_dsc_t* right) {
     if (!menuBar) return;
     lv_obj_clean(menuBar);
 
@@ -32,8 +32,8 @@ void updateMenuBarIcons(lv_img_dsc_t* left, lv_img_dsc_t* right) {
 }
 
 lv_obj_t* createMainScreen(lv_obj_t* parent) {
-    static lv_coord_t row_dsc[] = {LV_FR(8), LV_FR(1), LV_GRID_TEMPLATE_LAST};
-    static lv_coord_t col_dsc[] = {LV_FR(1), LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t row_dsc[] = {LV_GRID_FR(8), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 
     lv_obj_t* main_grid = lv_obj_create(parent);
     lv_obj_set_size(main_grid, LV_PCT(100), LV_PCT(100));
