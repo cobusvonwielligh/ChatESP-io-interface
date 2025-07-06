@@ -1,6 +1,7 @@
 #include "GuiService.h"
 #include "display.h"
 #include "touch.h"
+#include "ui/GuiTheme.h"
 
 namespace UI {
 
@@ -63,6 +64,8 @@ bool begin() {
                                               LV_THEME_DEFAULT_DARK,
                                               LV_FONT_DEFAULT);
     lv_disp_set_theme(lv_disp_get_default(), theme);
+
+    initTheme();
 
     scr_weather = lv_obj_create(NULL);
     lv_obj_remove_style_all(scr_weather);
