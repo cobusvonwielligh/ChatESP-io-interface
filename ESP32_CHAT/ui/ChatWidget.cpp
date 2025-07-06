@@ -8,7 +8,7 @@ static String typewriterText;
 static size_t typewriterPos = 0;
 static ChatWidget* activeWidget = nullptr;
 
-static void typewriter_cb(lv_timer_t* timer) {
+void typewriter_cb(lv_timer_t* timer) {
     if (!activeWidget) return;
     if (typewriterPos < typewriterText.length()) {
         lv_label_set_text(activeWidget->label, typewriterText.substring(0, typewriterPos + 1).c_str());
