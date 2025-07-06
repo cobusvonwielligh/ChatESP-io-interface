@@ -1,6 +1,6 @@
 #include "ChatWidget.h"
 
-namespace ui {
+namespace UI {
 
 ChatWidget::ChatWidget() {}
 
@@ -22,4 +22,4 @@ void ChatWidget::setText(const String &text) {
     lv_label_set_text(label, text.c_str());
 }
 
-} // namespace ui
+} // namespace UI
