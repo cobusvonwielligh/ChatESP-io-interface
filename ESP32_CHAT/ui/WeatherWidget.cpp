@@ -4,7 +4,7 @@
 
 namespace UI {
 
-static void anim_x_cb(void * var, int32_t v)
+static void anim_x_weather_cb(void * var, int32_t v)
 {
     lv_obj_set_x((lv_obj_t *) var, v);
 }
@@ -12,8 +12,8 @@ static void anim_x_cb(void * var, int32_t v)
 WeatherWidget::WeatherWidget() {}
 
 lv_obj_t* WeatherWidget::create(lv_obj_t* parent) {
-    static int32_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
-    static int32_t row_dsc[] = {LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
+    static lv_coord_t row_dsc[] = {LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_CONTENT, LV_GRID_TEMPLATE_LAST};
 
     container = lv_obj_create(parent);
     lv_obj_remove_style_all(container);
@@ -84,8 +84,8 @@ void WeatherWidget::update(float tempC, float tempMin, float tempMax, bool isRai
     lv_anim_init(&a);
     lv_anim_set_var(&a, labelTemp);
     lv_anim_set_values(&a, -lv_obj_get_width(labelTemp), 0);
-    lv_anim_set_duration(&a, 500);
-    lv_anim_set_exec_cb(&a, anim_x_cb);
+    lv_anim_set_time(&a, 500);
+    lv_anim_set_exec_cb(&a, anim_x_weather_cb);
     lv_anim_set_path_cb(&a, lv_anim_path_overshoot);
     lv_anim_start(&a);
 }
