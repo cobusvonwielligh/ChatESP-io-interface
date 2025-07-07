@@ -15,8 +15,7 @@ private:
     lv_obj_t* container = nullptr;
     lv_obj_t* labelTemp = nullptr;
     lv_obj_t* labelLocation = nullptr;
-    lv_obj_t* labelMin = nullptr;
-    lv_obj_t* labelMax = nullptr;
+    lv_obj_t* labelMinMax = nullptr;
     lv_obj_t* iconLabel = nullptr;
     lv_obj_t* progressBar = nullptr;
 };
