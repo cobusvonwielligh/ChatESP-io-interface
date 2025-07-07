@@ -70,7 +70,6 @@ const lv_img_dsc_t imagebutton_right = {
         .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
         .w = 8,
         .h = 50,
-        .stride = 32,
     },
     .data_size = sizeof(imagebutton_right_map),
     .data = imagebutton_right_map,

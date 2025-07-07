@@ -27,7 +27,6 @@ const lv_img_dsc_t img_hand = {
         .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
         .w = 100,
         .h = 9,
-        .stride = 400,
     },
     .data_size = sizeof(img_hand_map),
     .data = img_hand_map,
