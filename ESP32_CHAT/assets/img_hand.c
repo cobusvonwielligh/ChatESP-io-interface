@@ -23,13 +23,9 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_IMAGE_IMG_HAND uint8_t img_hand_map[] 
 };
 
 const lv_img_dsc_t img_hand = {
-    .header = {
-        .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
-        .w = 100,
-        .h = 9,
-    },
-    .data_size = sizeof(img_hand_map),
-    .data = img_hand_map,
+    { LV_IMG_CF_TRUE_COLOR_ALPHA, 100, 9 },
+    sizeof(img_hand_map),
+    img_hand_map
 };
 
 #endif /* LV_BUILD_EXAMPLES */

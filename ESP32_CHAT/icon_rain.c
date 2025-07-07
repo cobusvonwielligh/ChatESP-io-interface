@@ -346,13 +346,7 @@ LV_ATTRIBUTE_MEM_ALIGN const uint8_t icon_rain_map[] = {
 };
 
 const lv_img_dsc_t icon_rain = {
-  .header = {
-    .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
-    .always_zero = 0,
-    .reserved = 0,
-    .w = 32,
-    .h = 32
-  },
-  .data_size = sizeof(icon_rain_map),
-  .data = icon_rain_map,
+  { LV_IMG_CF_TRUE_COLOR_ALPHA, 0, 0, 32, 32 },
+  sizeof(icon_rain_map),
+  icon_rain_map
 };

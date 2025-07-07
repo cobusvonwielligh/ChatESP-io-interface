@@ -66,13 +66,9 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_LARGE_CONST LV_ATTRIBUTE_IMAGE_IMGBTN_
 };
 
 const lv_img_dsc_t imagebutton_right = {
-    .header = {
-        .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
-        .w = 8,
-        .h = 50,
-    },
-    .data_size = sizeof(imagebutton_right_map),
-    .data = imagebutton_right_map,
+    { LV_IMG_CF_TRUE_COLOR_ALPHA, 8, 50 },
+    sizeof(imagebutton_right_map),
+    imagebutton_right_map
 };
 
 #endif /* LV_BUILD_EXAMPLES */
