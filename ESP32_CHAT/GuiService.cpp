@@ -83,8 +83,13 @@ namespace UI {
       // Optionally switch to chat page if not already visible
   }
 
-  void setMenuIcons(const lv_img_dsc_t* left, const lv_img_dsc_t* right) {
-      UI::updateMenuBarIcons(left, right);
+  void loop() {
+      if (!ready) return;
+      lv_timer_handler();
   }
 
+  UI::WeatherWidget& weather() { return weatherWidget; }
+  UI::ChatWidget& chat() { return chatWidget; }
+
 }
+
