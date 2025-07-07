@@ -3,9 +3,6 @@
 
 namespace UI {
 
-extern "C" {
-    LV_IMG_DECLARE(img_hand);
-}
 
 static lv_timer_t* typewriterTimer = nullptr;
 static String typewriterText;
@@ -37,10 +34,12 @@ lv_obj_t* ChatWidget::create(lv_obj_t* parent) {
     lv_obj_set_style_grid_row_dsc_array(container, row_dsc, 0);
     lv_obj_add_style(container, &stylePanelVista, 0);
 
-    icon = lv_img_create(container);
-    lv_img_set_src(icon, &img_hand);
-    lv_obj_set_grid_cell(icon, LV_GRID_ALIGN_CENTER, 0, 1,
+    iconLabel = lv_label_create(container);
+    lv_obj_set_style_text_font(iconLabel, emojiFont, 0);
+    lv_label_set_text(iconLabel, "\xF0\x9F\x91\x8B"); // 👋
+    lv_obj_set_grid_cell(iconLabel, LV_GRID_ALIGN_CENTER, 0, 1,
                          LV_GRID_ALIGN_START, 0, 1);
+    lv_obj_add_style(iconLabel, &widgetStyle, 0);
 
     label = lv_label_create(container);
     lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);

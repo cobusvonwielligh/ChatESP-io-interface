@@ -1,5 +1,4 @@
 #include "WeatherWidget.h"
-#include "../weather_icons.h"
 #include "GuiTheme.h"
 
 namespace UI {
@@ -77,7 +76,7 @@ void WeatherWidget::update(float tempC, float tempMin, float tempMax, bool isRai
     lv_label_set_text(labelMin, buf);
     snprintf(buf, sizeof(buf), "Max: %.0f%cC", tempMax, 0xB0);
     lv_label_set_text(labelMax, buf);
-    lv_label_set_text(iconLabel, isRain ? "\uF600" : "\uF617");
+    lv_label_set_text(iconLabel, isRain ? "\xF0\x9F\x8C\xA7\xEF\xB8\x8F" : "\xE2\x98\x80\xEF\xB8\x8F"); // 🌧️ or ☀️
     lv_bar_set_value(progressBar, (int)(progress * 100), LV_ANIM_OFF);
 
     lv_anim_t a;
