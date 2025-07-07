@@ -16,7 +16,7 @@ public:
 private:
     lv_obj_t* container = nullptr;
     lv_obj_t* label = nullptr;
-    lv_obj_t* icon = nullptr;
+    lv_obj_t* iconLabel = nullptr;
 };
 
 } // namespace UI
