@@ -3,7 +3,6 @@
 
 namespace UI {
 
-#include "../assets/img_hand.c"
 #include "../assets/imgbtn_left.c"
 #include "../assets/imgbtn_right.c"
 
