@@ -24,7 +24,7 @@ const LV_ATTRIBUTE_MEM_ALIGN LV_ATTRIBUTE_IMAGE_IMG_HAND uint8_t img_hand_map[] 
 
 const lv_img_dsc_t img_hand = {
     .header = {
-        .cf = LV_COLOR_FORMAT_ARGB8888,
+        .cf = LV_IMG_CF_TRUE_COLOR_ALPHA,
         .w = 100,
         .h = 9,
         .stride = 400,
