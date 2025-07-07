@@ -3,7 +3,6 @@
 #include <WiFi.h>
 
 #include "weather.h"
-#include "display.h"
 #include "GuiService.h"
 #include "secrets.h"
 
@@ -84,12 +83,11 @@ void handleWeatherUpdate(float &tempC, float &tempMin, float &tempMax, uint8_t &
     } else {
       failCount++;
       if (failCount > 3) {
-        displayMessage("Failed to fetch weather.");
+        Serial.println("Failed to fetch weather.");
         delay(10000);
       }
     }
   }
 
-  drawWeatherScreen(tempC, tempMin, tempMax, isRain, progress);
   UI::updateWeather(tempC, tempMin, tempMax, isRain, progress, LOCATION_NAME);
 }
