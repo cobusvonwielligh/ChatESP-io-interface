@@ -1,16 +1,14 @@
 #include "GuiTheme.h"
 #include <lvgl.h>
 
-// You may want to parameterize these icons, or load from assets
-LV_IMG_DECLARE(imgbtn_left);
-LV_IMG_DECLARE(imgbtn_right);
+// Menu bar uses simple arrow symbols rather than image assets
 
 namespace UI {
 
 static lv_obj_t* menuBar = nullptr;
 static lv_obj_t* contentPanel = nullptr;
 
-void updateMenuBarIcons(const lv_img_dsc_t* left, const lv_img_dsc_t* right) {
+void updateMenuBarIcons() {
     if (!menuBar) return;
     lv_obj_clean(menuBar);
 
@@ -19,16 +17,16 @@ void updateMenuBarIcons(const lv_img_dsc_t* left, const lv_img_dsc_t* right) {
     lv_obj_add_style(btn_left, &styleBtnVistaPressed, LV_STATE_PRESSED);
     lv_obj_set_size(btn_left, 36, 36);
     lv_obj_align(btn_left, LV_ALIGN_LEFT_MID, 8, 0);
-    lv_obj_t* img_left = lv_img_create(btn_left);
-    lv_img_set_src(img_left, left);
+    lv_obj_t* label_left = lv_label_create(btn_left);
+    lv_label_set_text(label_left, LV_SYMBOL_LEFT);
 
     lv_obj_t* btn_right = lv_btn_create(menuBar);
     lv_obj_add_style(btn_right, &styleBtnVista, 0);
     lv_obj_add_style(btn_right, &styleBtnVistaPressed, LV_STATE_PRESSED);
     lv_obj_set_size(btn_right, 36, 36);
     lv_obj_align(btn_right, LV_ALIGN_RIGHT_MID, -8, 0);
-    lv_obj_t* img_right = lv_img_create(btn_right);
-    lv_img_set_src(img_right, right);
+    lv_obj_t* label_right = lv_label_create(btn_right);
+    lv_label_set_text(label_right, LV_SYMBOL_RIGHT);
 }
 
 lv_obj_t* createMainScreen(lv_obj_t* parent) {
@@ -60,7 +58,7 @@ lv_obj_t* createMainScreen(lv_obj_t* parent) {
     lv_obj_align(bar, LV_ALIGN_BOTTOM_MID, 0, -6);
     lv_bar_set_value(bar, 60, LV_ANIM_ON);
 
-    updateMenuBarIcons(&imgbtn_left, &imgbtn_right);
+    updateMenuBarIcons();
 
     return main_grid;
 }
@@ -69,3 +67,4 @@ lv_obj_t* getContentPanel() { return contentPanel; }
 lv_obj_t* getMenuBar() { return menuBar; }
 
 }
+
