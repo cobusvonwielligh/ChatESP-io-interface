@@ -3,8 +3,6 @@
 
 namespace UI {
 
-#include "../assets/imgbtn_left.c"
-#include "../assets/imgbtn_right.c"
 
 static lv_obj_t* menuBar = nullptr;
 static lv_obj_t* contentPanel = nullptr;
@@ -38,9 +36,9 @@ static void rebuildMenuBar() {
         lv_obj_set_size(btn, 36, 36);
         lv_obj_align(btn, LV_ALIGN_RIGHT_MID, -10, 0);
         lv_obj_add_event_cb(btn, btn_right_cb, LV_EVENT_CLICKED, NULL);
-        lv_obj_t* img = lv_img_create(btn);
-        LV_IMG_DECLARE(imagebutton_right);
-        lv_img_set_src(img, &imagebutton_right);
+        lv_obj_t* lbl = lv_label_create(btn);
+        lv_obj_set_style_text_font(lbl, emojiFont, 0);
+        lv_label_set_text(lbl, "\xE2\x9E\xA1\xEF\xB8\x8F"); // ➡️
     } else {
         lv_obj_t* btn = lv_btn_create(menuBar);
         lv_obj_add_style(btn, &styleBtnVista, 0);
@@ -48,9 +46,9 @@ static void rebuildMenuBar() {
         lv_obj_set_size(btn, 36, 36);
         lv_obj_align(btn, LV_ALIGN_LEFT_MID, 10, 0);
         lv_obj_add_event_cb(btn, btn_left_cb, LV_EVENT_CLICKED, NULL);
-        lv_obj_t* img = lv_img_create(btn);
-        LV_IMG_DECLARE(imagebutton_left);
-        lv_img_set_src(img, &imagebutton_left);
+        lv_obj_t* lbl = lv_label_create(btn);
+        lv_obj_set_style_text_font(lbl, emojiFont, 0);
+        lv_label_set_text(lbl, "\xE2\xAC\x85\xEF\xB8\x8F"); // ⬅️
     }
 }
 
