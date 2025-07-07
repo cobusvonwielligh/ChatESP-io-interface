@@ -1,5 +1,4 @@
 #include "chatgpt.h"
-#include "display.h"
 #include "secrets.h"
 
 /* =========================================

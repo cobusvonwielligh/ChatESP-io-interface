@@ -34,7 +34,6 @@ void begin() {
   initChatGpt();
 #else
   Serial.println("app: DEBUG_MODE display test");
-  displayMessage("Basic display test");
 #endif
 
   state.page = Page::Weather;
@@ -51,8 +50,7 @@ void loop() {
 
   if (state.page == Page::ChatGpt) {
     if (isTyping()) {
-      drawChatGptScreen();
-  UI::showChat(getChatGptPartialResponse());
+      UI::showChat(getChatGptPartialResponse());
     }
   } else {
     handleWeatherUpdate(state.tempC, state.tempMin, state.tempMax,
@@ -68,9 +66,9 @@ void loop() {
 static void connectWiFi() {
 #if DEBUG_MODE
   // Skip WiFi in basic test
-  displayMessage("WiFi disabled (DEBUG_MODE)");
+  Serial.println("WiFi disabled (DEBUG_MODE)");
 #else
-  displayMessage("Connecting to WiFi...");
+  Serial.println("Connecting to WiFi...");
   WiFi.setSleep(false);
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 
@@ -80,10 +78,10 @@ static void connectWiFi() {
   }
 
   if (WiFi.status() != WL_CONNECTED) {
-    displayMessage(String("WiFi failed.\nSSID: ") + WIFI_SSID);
+    Serial.println(String("WiFi failed. SSID: ") + WIFI_SSID);
     while (true) delay(1000);
   }
-  displayMessage("WiFi connected.\nGetting weather...");
+  Serial.println("WiFi connected. Getting weather...");
 #endif
 }
 
@@ -100,22 +98,8 @@ static void processSerial() {
 
   state.page = Page::ChatGpt;
   resetChatState();
-  drawLoadingAnimation();
   UI::showChat("...");
-  if (prompt.startsWith("IMAGE:")) {
-    String desc = prompt.substring(6);
-    desc.trim();
-    const int W = 32, H = 32;
-    static uint8_t imgBuf[W * H / 8];
-    if (callChatGptImage(desc, imgBuf, W, H)) {
-      drawBitmapImage(imgBuf, W, H);
-    } else {
-      displayMessage("Image error");
-    }
-  } else {
-    callChatGpt(prompt);
-    UI::showChat("");
-  }
+  callChatGpt(prompt);
 #endif
 }
 
@@ -135,7 +119,6 @@ static void processTouch() {
     if (pos[0] > SCREEN_WIDTH - btnSize - 8 && pos[1] > y) {
       state.page = Page::ChatGpt;
       resetChatState();
-      drawLoadingAnimation();
       UI::showChat("...");
     }
   } else if (state.page == Page::ChatGpt) {
