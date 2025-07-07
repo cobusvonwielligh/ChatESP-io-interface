@@ -38,6 +38,18 @@ namespace UI {
   static UI::ChatWidget chatWidget;
   static bool ready = false;
   static lv_obj_t* mainScreen = nullptr;
+  static unsigned long lastTick = 0;
+
+  static void pageChanged(Page p) {
+      if(p == Page::Weather) {
+          weatherWidget.setVisible(true);
+          chatWidget.setVisible(false);
+      } else {
+          weatherWidget.setVisible(false);
+          chatWidget.setVisible(true);
+      }
+      UI::setPage(p);
+  }
 
   bool begin() {
       lv_init();
@@ -62,9 +74,11 @@ namespace UI {
 
       initTheme();
 
-      mainScreen = UI::createMainScreen(NULL);
-      // By default show weather widget
+      mainScreen = UI::createMainScreen(NULL, pageChanged);
+      // Create widgets and show weather by default
       weatherWidget.create(UI::getContentPanel());
+      chatWidget.create(UI::getContentPanel());
+      chatWidget.setVisible(false);
       lv_scr_load(mainScreen);
       ready = true;
       return true;
@@ -73,18 +87,20 @@ namespace UI {
   void updateWeather(float t, float tMin, float tMax, bool isRain, float progress, const String &location) {
       if (!ready) return;
       weatherWidget.update(t, tMin, tMax, isRain, progress, location);
-      // Optionally switch to weather page if not already visible
+      pageChanged(Page::Weather);
   }
 
   void showChat(const String &text) {
       if (!ready) return;
-      chatWidget.create(UI::getContentPanel());
       chatWidget.setTextTypewriter(text);
-      // Optionally switch to chat page if not already visible
+      pageChanged(Page::ChatGpt);
   }
 
   void loop() {
       if (!ready) return;
+      unsigned long now = millis();
+      lv_tick_inc(now - lastTick);
+      lastTick = now;
       lv_timer_handler();
   }
 

@@ -11,5 +11,9 @@ extern lv_style_t widgetStyle;    // Legacy, keep for widget usage
 extern const lv_font_t *emojiFont;
 
 void initTheme();
+const lv_style_t* getPanelVistaStyle();
+const lv_style_t* getMenuBarStyle();
+const lv_style_t* getBtnVistaStyle();
+const lv_style_t* getBtnVistaPressedStyle();
 
 }

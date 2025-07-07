@@ -62,4 +62,9 @@ void initTheme()
     emojiFont = LV_FONT_DEFAULT;
 }
 
+const lv_style_t* getPanelVistaStyle() { return &stylePanelVista; }
+const lv_style_t* getMenuBarStyle() { return &styleMenuBar; }
+const lv_style_t* getBtnVistaStyle() { return &styleBtnVista; }
+const lv_style_t* getBtnVistaPressedStyle() { return &styleBtnVistaPressed; }
+
 } // namespace UI

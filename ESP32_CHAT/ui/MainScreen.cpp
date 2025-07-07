@@ -1,35 +1,67 @@
 #include "GuiTheme.h"
 #include <lvgl.h>
 
-// Menu bar uses simple arrow symbols rather than image assets
+#include "../assets/img_hand.c"
+#include "../assets/imgbtn_left.c"
+#include "../assets/imgbtn_right.c"
 
 namespace UI {
 
 static lv_obj_t* menuBar = nullptr;
 static lv_obj_t* contentPanel = nullptr;
 
-void updateMenuBarIcons() {
+enum class Page { Weather, ChatGpt };
+typedef void (*PageChangeCb)(Page);
+static PageChangeCb pageChangeCb = nullptr;
+static Page currentPage = Page::Weather;
+
+static void btn_left_cb(lv_event_t * e) {
+    if(pageChangeCb) pageChangeCb(Page::Weather);
+}
+
+static void btn_right_cb(lv_event_t * e) {
+    if(pageChangeCb) pageChangeCb(Page::ChatGpt);
+}
+
+static void rebuildMenuBar() {
     if (!menuBar) return;
     lv_obj_clean(menuBar);
 
-    lv_obj_t* btn_left = lv_btn_create(menuBar);
-    lv_obj_add_style(btn_left, &styleBtnVista, 0);
-    lv_obj_add_style(btn_left, &styleBtnVistaPressed, LV_STATE_PRESSED);
-    lv_obj_set_size(btn_left, 36, 36);
-    lv_obj_align(btn_left, LV_ALIGN_LEFT_MID, 8, 0);
-    lv_obj_t* label_left = lv_label_create(btn_left);
-    lv_label_set_text(label_left, LV_SYMBOL_LEFT);
+    lv_obj_t* bar = lv_bar_create(menuBar);
+    lv_obj_set_size(bar, 120, 8);
+    lv_obj_align(bar, LV_ALIGN_BOTTOM_MID, 0, -6);
+    lv_bar_set_value(bar, 60, LV_ANIM_ON);
 
-    lv_obj_t* btn_right = lv_btn_create(menuBar);
-    lv_obj_add_style(btn_right, &styleBtnVista, 0);
-    lv_obj_add_style(btn_right, &styleBtnVistaPressed, LV_STATE_PRESSED);
-    lv_obj_set_size(btn_right, 36, 36);
-    lv_obj_align(btn_right, LV_ALIGN_RIGHT_MID, -8, 0);
-    lv_obj_t* label_right = lv_label_create(btn_right);
-    lv_label_set_text(label_right, LV_SYMBOL_RIGHT);
+    if(currentPage == Page::Weather) {
+        lv_obj_t* btn = lv_btn_create(menuBar);
+        lv_obj_add_style(btn, &styleBtnVista, 0);
+        lv_obj_add_style(btn, &styleBtnVistaPressed, LV_STATE_PRESSED);
+        lv_obj_set_size(btn, 36, 36);
+        lv_obj_align(btn, LV_ALIGN_RIGHT_MID, -10, 0);
+        lv_obj_add_event_cb(btn, btn_right_cb, LV_EVENT_CLICKED, NULL);
+        lv_obj_t* img = lv_img_create(btn);
+        LV_IMG_DECLARE(imagebutton_right);
+        lv_img_set_src(img, &imagebutton_right);
+    } else {
+        lv_obj_t* btn = lv_btn_create(menuBar);
+        lv_obj_add_style(btn, &styleBtnVista, 0);
+        lv_obj_add_style(btn, &styleBtnVistaPressed, LV_STATE_PRESSED);
+        lv_obj_set_size(btn, 36, 36);
+        lv_obj_align(btn, LV_ALIGN_LEFT_MID, 10, 0);
+        lv_obj_add_event_cb(btn, btn_left_cb, LV_EVENT_CLICKED, NULL);
+        lv_obj_t* img = lv_img_create(btn);
+        LV_IMG_DECLARE(imagebutton_left);
+        lv_img_set_src(img, &imagebutton_left);
+    }
 }
 
-lv_obj_t* createMainScreen(lv_obj_t* parent) {
+void setPage(Page p) {
+    currentPage = p;
+    rebuildMenuBar();
+}
+
+lv_obj_t* createMainScreen(lv_obj_t* parent, PageChangeCb cb) {
+    pageChangeCb = cb;
     static lv_coord_t row_dsc[] = {LV_GRID_FR(8), LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
     static lv_coord_t col_dsc[] = {LV_GRID_FR(1), LV_GRID_TEMPLATE_LAST};
 
@@ -52,13 +84,7 @@ lv_obj_t* createMainScreen(lv_obj_t* parent) {
     lv_obj_set_height(menuBar, 40);
     lv_obj_add_style(menuBar, &styleMenuBar, 0);
 
-    // Add a loading/progress bar to menu bar
-    lv_obj_t* bar = lv_bar_create(menuBar);
-    lv_obj_set_size(bar, 120, 8);
-    lv_obj_align(bar, LV_ALIGN_BOTTOM_MID, 0, -6);
-    lv_bar_set_value(bar, 60, LV_ANIM_ON);
-
-    updateMenuBarIcons();
+    rebuildMenuBar();
 
     return main_grid;
 }
