@@ -3,7 +3,6 @@
 
 namespace UI {
 
-
 static lv_timer_t* typewriterTimer = nullptr;
 static String typewriterText;
 static size_t typewriterPos = 0;
