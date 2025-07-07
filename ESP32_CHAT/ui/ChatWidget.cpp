@@ -34,7 +34,9 @@ lv_obj_t* ChatWidget::create(lv_obj_t* parent) {
     lv_obj_add_style(container, &stylePanelVista, 0);
 
     icon = lv_img_create(container);
-    LV_IMG_DECLARE(img_hand);
+    extern "C" {
+        LV_IMG_DECLARE(img_hand);
+    }
     lv_img_set_src(icon, &img_hand);
     lv_obj_set_grid_cell(icon, LV_GRID_ALIGN_CENTER, 0, 1,
                          LV_GRID_ALIGN_START, 0, 1);
