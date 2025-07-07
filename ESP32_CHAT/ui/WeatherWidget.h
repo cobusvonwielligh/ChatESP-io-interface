@@ -9,6 +9,7 @@ public:
     WeatherWidget();
     lv_obj_t* create(lv_obj_t* parent);
     void update(float tempC, float tempMin, float tempMax, bool isRain, float progress, const String &location);
+    void setVisible(bool en);
     lv_obj_t* root() const { return container; }
 private:
     lv_obj_t* container = nullptr;

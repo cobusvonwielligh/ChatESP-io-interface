@@ -90,4 +90,10 @@ void WeatherWidget::update(float tempC, float tempMin, float tempMax, bool isRai
     lv_anim_start(&a);
 }
 
+void WeatherWidget::setVisible(bool en) {
+    if (!container) return;
+    if (en) lv_obj_clear_flag(container, LV_OBJ_FLAG_HIDDEN);
+    else lv_obj_add_flag(container, LV_OBJ_FLAG_HIDDEN);
+}
+
 } // namespace UI
