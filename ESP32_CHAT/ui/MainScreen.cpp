@@ -1,11 +1,11 @@
 #include "GuiTheme.h"
 #include <lvgl.h>
 
+namespace UI {
+
 #include "../assets/img_hand.c"
 #include "../assets/imgbtn_left.c"
 #include "../assets/imgbtn_right.c"
-
-namespace UI {
 
 static lv_obj_t* menuBar = nullptr;
 static lv_obj_t* contentPanel = nullptr;
